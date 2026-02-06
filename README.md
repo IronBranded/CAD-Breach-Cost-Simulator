@@ -1,5 +1,4 @@
 # CAD---Breach-Cost-Simulator
-# Cybersecurity Breach Cost Simulator
 > **Visualizing the financial gravity of a compromise through the lens of IR and Canadian Regulatory frameworks.**
 
 [![Tech - HTML5](https://img.shields.io/badge/Frontend-HTML5-orange?style=flat-square)](#)
