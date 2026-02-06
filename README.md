@@ -12,7 +12,7 @@
 ## Initiate the Simulation
 <div align="center">
   
-  ### [**🚀 Launch the Interactive Simulator**](https://ironbranded.github.io/CAD---Breach-Cost-Simulator/)
+  ### [** Launch the Interactive Simulator**](https://ironbranded.github.io/CAD---Breach-Cost-Simulator/)
   *Real-time financial modeling for Law 25 & PIPEDA compliance*
 
 </div>
