@@ -9,7 +9,7 @@
 <div align="center">
 
 ---
-<p> <small> <strong>DISCLAIMER</strong>
+<p> <small> <strong>-DISCLAIMER-</strong>
 
 <em>* This simulator is a financial modeling tool intended for educational and risk-awareness purposes only ! *</em>
 
