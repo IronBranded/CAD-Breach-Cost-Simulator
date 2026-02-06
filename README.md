@@ -47,4 +47,4 @@ The simulator uses a weighted impact matrix:
 **[M.Decayette (IronBranded)]** 
 
 ---
-*Disclaimer: This tool is for educational purposes. Actual costs vary based on insurance, data sensitivity, and IR response speed.*
+*Disclaimer: This tool is for educational purposes. Actual costs vary based on insurance, data sensitivity, and technical response speed and rates.*
