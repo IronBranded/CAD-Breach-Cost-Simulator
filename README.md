@@ -15,9 +15,14 @@ Initiate the Simulation
     
 ### [**🟢 Launch Simulator🟢**](https://ironbranded.github.io/CAD---Breach-Cost-Simulator/) 
     
-Note: This simulator is a financial modeling tool intended for educational and risk-awareness purposes. 
-Estimated figures are based on 2025-2026 Canadian industry benchmarks; actual incident costs will vary significantly based on, but not limited to 
-insurance coverage, technical response efficiency, data type, and professional service rates.
+<div align="center">
+
+<hr width="50%"> <p> <small> <strong>DISCLAIMER</strong>
+
+<em>This simulator is a financial modeling tool intended for educational and risk-awareness purposes.</em>
+
+Estimated figures are based on 2025-2026 Canadian industry benchmarks. Actual incident costs vary based on <strong>insurance coverage</strong>, <strong>technical response speed</strong>, <strong>data type</strong>, and <strong>service rates</strong>. </small> </p> </div>
+
 </div>
 
 
