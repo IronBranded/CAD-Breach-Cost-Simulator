@@ -227,7 +227,7 @@
 
   <div class="container" id="formContainer">
     <h1>Breach Cost Simulator</h1>
-    <p class="subtitle"> Cyber-Financial & Operational Impacts (CAD)</p>
+    <p class="subtitle"> Visualizing the financial gravity of a compromise through a Canadian lens.</p>
 
     <div class="grid-form">
       <div class="full-width">
@@ -321,6 +321,34 @@
     <button class="primary-btn" style="background:#334155; width:200px; margin:0 auto; display:block;" onclick="resetSim()">Restart</button>
   </div>
 
+  <div class="detail-card" style="border-left-color: var(--accent-green); margin-top: 25px; background: rgba(34, 197, 94, 0.05); border-top: 1px solid rgba(34, 197, 94, 0.2);">
+    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
+        <div style="width: 8px; height: 8px; background: var(--accent-green); border-radius: 50%; box-shadow: 0 0 10px var(--accent-green);"></div>
+        <h4 style="color: var(--accent-green); margin: 0; font-family: 'JetBrains Mono';">NCTA 2026 STRATEGIC INTELLIGENCE</h4>
+    </div>
+    
+    <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 15px; line-height: 1.6;">
+        The financial gravity projected above is amplified by five strategic shifts identified in the <strong>2025-2026 National Cyber Threat Assessment</strong>:
+    </p>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; font-size: 0.8rem;">
+        <div style="color: var(--text-main);">
+            <strong style="color: var(--accent-blue);">• AI-Driven Mutation:</strong> Generative AI is now being used to automate victim negotiations and mutate malware code in real-time.
+        </div>
+        <div style="color: var(--text-main);">
+            <strong style="color: var(--accent-blue);">• Living off the Land:</strong> Actors are evading detection by using dual-use commercial tools (RMM, WMI) already present in your environment.
+        </div>
+        <div style="color: var(--text-main);">
+            <strong style="color: var(--accent-blue);">• Geopolitical Spillover:</strong> Canadian infrastructure is increasingly "collateral damage" in conflicts involving the PRC, Russia, and Iran.
+        </div>
+        <div style="color: var(--text-main);">
+            <strong style="color: var(--accent-blue);">• Vendor Concentration:</strong> Systemic risk is high due to the concentration of critical data within a few global cloud ecosystems (Microsoft/AWS).
+        </div>
+        <div style="grid-column: span 2; padding-top: 5px; border-top: 1px dashed #334155; margin-top: 5px; color: var(--accent-red);">
+            <strong>Current Warning:</strong> Ransomware remains the #1 threat to Canadian critical infrastructure, with average payouts now exceeding $1.1M CAD.
+        </div>
+    </div>
+</div>
   <script>
     function runSimulation() {
       if(!document.getElementById("industryType").value || !document.getElementById("revenueBracket").value) {
@@ -442,6 +470,7 @@
   </script>
 </body>
 </html>
+
 
 
 
