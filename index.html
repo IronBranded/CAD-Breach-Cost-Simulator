@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Canadian Breach Cost Simulator (Dashboard Edition)</title>
+  <title>Canadian Breach Cost Simulator | MSSP Edition</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -25,7 +25,6 @@
       padding-bottom: 50px;
     }
 
-    /* --- INPUT FORM STYLES --- */
     .container {
       background: var(--card-bg);
       padding: 40px;
@@ -103,7 +102,6 @@
       box-shadow: 0 10px 20px -5px rgba(14, 165, 233, 0.4);
     }
 
-    /* --- DASHBOARD RESULTS STYLES --- */
     .dashboard-container {
       display: none;
       max-width: 1000px;
@@ -111,7 +109,6 @@
       animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    /* Top Hero Section */
     .hero-card {
       background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
       border: 1px solid #334155;
@@ -160,12 +157,6 @@
       text-shadow: 0 0 30px rgba(239, 68, 68, 0.3);
     }
 
-    .total-cost-sub {
-      color: #94a3b8;
-      font-size: 0.9rem;
-    }
-
-    /* Chart & Stats Grid */
     .stats-grid {
       display: grid;
       grid-template-columns: 1fr 2fr;
@@ -184,56 +175,19 @@
       border: 1px solid #334155;
     }
 
-    /* CSS Donut Chart */
     .donut-chart {
-      width: 180px;
-      height: 180px;
+      width: 180px; height: 180px;
       border-radius: 50%;
-      background: conic-gradient(
-        var(--accent-blue) 0% 30%, 
-        var(--accent-purple) 30% 60%, 
-        var(--accent-red) 60% 100%
-      );
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      margin-bottom: 20px;
+      display: flex; align-items: center; justify-content: center;
+      position: relative; margin-bottom: 20px;
       box-shadow: 0 0 20px rgba(0,0,0,0.3);
     }
     .donut-hole {
-      width: 130px;
-      height: 130px;
+      width: 130px; height: 130px;
       background: var(--card-bg);
       border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: flex; align-items: center; justify-content: center;
       flex-direction: column;
-    }
-    .donut-label {
-      font-size: 0.7rem;
-      color: var(--text-muted);
-    }
-    .donut-percent {
-      font-size: 1.5rem;
-      font-weight: bold;
-      color: white;
-    }
-
-    .chart-legend {
-      display: flex;
-      gap: 15px;
-      font-size: 0.8rem;
-    }
-    .legend-item { display: flex; align-items: center; gap: 6px; }
-    .dot { width: 10px; height: 10px; border-radius: 50%; }
-
-    /* Breakdown Columns */
-    .breakdown-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
     }
 
     .detail-card {
@@ -242,105 +196,44 @@
       border-radius: 12px;
       border-left: 4px solid;
       border-top: 1px solid #334155;
-      border-right: 1px solid #334155;
-      border-bottom: 1px solid #334155;
+      margin-bottom: 15px;
     }
-    
+    .detail-card h4 { margin-top: 0; color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase; }
     .detail-card.tech { border-left-color: var(--accent-blue); }
     .detail-card.legal { border-left-color: var(--accent-purple); }
     .detail-card.business { border-left-color: var(--accent-red); }
 
-    .card-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-      padding-bottom: 15px;
-      border-bottom: 1px solid #334155;
-    }
-    .card-header h3 { margin: 0; font-size: 1rem; color: white; }
-    .card-icon { font-size: 1.2rem; }
-
-    .cost-row {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 12px;
-      font-size: 0.9rem;
-      color: #cbd5e1;
-    }
-    .cost-row .price {
-      font-family: 'JetBrains Mono', monospace;
-      color: white;
-    }
-    .subtotal {
-      margin-top: 15px;
-      padding-top: 15px;
-      border-top: 1px dashed #475569;
-      display: flex;
-      justify-content: space-between;
-      font-weight: bold;
-      font-size: 0.85rem;
-      letter-spacing: 0.05em;
-    }
-
-    /* Disclaimer */
-    .disclaimer-box {
-      margin-top: 40px;
-      padding: 20px;
-      background: rgba(15, 23, 42, 0.5);
-      border-radius: 8px;
-      font-size: 0.8rem;
-      color: #64748b;
-      line-height: 1.6;
-      text-align: center;
-      border: 1px solid #1e293b;
-    }
-
-    /* Loading Overlay */
+    .cost-row { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 0.9rem; }
+    .price { font-family: 'JetBrains Mono', monospace; color: white; }
+    
     .loading-overlay {
       display: none;
       position: fixed; inset: 0;
       background: rgba(11, 17, 32, 0.95);
       z-index: 999;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-    }
-    .spinner {
-      width: 50px; height: 50px;
-      border: 4px solid rgba(56, 189, 248, 0.3);
-      border-top-color: var(--accent-blue);
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
+      flex-direction: column; justify-content: center; align-items: center;
     }
 
     @keyframes spin { to { transform: rotate(360deg); } }
-    @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-
-    @media (max-width: 768px) {
-      .grid-form { grid-template-columns: 1fr; }
-      .full-width { grid-column: span 1; }
-      .stats-grid { grid-template-columns: 1fr; }
-      .total-cost-value { font-size: 2.5rem; }
-    }
+    .spinner { width: 50px; height: 50px; border: 4px solid rgba(56, 189, 248, 0.3); border-top-color: var(--accent-blue); border-radius: 50%; animation: spin 1s linear infinite; }
   </style>
 </head>
 <body>
 
   <div class="loading-overlay" id="loadingOverlay">
     <div class="spinner"></div>
-    <p style="margin-top: 20px; color: var(--accent-blue); font-family: 'JetBrains Mono';">INITIALIZING SIMULATION...</p>
+    <p style="margin-top: 20px; color: var(--accent-blue); font-family: 'JetBrains Mono';">ANALYZING DATA...</p>
   </div>
 
   <div class="container" id="formContainer">
     <h1>Breach Cost Simulator</h1>
-    <p class="subtitle">Canadian Cyber Financial Impact Estimator</p>
+    <p class="subtitle">MSSP Edition: Financial Impact Analysis (CAD)</p>
 
     <div class="grid-form">
       <div class="full-width">
         <label>Incident Scenario</label>
         <select id="incidentType">
-          <option value="Ransomware">Ransomware attack</option>
+          <option value="Ransomware">Ransomware Attack</option>
           <option value="BEC">Business Email Compromise (BEC)</option>
           <option value="DataBreach">Data Leak (PII/PHI Exposure)</option>
           <option value="Insider">Insider Threat (Malicious)</option>
@@ -351,12 +244,17 @@
       <div>
         <label>Industry</label>
         <select id="industryType">
-          <option value="1.0">General / Retail</option>
-          <option value="1.8">Finance / Banking (High Risk)</option>
-          <option value="1.9">Healthcare (High Risk)</option>
-          <option value="1.4">Technology / SaaS</option>
-          <option value="1.5">Energy / Manufacturing</option>
-          <option value="1.3">Legal / Services</option>
+          <option value="">Select industry</option>
+          <option value="1.4">Education</option>
+          <option value="1.8">Energy / Industrial</option>
+          <option value="2.0">Finance </option>
+          <option value="1.5">Government</option>
+          <option value="2.2">Healthcare / Pharma</option>
+          <option value="1.5">Legal</option>
+          <option value="1.7">Manufacturing</option>
+          <option value="1.0">Retail</option>
+          <option value="1.5">Telecommunications</option>
+          <option value="1.4">Tech</option>
         </select>
       </div>
 
@@ -373,20 +271,21 @@
       <div class="full-width">
         <label>Annual Revenue (CAD)</label>
         <select id="revenueBracket">
-          <option value="Micro">Micro (&lt; $2M)</option>
-          <option value="Small">Small ($2M - $10M)</option>
-          <option value="Mid">Mid-Market ($10M - $50M)</option>
-          <option value="Large">Enterprise ($50M+)</option>
+          <option value="">Select revenue</option>
+          <option value="Micro">$50,000 - $2,000,000</option>
+          <option value="Small">$2,000,000 - $10,000,000</option>
+          <option value="Mid">$10,000,000 - $100,000,000</option>
+          <option value="Large">$100,000,000+</option>
         </select>
       </div>
 
       <div class="full-width">
-        <label>Vector / Root Cause</label>
+        <label>Root Cause</label>
         <select id="rootCause">
-          <option value="Human">Phishing / Human Error</option>
-          <option value="Vuln">Exploited Vulnerability</option>
-          <option value="Credential">Compromised Credentials</option>
-          <option value="SupplyChain">Third-Party Compromise</option>
+          <option value="">Select main cause</option>
+          <option value="Human Error">Human Error & Social Engineering</option>
+          <option value="Exploited Vuln">Exploited Vulnerabilities</option>
+          <option value="Compromission by Third Party / Supply chain">Third Party / Supply Chain Compromise</option>
         </select>
       </div>
     </div>
@@ -395,234 +294,151 @@
   </div>
 
   <div class="dashboard-container" id="dashboardContainer">
-    
     <div class="hero-card">
-      <span class="incident-tag" id="resIncidentType">RANSOMWARE ATTACK</span>
-      <div class="total-cost-label">Total Estimated Exposure</div>
+      <span class="incident-tag" id="resIncidentType">RANSOMWARE</span>
+      <div class="total-cost-label">Total Estimated Financial Exposure</div>
       <div class="total-cost-value" id="resGrandTotal">$0.00</div>
-      <div class="total-cost-sub" id="resDuration">Est. Containment & Recovery: -- Days</div>
+      <div class="total-cost-sub" id="resDuration">--</div>
     </div>
 
     <div class="stats-grid">
       <div class="chart-card">
         <div class="donut-chart" id="donutChart">
           <div class="donut-hole">
-            <span class="donut-label">Largest Cost</span>
-            <span class="donut-percent" id="topCostPercent">0%</span>
+            <span style="font-size:0.7rem; color:var(--text-muted)">Top Driver</span>
+            <span class="donut-percent" id="topCostPercent" style="font-size:1.5rem; font-weight:bold;">0%</span>
           </div>
-        </div>
-        <div class="chart-legend">
-          <div class="legend-item"><div class="dot" style="background:var(--accent-blue)"></div>Technical</div>
-          <div class="legend-item"><div class="dot" style="background:var(--accent-purple)"></div>Legal</div>
-          <div class="legend-item"><div class="dot" style="background:var(--accent-red)"></div>Business</div>
         </div>
       </div>
 
-      <div class="breakdown-grid">
-        
-        <div class="detail-card tech">
-          <div class="card-header">
-            <h3>Technical Response</h3>
-            <span class="card-icon">🛠</span>
-          </div>
-          <div id="techDetails"></div>
-        </div>
-
-        <div class="detail-card legal">
-          <div class="card-header">
-            <h3>Legal & Regulatory</h3>
-            <span class="card-icon">⚖️</span>
-          </div>
-          <div id="legalDetails"></div>
-        </div>
-
-        <div class="detail-card business">
-          <div class="card-header">
-            <h3>Business Impact</h3>
-            <span class="card-icon">📉</span>
-          </div>
-          <div id="bizDetails"></div>
-        </div>
-
+      <div>
+        <div class="detail-card tech" id="techDetails"></div>
+        <div class="detail-card legal" id="legalDetails"></div>
+        <div class="detail-card business" id="bizDetails"></div>
       </div>
     </div>
 
-    <button class="primary-btn" style="background: #334155; max-width: 200px; margin: 0 auto; display:block;" onclick="resetSim()">Restart</button>
+    <button class="primary-btn" style="background:#334155; width:200px; margin:0 auto; display:block;" onclick="resetSim()">Restart</button>
+  </div>
 
-    <div class="disclaimer-box">
-      <strong>Disclaimer:</strong> This simulation is for educational purposes. Costs are estimated based on 2024-2025 Canadian cybersecurity statistics (IBM, Sophos, Coveware). Actual incident costs may significantly vary based on insurance coverage, technical response speed, data type, and service rates.
+  <script>
     function runSimulation() {
+      if(!document.getElementById("industryType").value || !document.getElementById("revenueBracket").value) {
+        alert("Please select Industry and Revenue.");
+        return;
+      }
+
       document.getElementById("formContainer").style.display = "none";
       document.getElementById("loadingOverlay").style.display = "flex";
 
-      // Simulate calculation delay
       setTimeout(() => {
         calculateAndRender();
         document.getElementById("loadingOverlay").style.display = "none";
         document.getElementById("dashboardContainer").style.display = "block";
-      }, 1500);
+      }, 1200);
     }
 
     function calculateAndRender() {
-      // Inputs
       const type = document.getElementById("incidentType").value;
-      const industryMult = parseFloat(document.getElementById("industryType").value);
-      const size = document.getElementById("revenueBracket").value;
+      const industryMult = parseFloat(document.getElementById("industryType").value || 1.0);
+      const revenue = document.getElementById("revenueBracket").value;
       const records = document.getElementById("recordCount").value;
+      const rootCause = document.getElementById("rootCause").value;
 
-      // 1. BASE LOGIC
       let revenueMult = 1;
       let baseOpsLoss = 0;
-      switch(size) {
+      switch(revenue) {
         case "Micro": revenueMult = 0.5; baseOpsLoss = 5000; break;
-        case "Small": revenueMult = 1.0; baseOpsLoss = 15000; break; 
-        case "Mid": revenueMult = 2.5; baseOpsLoss = 45000; break;
-        case "Large": revenueMult = 6.0; baseOpsLoss = 150000; break;
+        case "Small": revenueMult = 1.8; baseOpsLoss = 25000; break; 
+        case "Mid": revenueMult = 7.5; baseOpsLoss = 120000; break;
+        case "Large": revenueMult = 22.0; baseOpsLoss = 450000; break; // Aligning with IBM's $6.98M avg for large enterprise
       }
+
+      let techCauseMult = 1.0;
+      let forensicCauseMult = 1.0;
+      if(rootCause.includes("Third Party")) { forensicCauseMult = 1.35; } // Third party breaches are 15-20% more expensive in Canada
+      if(rootCause.includes("Exploited")) { techCauseMult = 1.2; }
 
       let incidentLabel = "";
       let duration = "";
       let irHours = 0, legalHours = 0, ransom = 0, downtime = 0;
-      const irRate = 300; 
-      const legalRate = 500;
 
       switch(type) {
         case "Ransomware":
           incidentLabel = "Ransomware Attack";
-          downtime = 24; duration = "24 Days Downtime";
-          irHours = 180 * revenueMult; legalHours = 80 * revenueMult;
-          if(size === "Micro") ransom = 15000;
-          if(size === "Small") ransom = 125000;
-          if(size === "Mid") ransom = 550000;
-          if(size === "Large") ransom = 1800000;
+          downtime = 23; duration = "Avg. 30-90 Days Recovery Lifecycle";
+          irHours = 120 * revenueMult; legalHours = 60 * revenueMult;
+          if(revenue === "Micro") ransom = 45000;
+          if(revenue === "Small") ransom = 280000;
+          if(revenue === "Mid") ransom = 850000;
+          if(revenue === "Large") ransom = 2400000;
           break;
         case "BEC":
-          incidentLabel = "Business Email Compromise";
-          downtime = 5; duration = "2-4 Weeks Analysis";
-          irHours = 60 * revenueMult; legalHours = 30 * revenueMult;
-          if(size === "Small") ransom = 75000; // Fraud loss
-          if(size === "Mid") ransom = 250000;
+          incidentLabel = "BEC / Financial Fraud";
+          downtime = 5; duration = "Avg. 2-5 Weeks Recovery Lifecycle";
+          irHours = 50 * revenueMult; legalHours = 40 * revenueMult;
+          ransom = (revenue === "Large") ? 750000 : 125000;
           break;
         case "DataBreach":
-          incidentLabel = "Data Exfiltration";
-          downtime = 2; duration = "3-6 Months Lifecycle";
-          irHours = 120 * revenueMult; legalHours = 150 * revenueMult;
+          incidentLabel = "PII Data Exfiltration";
+          downtime = 3; duration = "Avg. 250+ Days Recovery Cycle";
+          irHours = 140 * revenueMult; legalHours = 220 * revenueMult;
           break;
-        case "Insider":
-          incidentLabel = "Insider Threat";
-          downtime = 5; duration = "2 Months Investigation";
-          irHours = 100 * revenueMult; legalHours = 50 * revenueMult;
-          break;
-        case "DoS":
-          incidentLabel = "DDoS Attack";
-          downtime = 3; duration = "72 Hours";
-          irHours = 40 * revenueMult; legalHours = 10 * revenueMult;
-          break;
+        default:
+          incidentLabel = "Cyber Incident";
+          downtime = 7; duration = "Avg. 1-7 Days Recovery Lifecycle";
+          irHours = 80 * revenueMult; legalHours = 40 * revenueMult;
       }
 
-      // 2. FINES & NOTIFICATION
-      let userCount = 0;
-      if(records === "Low") userCount = 500;
-      if(records === "Medium") userCount = 5000;
-      if(records === "High") userCount = 25000;
-      if(records === "Critical") userCount = 75000;
-
-      let fineRisk = 0;
-      const notifyCost = userCount * 25;
+      let userCount = (records === "Low") ? 800 : (records === "Medium") ? 8000 : (records === "High") ? 45000 : 150000;
       
-      // Law 25 Risk Calc
-      if(type === "DataBreach" || type === "Ransomware") {
-        fineRisk = userCount * 15 * industryMult;
-      }
+      // Technical Response Costs (MSSP/Consulting Rates: $250 - $450/hr CAD)
+      const costIR = (irHours * 350) * techCauseMult;
+      const costForensics = (irHours * 0.4 * 400) * forensicCauseMult;
+      const costITSupport = (irHours * 2.5 * 185); // Added: technical support/recovery effort (2.5x the IR effort for restoration)
+      const totalTech = costIR + costForensics + costITSupport;
 
-      // 3. COSTS
-      const costIR = irHours * irRate;
-      const costForensics = (irHours * 0.5) * irRate;
-      const costRecovery = costIR * 0.4;
-      const totalTech = costIR + costForensics + costRecovery;
+      // Legal & Regulatory (Law 25/PIPEDA)
+      // Law 25 fines can reach $25M or 4% of revenue. Logic reflects risk probability.
+      const fineRisk = (type === "DataBreach" || type === "Ransomware") ? (userCount * 32 * industryMult) : 0; 
+      const totalLegal = (legalHours * 575) + fineRisk + (userCount * 18); // Includes credit monitoring costs
 
-      const costLegal = legalHours * legalRate;
-      const totalLegal = costLegal + fineRisk + notifyCost;
-
+      // Business Impact
       const costBizInt = downtime * baseOpsLoss * industryMult;
-      const costPR = (size === "Large" || size === "Mid") ? 50000 * industryMult : 5000;
-      const totalBiz = costBizInt + costPR + ransom;
+      const totalBiz = costBizInt + (revenueMult * 25000) + ransom;
 
       const grandTotal = totalTech + totalLegal + totalBiz;
 
-      // 4. UPDATE DOM
+      // Render Dashboard
       document.getElementById("resIncidentType").innerText = incidentLabel.toUpperCase();
       document.getElementById("resGrandTotal").innerText = formatCurrency(grandTotal);
-      document.getElementById("resDuration").innerText = `Est. Impact Duration: ${duration}`;
+      document.getElementById("resDuration").innerText = duration;
 
-      // 5. UPDATE BREAKDOWNS
-      // Tech
-      document.getElementById("techDetails").innerHTML = `
-        <div class="cost-row"><span>IR Services</span><span class="price">${formatCurrency(costIR)}</span></div>
-        <div class="cost-row"><span>Digital Forensics</span><span class="price">${formatCurrency(costForensics)}</span></div>
-        <div class="cost-row"><span>IT Recovery</span><span class="price">${formatCurrency(costRecovery)}</span></div>
-        <div class="subtotal" style="color:var(--accent-blue)"><span> TOTAL</span><span>${formatCurrency(totalTech)}</span></div>
-      `;
+      document.getElementById("techDetails").innerHTML = `<h4>Technical Response</h4>
+        <div class="cost-row"><span>Incident Response</span><span class="price">${formatCurrency(costIR)}</span></div>
+        <div class="cost-row"><span>Forensics investigations</span><span class="price">${formatCurrency(costForensics)}</span></div>
+        <div class="cost-row"><span>IT Support & Restoration</span><span class="price">${formatCurrency(costITSupport)}</span></div>`;
+      
+      document.getElementById("legalDetails").innerHTML = `<h4>Legal & Regulatory</h4>
+        <div class="cost-row"><span>Law 25 / Regulatory Risk</span><span class="price">${formatCurrency(fineRisk)}</span></div>
+        <div class="cost-row"><span>Counsel & Data Notifications</span><span class="price">${formatCurrency(totalLegal - fineRisk)}</span></div>`;
 
-      // Legal
-      let fineLabel = (fineRisk > 0) ? formatCurrency(fineRisk) : "N/A";
-      document.getElementById("legalDetails").innerHTML = `
-        <div class="cost-row"><span>Counsel & Coach</span><span class="price">${formatCurrency(costLegal)}</span></div>
-        <div class="cost-row"><span>Notification</span><span class="price">${formatCurrency(notifyCost)}</span></div>
-        <div class="cost-row"><span>Reg. Fines (Risk)</span><span class="price">${fineLabel}</span></div>
-        <div class="subtotal" style="color:var(--accent-purple)"><span>TOTAL</span><span>${formatCurrency(totalLegal)}</span></div>
-      `;
+      document.getElementById("bizDetails").innerHTML = `<h4>Business Impact</h4>
+        <div class="cost-row"><span>Operations Downtime</span><span class="price">${formatCurrency(costBizInt)}</span></div>
+        <div class="cost-row"><span>Extortion / Theft Loss</span><span class="price">${formatCurrency(ransom)}</span></div>`;
 
-      // Business
-      let ransomRow = (ransom > 0) ? `<div class="cost-row" style="color:#fca5a5"><span>Extortion/Fraud</span><span class="price">${formatCurrency(ransom)}</span></div>` : "";
-      document.getElementById("bizDetails").innerHTML = `
-        <div class="cost-row"><span>Operational Downtime</span><span class="price">${formatCurrency(costBizInt)}</span></div>
-        <div class="cost-row"><span>Crisis PR</span><span class="price">${formatCurrency(costPR)}</span></div>
-        ${ransomRow}
-        <div class="subtotal" style="color:var(--accent-red)"><span>Total</span><span>${formatCurrency(totalBiz)}</span></div>
-      `;
-
-      // 6. UPDATE CHART
       updateChart(totalTech, totalLegal, totalBiz, grandTotal);
     }
 
     function updateChart(tech, legal, biz, total) {
-      const pTech = (tech / total) * 100;
-      const pLegal = (legal / total) * 100;
-      const pBiz = (biz / total) * 100;
-
-      // Create Conic Gradient
-      // Blue (Tech) -> Purple (Legal) -> Red (Biz)
-      const chart = document.getElementById("donutChart");
-      chart.style.background = `conic-gradient(
-        var(--accent-blue) 0% ${pTech}%,
-        var(--accent-purple) ${pTech}% ${pTech + pLegal}%,
-        var(--accent-red) ${pTech + pLegal}% 100%
-      )`;
-
-      // Find largest factor
-      let maxVal = Math.max(pTech, pLegal, pBiz);
-      let label = "Technical";
-      if(maxVal === pLegal) label = "Legal";
-      if(maxVal === pBiz) label = "Business";
-
-      document.getElementById("topCostPercent").innerText = Math.round(maxVal) + "%";
-      document.querySelector(".donut-label").innerText = label + " Impact";
+      const pT = (tech/total)*100; const pL = (legal/total)*100;
+      document.getElementById("donutChart").style.background = `conic-gradient(var(--accent-blue) 0% ${pT}%, var(--accent-purple) ${pT}% ${pT+pL}%, var(--accent-red) ${pT+pL}% 100%)`;
+      const max = Math.max(tech, legal, biz);
+      document.getElementById("topCostPercent").innerText = Math.round((max/total)*100) + "%";
     }
 
-    function formatCurrency(num) {
-      return "$" + Math.round(num).toLocaleString() + " CAD";
-    }
-
-    function resetSim() {
-      document.getElementById("dashboardContainer").style.display = "none";
-      document.getElementById("formContainer").style.display = "block";
-    }
+    function formatCurrency(n) { return "$" + Math.round(n).toLocaleString() + " CAD"; }
+    function resetSim() { location.reload(); }
   </script>
 </body>
 </html>
-
-
-
-
-
