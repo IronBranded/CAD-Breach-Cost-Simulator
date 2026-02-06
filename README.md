@@ -5,7 +5,7 @@
 ---
 <div align="center">
     
-### [**🟢 LAUNCH THE SIMULATOR 🟢**](https://ironbranded.github.io/CAD---Breach-Cost-Simulator/)
+### [**🟢 LAUNCH THE SIMULATOR 🟢**](https://ironbranded.github.io/CAD-Breach-Cost-Simulator/)
 
 <div align="center">
 
