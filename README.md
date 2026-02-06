@@ -10,7 +10,7 @@
 ---
 
 ## 🚀 Live Demo
-[**Click Here to Launch Simulator**]([https://github.com/ironbranded/CAD---Breach-Cost-Simulator]
+[**Click Here to Launch Simulator**]([https://ironbranded.github.io/CAD---Breach-Cost-Simulator/]
 
 ## 🛡️ Executive Overview
 In the current threat landscape, a "breach" is more than just downtime—it is a complex financial event. As an IR Analyst and SOC Coordinator, I developed this simulator to help organizations visualize the hidden costs of a compromise.
