@@ -1,4 +1,4 @@
-# CAD---Breach-Cost-Simulator
+# Breach-Cost-Simulator (CAD)
 ---
 
 > ### **Visualizing the financial gravity of a compromise through a Canadian lens.**
