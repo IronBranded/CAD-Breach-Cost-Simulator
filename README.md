@@ -44,6 +44,12 @@ The simulator uses a weighted impact matrix:
 | **Fraud/Extortion** | Scaled based on annual revenue brackets and data volume. |
 
 ---
+## Data Privacy 
+This tool is built as an interactive web page.
+- **All drilldown logic and financial calculations occur exclusively within the user's browser.
+- **No information is transmitted to external servers, databases, or APIs.
+- **No cookies or persistent tracking mechanisms are utilized.
 
+___
 ## Author
 **[M.Decayette (IronBranded)]** 
