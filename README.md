@@ -1,6 +1,6 @@
 # Breach-Cost-Simulator (CAD)
 
-> **Visualizing the financial gravity of a compromise through a Canadian lens.**
+> **Visualizing the financial and operational gravity of a cyber incident through a Canadian lens.**
 
 ### [**🟢 LAUNCH THE SIMULATOR 🟢**](https://ironbranded.github.io/CAD-Breach-Cost-Simulator/) 
 ---
