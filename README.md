@@ -25,7 +25,7 @@ In the current threat landscape, a "breach" is more than just downtime; it is a 
 
 * **Incident Scenarios:** Ransomware (Double Extortion), BEC, Data Leaks, and Insider Threats.
 * **Industry Multipliers:** Specialized weighting for High-Risk sectors (Healthcare, Finance, Energy).
-* **Regulatory Impact:** Built-in logic for Law 25 (Quebec) fine risks and PIPEDA-compliant notification costs.
+* **Regulatory Impact:** Built-in logic on some of the popular regulatory notification costs.
 * **Operational Loss:** Real-world downtime estimates based on 2025 Canadian benchmarks.
 
 ---
@@ -46,7 +46,7 @@ $$
 
 | Vector | Rate / Logic |
 | :--- | :--- |
-| **Technical IR** | Calculated at a standard Canadian IR rate of **$300/hr**. |
+| **Technical IR** | Calculated at an IR rate of **$300/hr**. |
 | **Legal Counsel** | Privacy Coach / Breach Counsel rates at **$500/hr**. |
 | **Fraud / Extortion** | Scaled based on annual revenue brackets and data volume. |
 
