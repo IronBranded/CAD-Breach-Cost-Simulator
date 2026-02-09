@@ -317,31 +317,62 @@
       <div class="full-width">
         <label id="lblScenario">Incident Scenario</label>
         <select id="incidentType">
-          </select>
+          <option value="">Select Incident Type</option>
+          <option value="Ransomware">Ransomware Attack</option>
+          <option value="BEC">Business Email Compromise (BEC)</option>
+          <option value="DataBreach">Data Leak (PII/PHI Exposure)</option>
+          <option value="Insider">Insider Threat (Malicious)</option>
+          <option value="DoS">Denial of Service (DDoS)</option>
+        </select>
       </div>
 
       <div>
         <label id="lblIndustry">Industry</label>
         <select id="industryType">
-          </select>
+          <option value="">Select industry</option>
+          <option value="1.4">Education</option>
+          <option value="1.8">Energy / Industrial</option>
+          <option value="2.0">Finance</option>
+          <option value="1.5">Government</option>
+          <option value="2.2">Healthcare / Pharma</option>
+          <option value="1.5">Legal</option>
+          <option value="1.7">Manufacturing</option>
+          <option value="1.0">Retail</option>
+          <option value="1.5">Telecommunications</option>
+          <option value="1.4">Tech</option>
+        </select>
       </div>
 
       <div>
         <label id="lblRecords">PII Leak Volume</label>
         <select id="recordCount">
-          </select>
+          <option value="">Select number of impacted Records</option>
+          <option value="Low">< 1,000 Records</option>
+          <option value="Medium">1k - 10k Records</option>
+          <option value="High">10k - 50k Records</option>
+          <option value="Critical">50k+ Records</option>
+        </select>
       </div>
 
       <div class="full-width">
         <label id="lblRevenue">Annual Revenue (CAD)</label>
         <select id="revenueBracket">
-          </select>
+          <option value="">Select revenue</option>
+          <option value="Micro">$50k - $2M</option>
+          <option value="Small">$2M - $10M</option>
+          <option value="Mid">$10M - $100M</option>
+          <option value="Large">$100M+</option>
+        </select>
       </div>
 
       <div class="full-width">
         <label id="lblRootCause">Root Cause</label>
         <select id="rootCause">
-          </select>
+          <option value="">Select main cause</option>
+          <option value="Human Error">Human Error & Social Engineering</option>
+          <option value="Exploited Vuln">Exploited Vulnerabilities</option>
+          <option value="Compromission by Third Party">Third Party / Supply Chain Compromise</option>
+        </select>
       </div>
 
       <div class="insurance-section">
@@ -398,7 +429,7 @@
     <button class="primary-btn" id="btnRestart" style="background:#334155; width:200px; margin:0 auto; display:block;" onclick="resetSim()">Restart</button>
 
     <div class="detail-card" id="nctaBlock" style="max-width:1000px; margin: 40px auto 0 auto; border-left: 4px solid #22c55e; background: #0f172a;">
-        </div>
+    </div>
   </div>
 
   <script>
@@ -598,7 +629,7 @@
       document.getElementById('loadingText').innerText = t.loadingText;
       document.getElementById('lblTopDriver').innerText = t.lblTopDriver;
 
-      // Populate Selects
+      // Populate Selects with translated text
       fillSelect('incidentType', t.options.scenarios);
       fillSelect('industryType', t.options.industries);
       fillSelect('recordCount', t.options.records);
