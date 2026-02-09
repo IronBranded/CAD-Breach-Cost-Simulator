@@ -1,4 +1,4 @@
-# Breach-Cost-Simulator (CAD)
+# (CAD) Breach-Cost-Simulator
 
 > **Visualizing the financial and operational gravity of a cyber incident through a Canadian lens.**
 
