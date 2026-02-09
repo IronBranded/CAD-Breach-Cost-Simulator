@@ -2,9 +2,7 @@
 
 > **Visualizing the financial gravity of a compromise through a Canadian lens.**
 
-[🟢 **LAUNCH THE SIMULATOR** 🟢](#) 
-*(https://ironbranded.github.io/CAD-Breach-Cost-Simulator/)*
-
+### [**🟢 LAUNCH THE SIMULATOR 🟢**](https://ironbranded.github.io/CAD-Breach-Cost-Simulator/) 
 ---
 
 ### ⚠️ DISCLAIMER
