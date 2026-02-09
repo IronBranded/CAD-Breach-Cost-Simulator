@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Canadian Breach Cost Simulator</title>
+  <title>Canadian Breach Cost Simulator v2.2</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -13,6 +13,7 @@
       --accent-red: #ef4444;
       --accent-purple: #a855f7;
       --accent-green: #22c55e;
+      --accent-orange: #f97316;
       --text-main: #f1f5f9;
       --text-muted: #94a3b8;
     }
@@ -30,7 +31,7 @@
       padding: 40px;
       border-radius: 16px;
       box-shadow: 0 0 40px rgba(56, 189, 248, 0.1);
-      max-width: 800px;
+      max-width: 900px;
       margin: 60px auto;
       border: 1px solid #334155;
     }
@@ -69,7 +70,7 @@
       font-weight: 700;
     }
 
-    select {
+    select, input[type="number"] {
       width: 100%;
       padding: 14px;
       background: #0f172a;
@@ -78,9 +79,41 @@
       border-radius: 8px;
       font-family: 'Inter', sans-serif;
       appearance: none;
+      box-sizing: border-box; 
+    }
+    select:focus, input:focus { outline: 2px solid var(--accent-blue); border-color: transparent; }
+
+    /* Custom Checkbox for Insurance */
+    .insurance-section {
+      grid-column: span 2;
+      background: rgba(56, 189, 248, 0.05);
+      padding: 20px;
+      border-radius: 8px;
+      border: 1px dashed #334155;
+    }
+    
+    .checkbox-wrapper {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
       cursor: pointer;
     }
-    select:focus { outline: 2px solid var(--accent-blue); border-color: transparent; }
+    
+    .checkbox-wrapper input {
+      margin-right: 10px;
+      width: 20px;
+      height: 20px;
+      accent-color: var(--accent-blue);
+    }
+
+    .insurance-details {
+      display: none; /* Hidden by default */
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 15px;
+      animation: fadeIn 0.3s ease-in-out;
+    }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
     button.primary-btn {
       width: 100%;
@@ -102,6 +135,7 @@
       box-shadow: 0 10px 20px -5px rgba(14, 165, 233, 0.4);
     }
 
+    /* Dashboard Styles */
     .dashboard-container {
       display: none;
       max-width: 1000px;
@@ -156,6 +190,27 @@
       margin: 10px 0;
       text-shadow: 0 0 30px rgba(239, 68, 68, 0.3);
     }
+    
+    .variable-x-display {
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--accent-orange);
+      font-size: 1.2rem;
+      margin-top: -5px;
+      margin-bottom: 15px;
+      font-weight: 600;
+    }
+
+    .insurance-badge {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 4px 12px;
+      background: rgba(34, 197, 94, 0.1);
+      color: var(--accent-green);
+      border: 1px solid var(--accent-green);
+      border-radius: 4px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
 
     .stats-grid {
       display: grid;
@@ -181,6 +236,7 @@
       display: flex; align-items: center; justify-content: center;
       position: relative; margin-bottom: 20px;
       box-shadow: 0 0 20px rgba(0,0,0,0.3);
+      transition: background 1s ease;
     }
     .donut-hole {
       width: 130px; height: 130px;
@@ -202,6 +258,7 @@
     .detail-card.tech { border-left-color: var(--accent-blue); }
     .detail-card.legal { border-left-color: var(--accent-purple); }
     .detail-card.business { border-left-color: var(--accent-red); }
+    .detail-card.brand { border-left-color: var(--accent-orange); }
 
     .cost-row { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 0.9rem; }
     .price { font-family: 'JetBrains Mono', monospace; color: white; }
@@ -222,12 +279,12 @@
 
   <div class="loading-overlay" id="loadingOverlay">
     <div class="spinner"></div>
-    <p style="margin-top: 20px; color: var(--accent-blue); font-family: 'JetBrains Mono';">ANALYZING DATA...</p>
+    <p style="margin-top: 20px; color: var(--accent-blue); font-family: 'JetBrains Mono';">ANALYZING RISK & REGULATORY IMPACT...</p>
   </div>
 
   <div class="container" id="formContainer">
     <h1>Breach Cost Simulator</h1>
-    <p class="subtitle"> Visualizing the financial gravity of a compromise through a Canadian lens.</p>
+    <p class="subtitle">Visualizing the financial gravity of a compromise through a Canadian lens.</p>
 
     <div class="grid-form">
       <div class="full-width">
@@ -247,7 +304,7 @@
           <option value="">Select industry</option>
           <option value="1.4">Education</option>
           <option value="1.8">Energy / Industrial</option>
-          <option value="2.0">Finance </option>
+          <option value="2.0">Finance</option>
           <option value="1.5">Government</option>
           <option value="2.2">Healthcare / Pharma</option>
           <option value="1.5">Legal</option>
@@ -288,6 +345,25 @@
           <option value="Compromission by Third Party / Supply chain">Third Party / Supply Chain Compromise</option>
         </select>
       </div>
+
+      <div class="insurance-section">
+        <label class="checkbox-wrapper">
+          <input type="checkbox" id="hasInsurance" onchange="toggleInsuranceFields()">
+          <span style="color:white; font-weight:600;">Active Cyber Insurance Policy?</span>
+        </label>
+        
+        <div class="insurance-details" id="insuranceFields">
+          <div>
+            <label>Coverage Limit ($)</label>
+            <input type="number" id="insLimit" placeholder="e.g. 1000000">
+          </div>
+          <div>
+            <label>Deductible ($)</label>
+            <input type="number" id="insDeductible" placeholder="e.g. 25000">
+          </div>
+        </div>
+      </div>
+
     </div>
 
     <button class="primary-btn" onclick="runSimulation()">Run Simulation</button>
@@ -296,9 +372,13 @@
   <div class="dashboard-container" id="dashboardContainer">
     <div class="hero-card">
       <span class="incident-tag" id="resIncidentType">RANSOMWARE</span>
-      <div class="total-cost-label">Total Estimated Financial Exposure</div>
+      <div class="total-cost-label" id="exposureLabel">Net Financial Exposure</div>
       <div class="total-cost-value" id="resGrandTotal">$0.00</div>
+      
+      <div class="variable-x-display" id="resVariableX">+ Variable X (Brand & Reputation)</div>
+      
       <div class="total-cost-sub" id="resDuration">--</div>
+      <div id="insuranceBadgeContainer"></div>
     </div>
 
     <div class="stats-grid">
@@ -315,60 +395,64 @@
         <div class="detail-card tech" id="techDetails"></div>
         <div class="detail-card legal" id="legalDetails"></div>
         <div class="detail-card business" id="bizDetails"></div>
+        <div class="detail-card brand" id="brandDetails" style="display:none;"></div>
       </div>
     </div>
-
+    
     <button class="primary-btn" style="background:#334155; width:200px; margin:0 auto; display:block;" onclick="resetSim()">Restart</button>
+
+    <div class="detail-card" style="max-width:1000px; margin: 40px auto 0 auto; border-left: 4px solid #22c55e; background: #0f172a; border-radius: 8px; overflow: hidden; font-family: 'Segoe UI', Roboto, sans-serif; color: #f8fafc; border-top: 1px solid rgba(34, 197, 94, 0.2); border-right: 1px solid rgba(34, 197, 94, 0.1); border-bottom: 1px solid rgba(34, 197, 94, 0.1);">
+        <div style="background: rgba(34, 197, 94, 0.1); padding: 15px 20px; border-bottom: 1px solid rgba(34, 197, 94, 0.2);">
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <div style="width: 10px; height: 10px; background: #22c55e; border-radius: 50%; box-shadow: 0 0 12px #22c55e;"></div>
+                <h3 style="color: #22c55e; margin: 0; font-family: 'JetBrains Mono', monospace; letter-spacing: 1px; font-size: 1.1rem;">NCTA 2025-2026 STRATEGIC INTELLIGENCE</h3>
+            </div>
+        </div>
+    
+        <div style="padding: 20px;">
+            <p style="font-size: 0.9rem; color: #94a3b8; margin-bottom: 20px; line-height: 1.6; border-bottom: 1px solid #1e293b; padding-bottom: 15px;">
+                Based on CSE observations since NCTA 2023-2024, five core trends will shape Canada’s cyber threat environment until 2026. These are compounded by an expanding threat surface (Cloud-based AI/IoT) and persistent supply chain vulnerabilities.
+            </p>
+    
+            <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px;">
+                <div style="display: flex; gap: 15px;">
+                    <span style="color: #22c55e; font-weight: bold; font-family: 'JetBrains Mono'; min-width: 65px;">Trend 1</span>
+                    <span style="font-size: 0.9rem;"><strong style="color: #3b82f6;">AI Technologies:</strong> Artificial intelligence is amplifying cyber space threats by accelerating research and scaling malicious activities.</span>
+                </div>
+                <div style="display: flex; gap: 15px;">
+                    <span style="color: #22c55e; font-weight: bold; font-family: 'JetBrains Mono'; min-width: 65px;">Trend 2</span>
+                    <span style="font-size: 0.9rem;"><strong style="color: #3b82f6;">Tradecraft:</strong> Actor tradecraft is evolving to evade detection via <strong>Living off the Land</strong> and bypassing security mechanisms.</span>
+                </div>
+                <div style="display: flex; gap: 15px;">
+                    <span style="color: #22c55e; font-weight: bold; font-family: 'JetBrains Mono'; min-width: 65px;">Trend 3</span>
+                    <span style="font-size: 0.9rem;"><strong style="color: #3b82f6;">Geopolitics:</strong> Non-state actors inspired by geopolitical events (PRC, Russia, Iran) are creating global unpredictability.</span>
+                </div>
+                <div style="display: flex; gap: 15px;">
+                    <span style="color: #22c55e; font-weight: bold; font-family: 'JetBrains Mono'; min-width: 65px;">Trend 4</span>
+                    <span style="font-size: 0.9rem;"><strong style="color: #3b82f6;">Vendor Risk:</strong> Concentration in cloud providers (Microsoft, AWS, GCP) creates "digital chokepoints" and system-wide vulnerabilities.</span>
+                </div>
+                <div style="display: flex; gap: 15px;">
+                    <span style="color: #22c55e; font-weight: bold; font-family: 'JetBrains Mono'; min-width: 65px;">Trend 5</span>
+                    <span style="font-size: 0.9rem;"><strong style="color: #3b82f6;">Dual-Use:</strong> Commercial services used for both civilian and military purposes are increasingly in the digital crossfire.</span>
+                </div>
+            </div>
+    
+            <div style="background: rgba(239, 68, 68, 0.07); border: 1px solid rgba(239, 68, 68, 0.2); border-radius: 6px; padding: 15px;">
+                <div style="color: #f87171; font-weight: bold; font-size: 0.85rem; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.5px;">Critical Threat Assessment</div>
+                <p style="margin: 0; font-size: 0.85rem; line-height: 1.5; color: #fca5a5;">
+                    <strong>Ransomware:</strong> Remains the #1 threat to Canadian critical infrastructure. Average payouts have escalated to <strong>$1.13M CAD</strong>, exacerbated by the exploitation of publicly known vulnerabilities (CVEs) within days of disclosure.
+                </p>
+            </div>
+        </div>
+    </div>
   </div>
 
-  <div class="detail-card" style="border-left: 4px solid #22c55e; margin-top: 25px; background: #0f172a; border-radius: 8px; overflow: hidden; font-family: 'Segoe UI', Roboto, sans-serif; color: #f8fafc; border-top: 1px solid rgba(34, 197, 94, 0.2); border-right: 1px solid rgba(34, 197, 94, 0.1); border-bottom: 1px solid rgba(34, 197, 94, 0.1);">
-    
-    <div style="background: rgba(34, 197, 94, 0.1); padding: 15px 20px; border-bottom: 1px solid rgba(34, 197, 94, 0.2);">
-        <div style="display: flex; align-items: center; gap: 12px;">
-            <div style="width: 10px; height: 10px; background: #22c55e; border-radius: 50%; box-shadow: 0 0 12px #22c55e;"></div>
-            <h3 style="color: #22c55e; margin: 0; font-family: 'JetBrains Mono', monospace; letter-spacing: 1px; font-size: 1.1rem;">NCTA 2025-2026 STRATEGIC INTELLIGENCE</h3>
-        </div>
-    </div>
-
-    <div style="padding: 20px;">
-        <p style="font-size: 0.9rem; color: #94a3b8; margin-bottom: 20px; line-height: 1.6; border-bottom: 1px solid #1e293b; padding-bottom: 15px;">
-            Based on CSE observations since NCTA 2023-2024, five core trends will shape Canada’s cyber threat environment until 2026. These are compounded by an expanding threat surface (Cloud-based AI/IoT) and persistent supply chain vulnerabilities.
-        </p>
-
-        <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px;">
-            <div style="display: flex; gap: 15px;">
-                <span style="color: #22c55e; font-weight: bold; font-family: 'JetBrains Mono'; min-width: 65px;">Trend 1</span>
-                <span style="font-size: 0.9rem;"><strong style="color: #3b82f6;">AI Technologies:</strong> Artificial intelligence is amplifying cyber space threats by accelerating research and scaling malicious activities.</span>
-            </div>
-            <div style="display: flex; gap: 15px;">
-                <span style="color: #22c55e; font-weight: bold; font-family: 'JetBrains Mono'; min-width: 65px;">Trend 2</span>
-                <span style="font-size: 0.9rem;"><strong style="color: #3b82f6;">Tradecraft:</strong> Actor tradecraft is evolving to evade detection via <strong>Living off the Land</strong> and bypassing security mechanisms.</span>
-            </div>
-            <div style="display: flex; gap: 15px;">
-                <span style="color: #22c55e; font-weight: bold; font-family: 'JetBrains Mono'; min-width: 65px;">Trend 3</span>
-                <span style="font-size: 0.9rem;"><strong style="color: #3b82f6;">Geopolitics:</strong> Non-state actors inspired by geopolitical events (PRC, Russia, Iran) are creating global unpredictability.</span>
-            </div>
-            <div style="display: flex; gap: 15px;">
-                <span style="color: #22c55e; font-weight: bold; font-family: 'JetBrains Mono'; min-width: 65px;">Trend 4</span>
-                <span style="font-size: 0.9rem;"><strong style="color: #3b82f6;">Vendor Risk:</strong> Concentration in cloud providers (Microsoft, AWS, GCP) creates "digital chokepoints" and system-wide vulnerabilities.</span>
-            </div>
-            <div style="display: flex; gap: 15px;">
-                <span style="color: #22c55e; font-weight: bold; font-family: 'JetBrains Mono'; min-width: 65px;">Trend 5</span>
-                <span style="font-size: 0.9rem;"><strong style="color: #3b82f6;">Dual-Use:</strong> Commercial services used for both civilian and military purposes are increasingly in the digital crossfire.</span>
-            </div>
-        </div>
-
-        <div style="background: rgba(239, 68, 68, 0.07); border: 1px solid rgba(239, 68, 68, 0.2); border-radius: 6px; padding: 15px;">
-            <div style="color: #f87171; font-weight: bold; font-size: 0.85rem; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.5px;">Critical Threat Assessment</div>
-            <p style="margin: 0; font-size: 0.85rem; line-height: 1.5; color: #fca5a5;">
-                <strong>Ransomware:</strong> Remains the #1 threat to Canadian critical infrastructure. Average payouts have escalated to <strong>$1.13M CAD</strong>, exacerbated by the exploitation of publicly known vulnerabilities (CVEs) within days of disclosure.
-            </p>
-        </div>
-    </div>
-</div>
-  
-</div>
   <script>
+    function toggleInsuranceFields() {
+      const isChecked = document.getElementById("hasInsurance").checked;
+      document.getElementById("insuranceFields").style.display = isChecked ? "grid" : "none";
+    }
+
     function runSimulation() {
       if(!document.getElementById("industryType").value || !document.getElementById("revenueBracket").value) {
         alert("Please select Industry and Revenue.");
@@ -386,26 +470,31 @@
     }
 
     function calculateAndRender() {
+      // 1. Gather Inputs
       const type = document.getElementById("incidentType").value;
       const industryMult = parseFloat(document.getElementById("industryType").value || 1.0);
       const revenue = document.getElementById("revenueBracket").value;
       const records = document.getElementById("recordCount").value;
       const rootCause = document.getElementById("rootCause").value;
 
+      // 2. Base Multipliers
       let revenueMult = 1;
+      let revenueVal = 0; // Approximate raw revenue for 4% calculation
       let baseOpsLoss = 0;
+      
       switch(revenue) {
-        case "Micro": revenueMult = 0.5; baseOpsLoss = 5000; break;
-        case "Small": revenueMult = 1.8; baseOpsLoss = 25000; break; 
-        case "Mid": revenueMult = 7.5; baseOpsLoss = 120000; break;
-        case "Large": revenueMult = 22.0; baseOpsLoss = 450000; break; // Aligning with IBM's $6.98M avg for large enterprise
+        case "Micro": revenueMult = 0.5; revenueVal = 1000000; baseOpsLoss = 5000; break;
+        case "Small": revenueMult = 1.8; revenueVal = 5000000; baseOpsLoss = 25000; break; 
+        case "Mid": revenueMult = 7.5; revenueVal = 50000000; baseOpsLoss = 120000; break;
+        case "Large": revenueMult = 22.0; revenueVal = 500000000; baseOpsLoss = 450000; break;
       }
 
       let techCauseMult = 1.0;
       let forensicCauseMult = 1.0;
-      if(rootCause.includes("Third Party")) { forensicCauseMult = 1.35; } // Third party breaches are 15-20% more expensive in Canada
+      if(rootCause.includes("Third Party")) { forensicCauseMult = 1.35; } 
       if(rootCause.includes("Exploited")) { techCauseMult = 1.2; }
 
+      // 3. Incident Specifics
       let incidentLabel = "";
       let duration = "";
       let irHours = 0, legalHours = 0, ransom = 0, downtime = 0;
@@ -413,7 +502,7 @@
       switch(type) {
         case "Ransomware":
           incidentLabel = "Ransomware Attack";
-          downtime = 23; duration = "Avg. 30-90 Days Recovery Lifecycle";
+          downtime = 23; duration = "Avg. 30-90 Days Recovery";
           irHours = 120 * revenueMult; legalHours = 60 * revenueMult;
           if(revenue === "Micro") ransom = 45000;
           if(revenue === "Small") ransom = 280000;
@@ -422,59 +511,111 @@
           break;
         case "BEC":
           incidentLabel = "BEC / Financial Fraud";
-          downtime = 5; duration = "Avg. 2-5 Weeks Recovery Lifecycle";
+          downtime = 5; duration = "Avg. 2-5 Weeks Recovery";
           irHours = 50 * revenueMult; legalHours = 40 * revenueMult;
           ransom = (revenue === "Large") ? 750000 : 125000;
           break;
         case "DataBreach":
-          incidentLabel = "PII Data Exfiltration";
-          downtime = 3; duration = "Avg. 250+ Days Recovery Cycle";
+          incidentLabel = "Data Exfiltration";
+          downtime = 3; duration = "Avg. 250+ Days Cycle";
           irHours = 140 * revenueMult; legalHours = 220 * revenueMult;
           break;
         default:
           incidentLabel = "Cyber Incident";
-          downtime = 7; duration = "Avg. 1-7 Days Recovery Lifecycle";
+          downtime = 7; duration = "Avg. 1-7 Days Recovery";
           irHours = 80 * revenueMult; legalHours = 40 * revenueMult;
       }
 
       let userCount = (records === "Low") ? 800 : (records === "Medium") ? 8000 : (records === "High") ? 45000 : 150000;
       
-      // Technical Response Costs (MSSP/Consulting Rates: $250 - $450/hr CAD)
+      // 4. Calculate Technical Costs
       const costIR = (irHours * 350) * techCauseMult;
       const costForensics = (irHours * 0.4 * 400) * forensicCauseMult;
-      const costITSupport = (irHours * 2.5 * 185); // Added: technical support/recovery effort (2.5x the IR effort for restoration)
+      const costITSupport = (irHours * 2.5 * 185); 
       const totalTech = costIR + costForensics + costITSupport;
 
-      // Legal & Regulatory (Law 25/PIPEDA)
-      // Law 25 fines can reach $25M or 4% of revenue. Logic reflects risk probability.
-      const fineRisk = (type === "DataBreach" || type === "Ransomware") ? (userCount * 32 * industryMult) : 0; 
-      const totalLegal = (legalHours * 575) + fineRisk + (userCount * 18); // Includes credit monitoring costs
+      // 5. Calculate Legal Costs (Generic "High Regulatory" Risk)
+      // Since we removed jurisdiction, we assume exposure to Law 25/PIPEDA is possible for all.
+      const maxFine = Math.max(25000000, revenueVal * 0.04);
+      const riskFactor = (type === "DataBreach" || type === "Ransomware") ? 0.005 : 0.0005; 
+      const fineRisk = maxFine * riskFactor;
+      
+      const notificationCost = userCount * 35; // Averaged between QC and RoC
+      const totalLegal = (legalHours * 575) + fineRisk + notificationCost + (userCount * 18); 
 
-      // Business Impact
+      // 6. Calculate Business Impact
       const costBizInt = downtime * baseOpsLoss * industryMult;
       const totalBiz = costBizInt + (revenueMult * 25000) + ransom;
 
-      const grandTotal = totalTech + totalLegal + totalBiz;
+      // 7. Calculate "Variable X" (Brand/Churn)
+      // Removed specific calculations per request. 
+      // It is now treated as an unquantified variable.
+      
+      // 8. Calculate Grand Total (Gross)
+      let grossTotal = totalTech + totalLegal + totalBiz;
 
-      // Render Dashboard
+      // 9. Apply Insurance
+      let netTotal = grossTotal;
+      let insuranceCovered = 0;
+      let insuranceText = "";
+      const hasInsurance = document.getElementById("hasInsurance").checked;
+
+      if(hasInsurance) {
+        const limit = parseFloat(document.getElementById("insLimit").value || 0);
+        const deductible = parseFloat(document.getElementById("insDeductible").value || 0);
+        const premiumHike = deductible * 1.5; 
+        
+        if (grossTotal > limit) {
+           insuranceCovered = limit;
+           netTotal = deductible + (grossTotal - limit) + premiumHike;
+        } else {
+           insuranceCovered = grossTotal - deductible;
+           if(insuranceCovered < 0) insuranceCovered = 0;
+           netTotal = deductible + premiumHike;
+        }
+        insuranceText = `<span class="insurance-badge">INSURANCE APPLIED: COVERED ${formatCurrency(insuranceCovered)}</span>`;
+        document.getElementById("exposureLabel").innerText = "NET FINANCIAL EXPOSURE (POST-INSURANCE)";
+      } else {
+        document.getElementById("exposureLabel").innerText = "TOTAL ESTIMATED FINANCIAL EXPOSURE";
+        insuranceText = "";
+      }
+
+      // 10. Render Dashboard
       document.getElementById("resIncidentType").innerText = incidentLabel.toUpperCase();
-      document.getElementById("resGrandTotal").innerText = formatCurrency(grandTotal);
+      document.getElementById("resGrandTotal").innerText = formatCurrency(netTotal);
+      
+      // UPDATED: No longer displays a specific amount
+      document.getElementById("resVariableX").innerText = `+ Variable X (Brand & Reputation)`;
+      
       document.getElementById("resDuration").innerText = duration;
+      document.getElementById("insuranceBadgeContainer").innerHTML = insuranceText;
 
       document.getElementById("techDetails").innerHTML = `<h4>Technical Response</h4>
         <div class="cost-row"><span>Incident Response</span><span class="price">${formatCurrency(costIR)}</span></div>
         <div class="cost-row"><span>Forensics investigations</span><span class="price">${formatCurrency(costForensics)}</span></div>
         <div class="cost-row"><span>IT Support & Restoration</span><span class="price">${formatCurrency(costITSupport)}</span></div>`;
       
+      // UPDATED: Regulatory Notice Text
       document.getElementById("legalDetails").innerHTML = `<h4>Legal & Regulatory</h4>
-        <div class="cost-row"><span>Regulatory & Legal fines</span><span class="price">${formatCurrency(fineRisk)}</span></div>
-        <div class="cost-row"><span>Counsel & Data Notifications</span><span class="price">${formatCurrency(totalLegal - fineRisk)}</span></div>`;
+        <div style="background:rgba(168, 85, 247, 0.15); border:1px solid rgba(168, 85, 247,0.3); padding:8px; border-radius:6px; margin-bottom:12px; font-size:0.75rem; color:#d8b4fe;">
+          <strong>REGULATORY NOTICE:</strong> Data breaches in Canada are governed by multiple regulatory regimes at the federal, provincial, and sector levels, each with its own notification thresholds, timelines, and compliance obligations. A single incident may trigger multiple regulatory requirements.
+        </div>
+        <div class="cost-row"><span>Regulatory Risk (Fines)</span><span class="price">${formatCurrency(fineRisk)}</span></div>
+        <div class="cost-row"><span>Counsel & Notifications</span><span class="price">${formatCurrency(totalLegal - fineRisk)}</span></div>`;
 
       document.getElementById("bizDetails").innerHTML = `<h4>Business Impact</h4>
         <div class="cost-row"><span>Operations Downtime</span><span class="price">${formatCurrency(costBizInt)}</span></div>
         <div class="cost-row"><span>Extortion / Theft Loss</span><span class="price">${formatCurrency(ransom)}</span></div>`;
+        
+      // UPDATED: Brand Details removed calculation
+      document.getElementById("brandDetails").style.display = "block";
+      document.getElementById("brandDetails").innerHTML = `<h4>Brand & Reputation (Variable X)</h4>
+        <div class="cost-row" style="display:block; color:#f8fafc; margin-bottom:5px;"><span><strong>Unquantifiable Impact</strong></span></div>
+        <div class="cost-row" style="color:var(--text-muted); font-size:0.8rem;">
+            Customer churn and reputation loss vary wildly based on media coverage and public perception. This acts as a multiplier to all other costs.
+        </div>`;
 
-      updateChart(totalTech, totalLegal, totalBiz, grandTotal);
+      updateChart(totalTech, totalLegal, totalBiz, grossTotal);
     }
 
     function updateChart(tech, legal, biz, total) {
@@ -489,11 +630,3 @@
   </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
