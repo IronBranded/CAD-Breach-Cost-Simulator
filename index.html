@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Canadian Breach Cost Simulator v2.4</title>
+    <title>Canadian Breach Cost Simulator v2.5</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -31,6 +31,7 @@
             right: 20px;
             display: flex;
             gap: 10px;
+            z-index: 100; /* Ensure clickable over overlays if needed */
         }
         .lang-btn {
             background: #334155;
@@ -204,9 +205,24 @@
             color: var(--accent-orange);
             font-size: 1.2rem;
             margin-top: -5px;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             font-weight: 600;
         }
+        /* New Style for Lifecycle Label */
+        .lifecycle-label {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 5px;
+        }
+        .lifecycle-value {
+             font-size: 1.1rem; 
+             font-weight: bold; 
+             color: white;
+             margin-bottom: 15px;
+        }
+
         .insurance-badge {
             display: inline-block;
             margin-top: 10px;
@@ -372,7 +388,10 @@
             <div class="total-cost-label" id="exposureLabel">Net Financial Exposure</div>
             <div class="total-cost-value" id="resGrandTotal">$0.00</div>
             <div class="variable-x-display" id="resVariableX">+ Variable X (Brand & Reputation)</div>
-            <div class="total-cost-sub" id="resDuration">--</div>
+            
+            <div class="lifecycle-label" id="lblLifecycleWidget">Incident & Recovery Lifecycle</div>
+            <div class="lifecycle-value" id="resDuration">--</div>
+            
             <div id="insuranceBadgeContainer"></div>
         </div>
         <div class="stats-grid">
@@ -431,6 +450,8 @@
                 legalCounsel: "Counsel & Notifications",
                 bizOps: "Operations Downtime",
                 bizExtortion: "Extortion / Theft Loss",
+                
+                // NCTA
                 nctaTitle: "NCTA 2025-2026 STRATEGIC INTELLIGENCE",
                 nctaIntro: "Based on CSE observations, five core trends will shape Canada's cyber threat environment onward. These are compounded by an expanding threat surface (Cloud-based AI/IoT) and persistent supply chain vulnerabilities.",
                 nctaT1: "<strong>AI Technologies:</strong> Artificial intelligence is amplifying cyber space threats by accelerating research and scaling malicious activities.",
@@ -448,6 +469,7 @@
                     data: "Avg. 250+ Days Cycle",
                     default: "1-7 Days"
                 },
+                lblLifecycle: "Incident & Recovery Lifecycle",
                 insuranceBadgeLabel: "INSURANCE",
                 covered: "COVERED",
 
@@ -527,6 +549,8 @@
                 legalCounsel: "Conseils et Notifications",
                 bizOps: "Interruption des opérations",
                 bizExtortion: "Pertes par extorsion / vol",
+                
+                // NCTA
                 nctaTitle: "RENSEIGNEMENT STRATÉGIQUE ECNC 2025-2026",
                 nctaIntro: "Selon le CST, cinq tendances façonneront l'environnement de cybermenace au Canada. Elles sont amplifiées par une surface d'attaque étendue (IA/IoT cloud) et des vulnérabilités de la chaîne d'approvisionnement.",
                 nctaT1: "<strong>Technologies d'IA :</strong> L'IA amplifie les menaces en accélérant la recherche et l'automatisation des activités malveillantes.",
@@ -544,6 +568,7 @@
                     data: "Cycle moy. 250+ Jours",
                     default: "1-7 Jours"
                 },
+                lblLifecycle: "Cycle de vie : Incident et rétablissement",
                 insuranceBadgeLabel: "ASSURANCE",
                 covered: "COUVERT",
 
@@ -613,14 +638,23 @@
             document.getElementById('btnRestart').innerText = t.btnRestart;
             document.getElementById('loadingText').innerText = t.loadingText;
             document.getElementById('lblTopDriver').innerText = t.lblTopDriver;
-            // Populate Selects with translated text
+            document.getElementById('lblLifecycleWidget').innerText = t.lblLifecycle;
+
+            // Populate Selects with translated text (for form view)
             fillSelect('incidentType', t.options.scenarios);
             fillSelect('industryType', t.options.industries);
             fillSelect('recordCount', t.options.records);
             fillSelect('revenueBracket', t.options.revenue);
             fillSelect('rootCause', t.options.causes);
-            // Render NCTA Block
+            
+            // Render NCTA Block (Updates immediately)
             renderNCTA();
+
+            // CRITICAL CHANGE: Check if Dashboard is visible, if so, re-calculate to translate results
+            const dashboard = document.getElementById("dashboardContainer");
+            if (dashboard.style.display === "block") {
+                calculateAndRender(true); // true = Instant update, no loading animation
+            }
         }
 
         function fillSelect(id, list) {
@@ -675,14 +709,16 @@
             }
             document.getElementById("formContainer").style.display = "none";
             document.getElementById("loadingOverlay").style.display = "flex";
+            
+            // Artificial delay for effect only on initial run
             setTimeout(() => {
-                calculateAndRender();
+                calculateAndRender(false); // false = Normal run with UI switch
                 document.getElementById("loadingOverlay").style.display = "none";
                 document.getElementById("dashboardContainer").style.display = "block";
             }, 1200);
         }
 
-        function calculateAndRender() {
+        function calculateAndRender(isUpdate = false) {
             const t = translations[currentLang];
             const type = document.getElementById("incidentType").value;
             const industryMult = parseFloat(document.getElementById("industryType").value || 1.0);
@@ -690,6 +726,7 @@
             const records = document.getElementById("recordCount").value;
             const rootCause = document.getElementById("rootCause").value;
 
+            // --- MATH LOGIC ---
             let revenueMult = 1, revenueVal = 0, baseOpsLoss = 0;
             switch(revenue) {
                 case "Micro": revenueMult = 0.5; revenueVal = 1000000; baseOpsLoss = 5000; break;
@@ -705,29 +742,30 @@
             let incidentLabel = "", duration = "", irHours = 0, legalHours = 0, ransom = 0, downtime = 0;
             const dur = t.durations;
 
+            // We must map the select Value to the translated Scenario Name manually or via index
+            // Simple way: Find the object in currentLang options where v matches
+            const scenarioObj = t.options.scenarios.find(s => s.v === type);
+            incidentLabel = scenarioObj ? scenarioObj.t : "Incident";
+
             switch(type) {
                 case "Ransomware":
-                    incidentLabel = t.options.scenarios[1].t; 
                     downtime = 23; 
                     duration = dur.ransomware;
                     irHours = 120 * revenueMult; legalHours = 60 * revenueMult;
                     ransom = (revenue === "Micro") ? 45000 : (revenue === "Small") ? 280000 : (revenue === "Mid") ? 850000 : 2400000;
                     break;
                 case "BEC":
-                    incidentLabel = t.options.scenarios[2].t; 
                     downtime = 5; 
                     duration = dur.bec;
                     irHours = 50 * revenueMult; legalHours = 40 * revenueMult;
                     ransom = (revenue === "Large") ? 750000 : 125000;
                     break;
                 case "DataBreach":
-                    incidentLabel = t.options.scenarios[3].t; 
                     downtime = 3; 
                     duration = dur.data;
                     irHours = 140 * revenueMult; legalHours = 220 * revenueMult;
                     break;
                 default:
-                    incidentLabel = "Incident"; 
                     downtime = 7; 
                     duration = dur.default;
                     irHours = 80 * revenueMult; legalHours = 40 * revenueMult;
@@ -770,11 +808,13 @@
                 document.getElementById("exposureLabel").innerText = t.exposureLabelTotal;
             }
 
+            // --- RENDER LOGIC ---
             document.getElementById("resIncidentType").innerText = incidentLabel.toUpperCase();
             document.getElementById("resGrandTotal").innerText = formatCurrency(netTotal);
             document.getElementById("resVariableX").innerText = t.variableX;
             document.getElementById("resDuration").innerText = duration;
             document.getElementById("insuranceBadgeContainer").innerHTML = insuranceText;
+            document.getElementById("lblLifecycleWidget").innerText = t.lblLifecycle;
 
             document.getElementById("techDetails").innerHTML = `<h4>${t.techHeader}</h4>
                 <div class="cost-row"><span>${t.techIR}</span><span class="price">${formatCurrency(costIR)}</span></div>
