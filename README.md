@@ -26,16 +26,29 @@ In the current threat landscape, a "breach" is more than just downtime; it is a 
 
 ### Key Calculation Vectors
 
-* **Incident Scenarios:** Ransomware (Double Extortion), BEC, Data Leaks, and Insider Threats.
-* **Industry Multipliers:** Specialized weighting for High-Risk sectors (Healthcare, Finance, Energy).
-* **Regulatory Impact:** Built-in logic on some of the popular regulatory notification costs.
-* **Operational Loss:** Real-world downtime estimates based on 2025 Canadian benchmarks.
+* **Incident Scenarios:** Ransomware (Double Extortion), BEC, Data Exfiltration, and Supply Chain Compromise.
+* **Jurisdictional Intelligence:** Built-in logic for Quebec (Loi 25), Ontario (PHIPA), and Federal (PIPEDA/OSFI) frameworks.
+* **Class Action Risk:** Models "Settlement Reserves" based on Canadian precedents for the Tort of Intrusion upon Seclusion.
+* **Operational Loss:** Real-world downtime estimates and revenue contraction metrics based on 2025-2026 benchmarks.
 
 ---
 
 ## Logic
 
-The simulation logic is informed by a combination of industry-standard reports (IBM, Sophos, Coveware, CSE).
+The simulation logic is informed by a combination of industry-standard reports (IBM, Sophos, CCCS) and current Canadian legal fee schedules.
+
+### The Formula Approach
+
+The simulator uses a weighted impact matrix to calculate Gross Exposure, then applies insurance parameters to determine Net Loss:
+
+$$
+\text{Total Cost} = (\text{Tech Response}) + (\text{Legal / Settlements}) + (\text{Business Impact})
+$$
+Net Exposure=(Gross Cost−Insurance Coverage)+Deductible+Premium Load
+
+
+
+
 
 ### The Formula Approach
 
@@ -49,10 +62,11 @@ $$
 
 | Vector | Rate / Logic |
 | :--- | :--- |
-| **Technical IR** | Calculated at an IR rate of **$300/hr**. |
-| **Legal Counsel** | Privacy Coach / Breach Counsel rates at **$500/hr**. |
-| **Fraud / Extortion** | Scaled based on annual revenue brackets and data volume. |
-
+| **Technical IR** | Incident Response rates at **$325/hr**. |
+| **Digital Forensics** |	Deep-dive forensic analysis and evidence handling at $380/hr. |
+| **Legal Counsel** |	Breach Coach and Privacy Counsel rates at **$600/hr**. |
+| **Notification** |	Blended Canadian logistics (Postal/Email) at **$12/record**.
+| **Monitoring** |	Credit & Identity monitoring (Standard/PHI-enhanced) at **$35–$65/individuals** |.
 
 
 ### Insurance Logic & Parameters
@@ -60,6 +74,7 @@ $$
 The tool allows the input of specific policy parameters to model a realistic recovery scenario:
 * **Coverage Limit:** The maximum aggregate amount the insurer will pay.
 * **Deductible (Retention):** The out-of-pocket amount the organization must pay before insurance triggers.
+* **Premium Hike:** Models the 3-year "tail" of increased premiums following a major claim.
 
 
 ---
@@ -71,6 +86,7 @@ This tool is built as a static, client-side web page.
 * **Local Execution:** All drill-down logic and financial calculations occur exclusively within the user's browser.
 * **No Transmission:** No information is transmitted to external servers, databases, or APIs.
 * **No Tracking:** No cookies or persistent tracking mechanisms are utilized.
+* **Bilingual (EN/FR):** Supporting both English and French-Canadian regulatory terminology.
 
 ---
 
