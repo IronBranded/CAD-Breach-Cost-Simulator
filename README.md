@@ -74,7 +74,7 @@ $$
 The tool allows the input of specific policy parameters to model a realistic recovery scenario:
 * **Coverage Limit:** The maximum aggregate amount the insurer will pay.
 * **Deductible (Retention):** The out-of-pocket amount the organization must pay before insurance triggers.
-* **Premium Hike:** Models the 3-year "tail" of increased premiums following a major claim.
+* **Premium Hike:** Models the 3-year tail insurance policy of increased premiums following a major claim.
 
 
 ---
