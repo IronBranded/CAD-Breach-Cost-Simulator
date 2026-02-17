@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Canadian Breach Cost Simulator v2.5</title>
+    <title>Canadian Breach Cost Simulator v2.6</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -24,6 +24,22 @@
             color: var(--text-main);
             padding-bottom: 50px;
         }
+
+        /* --- FIELD ERROR STYLES --- */
+        select.field-error, input.field-error {
+            border-color: var(--accent-red) !important;
+            outline: 2px solid rgba(239,68,68,0.35) !important;
+        }
+        .error-msg {
+            color: var(--accent-red);
+            font-size: 0.75rem;
+            margin-top: 5px;
+            display: none;
+            font-weight: 600;
+            letter-spacing: 0.03em;
+        }
+        .error-msg.visible { display: block; }
+
         /* Language Switcher */
         .lang-switcher {
             position: absolute;
@@ -31,7 +47,7 @@
             right: 20px;
             display: flex;
             gap: 10px;
-            z-index: 100; /* Ensure clickable over overlays if needed */
+            z-index: 100;
         }
         .lang-btn {
             background: #334155;
@@ -99,6 +115,7 @@
             font-family: 'Inter', sans-serif;
             appearance: none;
             box-sizing: border-box;
+            transition: border-color 0.2s, outline 0.2s;
         }
         select:focus, input:focus { outline: 2px solid var(--accent-blue); border-color: transparent; }
         .insurance-section {
@@ -149,6 +166,7 @@
             transform: translateY(-2px);
             box-shadow: 0 10px 20px -5px rgba(14, 165, 233, 0.4);
         }
+
         /* Dashboard Styles */
         .dashboard-container {
             display: none;
@@ -208,7 +226,6 @@
             margin-bottom: 20px;
             font-weight: 600;
         }
-        /* New Style for Lifecycle Label */
         .lifecycle-label {
             color: var(--text-muted);
             font-size: 0.8rem;
@@ -217,8 +234,8 @@
             margin-bottom: 5px;
         }
         .lifecycle-value {
-             font-size: 1.1rem; 
-             font-weight: bold; 
+             font-size: 1.1rem;
+             font-weight: bold;
              color: white;
              margin-bottom: 15px;
         }
@@ -264,7 +281,61 @@
             border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
             flex-direction: column;
+            text-align: center;
+            padding: 4px;
+            box-sizing: border-box;
         }
+        .donut-hole .donut-driver-label {
+            font-size: 0.6rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            line-height: 1.2;
+        }
+        .donut-hole .donut-driver-name {
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: white;
+            line-height: 1.2;
+            margin: 2px 0;
+        }
+        .donut-hole .donut-percent {
+            font-size: 1.4rem;
+            font-weight: 800;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* ---- DONUT LEGEND ---- */
+        .donut-legend {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 4px;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.8rem;
+        }
+        .legend-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 2px;
+            flex-shrink: 0;
+        }
+        .legend-label {
+            color: var(--text-muted);
+            flex: 1;
+        }
+        .legend-pct {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: white;
+            font-weight: 600;
+        }
+
         .detail-card {
             background: var(--card-bg);
             padding: 25px;
@@ -302,6 +373,8 @@
         <div class="spinner"></div>
         <p id="loadingText" style="margin-top: 20px; color: var(--accent-blue); font-family: 'JetBrains Mono';">ANALYZING DATA...</p>
     </div>
+
+    <!-- FORM -->
     <div class="container" id="formContainer">
         <h1 id="mainTitle">Breach Cost Simulator</h1>
         <p class="subtitle" id="mainSubtitle">> Visualizing the financial and operational gravity of a cyber incident through a Canadian lens.</p>
@@ -316,6 +389,7 @@
                     <option value="Insider">Insider Threat (Malicious)</option>
                     <option value="DoS">Denial of Service (DDoS)</option>
                 </select>
+                <div class="error-msg" id="err-incidentType"></div>
             </div>
             <div>
                 <label id="lblIndustry">Industry</label>
@@ -332,6 +406,7 @@
                     <option value="1.5">Telecommunications</option>
                     <option value="1.4">Tech</option>
                 </select>
+                <div class="error-msg" id="err-industryType"></div>
             </div>
             <div>
                 <label id="lblRecords">PII Leak Volume</label>
@@ -342,6 +417,7 @@
                     <option value="High">10k - 50k Records</option>
                     <option value="Critical">50k+ Records</option>
                 </select>
+                <div class="error-msg" id="err-recordCount"></div>
             </div>
             <div class="full-width">
                 <label id="lblRevenue">Annual Revenue (CAD)</label>
@@ -352,6 +428,7 @@
                     <option value="Mid">$10M - $100M</option>
                     <option value="Large">$100M+</option>
                 </select>
+                <div class="error-msg" id="err-revenueBracket"></div>
             </div>
             <div class="full-width">
                 <label id="lblRootCause">Root Cause</label>
@@ -361,13 +438,13 @@
                     <option value="Exploited Vuln">Exploited Vulnerabilities</option>
                     <option value="Compromission by Third Party">Third Party / Supply Chain Compromise</option>
                 </select>
+                <div class="error-msg" id="err-rootCause"></div>
             </div>
             <div class="insurance-section">
                 <label class="checkbox-wrapper">
                     <input type="checkbox" id="hasInsurance" onchange="toggleInsuranceFields()">
                     <span style="color:white; font-weight:600;" id="lblInsuranceToggle">Active Cyber Insurance Policy?</span>
                 </label>
-
                 <div class="insurance-details" id="insuranceFields">
                     <div>
                         <label id="lblInsLimit">Coverage Limit ($)</label>
@@ -382,24 +459,44 @@
         </div>
         <button class="primary-btn" id="btnRun" onclick="runSimulation()">Run Simulation</button>
     </div>
+
+    <!-- DASHBOARD -->
     <div class="dashboard-container" id="dashboardContainer">
         <div class="hero-card">
             <span class="incident-tag" id="resIncidentType">RANSOMWARE</span>
             <div class="total-cost-label" id="exposureLabel">Net Financial Exposure</div>
             <div class="total-cost-value" id="resGrandTotal">$0.00</div>
             <div class="variable-x-display" id="resVariableX">+ Variable X (Brand & Reputation)</div>
-            
             <div class="lifecycle-label" id="lblLifecycleWidget">Incident & Recovery Lifecycle</div>
             <div class="lifecycle-value" id="resDuration">--</div>
-            
             <div id="insuranceBadgeContainer"></div>
         </div>
         <div class="stats-grid">
             <div class="chart-card">
                 <div class="donut-chart" id="donutChart">
                     <div class="donut-hole">
-                        <span style="font-size:0.7rem; color:var(--text-muted)" id="lblTopDriver">Top Driver</span>
-                        <span class="donut-percent" id="topCostPercent" style="font-size:1.5rem; font-weight:bold;">0%</span>
+                        <!-- CHANGE 2: Top driver label + category name inside hole -->
+                        <span class="donut-driver-label" id="lblTopDriver">Top Driver</span>
+                        <span class="donut-driver-name" id="topDriverName"></span>
+                        <span class="donut-percent" id="topCostPercent">0%</span>
+                    </div>
+                </div>
+                <!-- CHANGE 1: Legend below the donut -->
+                <div class="donut-legend" id="donutLegend">
+                    <div class="legend-item">
+                        <div class="legend-dot" style="background: var(--accent-blue);"></div>
+                        <span class="legend-label" id="legendLabelTech">Technical</span>
+                        <span class="legend-pct" id="legendPctTech">0%</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-dot" style="background: var(--accent-purple);"></div>
+                        <span class="legend-label" id="legendLabelLegal">Legal</span>
+                        <span class="legend-pct" id="legendPctLegal">0%</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-dot" style="background: var(--accent-red);"></div>
+                        <span class="legend-label" id="legendLabelBiz">Business</span>
+                        <span class="legend-pct" id="legendPctBiz">0%</span>
                     </div>
                 </div>
             </div>
@@ -411,12 +508,14 @@
             </div>
         </div>
 
-        <button class="primary-btn" id="btnRestart" style="background:#334155; width:200px; margin:0 auto; display:block;" onclick="resetSim()">Restart</button>
-        <div class="detail-card" id="nctaBlock" style="max-width:1000px; margin: 40px auto 0 auto; border-left: 4px solid #22c55e; background: #0f172a;">
-        </div>
+        <!-- CHANGE 4: Soft reset — restores form with previous values intact -->
+        <button class="primary-btn" id="btnRestart" style="background:#334155; width:200px; margin:0 auto; display:block;" onclick="softReset()">Restart</button>
+        <div class="detail-card" id="nctaBlock" style="max-width:1000px; margin: 40px auto 0 auto; border-left: 4px solid #22c55e; background: #0f172a;"></div>
     </div>
+
     <script>
         let currentLang = 'en';
+
         const translations = {
             en: {
                 mainTitle: "Breach Cost Simulator",
@@ -450,8 +549,14 @@
                 legalCounsel: "Counsel & Notifications",
                 bizOps: "Operations Downtime",
                 bizExtortion: "Extortion / Theft Loss",
-                
-                // NCTA
+                legendTech: "Technical Response",
+                legendLegal: "Legal & Regulatory",
+                legendBiz: "Business Impact",
+                // CHANGE 2: Short category names for inside the donut hole
+                driverNames: { tech: "Technical", legal: "Legal", biz: "Business" },
+                // CHANGE 3: Validation messages
+                validationMsg: "Please complete all 5 fields before running the simulation.",
+                fieldRequired: "This field is required.",
                 nctaTitle: "NCTA 2025-2026 STRATEGIC INTELLIGENCE",
                 nctaIntro: "Based on CSE observations, five core trends will shape Canada's cyber threat environment onward. These are compounded by an expanding threat surface (Cloud-based AI/IoT) and persistent supply chain vulnerabilities.",
                 nctaT1: "<strong>AI Technologies:</strong> Artificial intelligence is amplifying cyber space threats by accelerating research and scaling malicious activities.",
@@ -461,8 +566,6 @@
                 nctaT5: "<strong>Dual-Use:</strong> Commercial services used for both civilian and military purposes are increasingly in the digital crossfire.",
                 nctaCritTitle: "Critical Threat Assessment",
                 nctaCritDesc: "<strong>Ransomware:</strong> Remains the #1 threat to Canadian critical infrastructure. Average payouts have escalated to <strong>$1.13M CAD</strong>, exacerbated by the exploitation of known vulnerabilities (CVEs).",
-                
-                // Logic Strings for EN
                 durations: {
                     ransomware: "Avg. 30-90 Days",
                     bec: "Avg. 2-5 Weeks",
@@ -472,7 +575,6 @@
                 lblLifecycle: "Incident & Recovery Lifecycle",
                 insuranceBadgeLabel: "INSURANCE",
                 covered: "COVERED",
-
                 options: {
                     scenarios: [
                         {v: "", t: "Select Incident Type"},
@@ -549,8 +651,12 @@
                 legalCounsel: "Conseils et Notifications",
                 bizOps: "Interruption des opérations",
                 bizExtortion: "Pertes par extorsion / vol",
-                
-                // NCTA
+                legendTech: "Réponse technique",
+                legendLegal: "Juridique / Réglementaire",
+                legendBiz: "Impact opérationnel",
+                driverNames: { tech: "Technique", legal: "Juridique", biz: "Opérationnel" },
+                validationMsg: "Veuillez compléter les 5 champs avant de lancer la simulation.",
+                fieldRequired: "Ce champ est obligatoire.",
                 nctaTitle: "RENSEIGNEMENT STRATÉGIQUE ECNC 2025-2026",
                 nctaIntro: "Selon le CST, cinq tendances façonneront l'environnement de cybermenace au Canada. Elles sont amplifiées par une surface d'attaque étendue (IA/IoT cloud) et des vulnérabilités de la chaîne d'approvisionnement.",
                 nctaT1: "<strong>Technologies d'IA :</strong> L'IA amplifie les menaces en accélérant la recherche et l'automatisation des activités malveillantes.",
@@ -560,8 +666,6 @@
                 nctaT5: "<strong>Double Usage :</strong> Les services commerciaux utilisés à des fins civiles et militaires sont de plus en plus ciblés.",
                 nctaCritTitle: "Évaluation des Menaces Critiques",
                 nctaCritDesc: "<strong>Rançongiciel :</strong> Reste la menace #1. Les rançons moyennes ont grimpé à <strong>1,13 M$ CAD</strong>, exacerbées par l'exploitation rapide des vulnérabilités (CVE).",
-                
-                // Logic Strings for FR
                 durations: {
                     ransomware: "Moy. 30-90 Jours",
                     bec: "Moy. 2-5 Semaines",
@@ -571,7 +675,6 @@
                 lblLifecycle: "Cycle de vie : Incident et rétablissement",
                 insuranceBadgeLabel: "ASSURANCE",
                 covered: "COUVERT",
-
                 options: {
                     scenarios: [
                         {v: "", t: "Sélectionnez le type d'incident"},
@@ -618,6 +721,54 @@
             }
         };
 
+        // ─── CHANGE 3: Full 5-field validation with inline errors ───────────────
+        const requiredFields = ['incidentType', 'industryType', 'recordCount', 'revenueBracket', 'rootCause'];
+
+        function clearErrors() {
+            requiredFields.forEach(id => {
+                const el = document.getElementById(id);
+                const err = document.getElementById('err-' + id);
+                if (el) el.classList.remove('field-error');
+                if (err) { err.classList.remove('visible'); err.innerText = ''; }
+            });
+        }
+
+        function validateFields() {
+            const t = translations[currentLang];
+            let valid = true;
+            requiredFields.forEach(id => {
+                const el = document.getElementById(id);
+                const err = document.getElementById('err-' + id);
+                if (!el || !err) return;
+                if (!el.value) {
+                    el.classList.add('field-error');
+                    err.innerText = t.fieldRequired;
+                    err.classList.add('visible');
+                    valid = false;
+                } else {
+                    el.classList.remove('field-error');
+                    err.classList.remove('visible');
+                }
+            });
+            // Remove error highlight as user makes a selection
+            return valid;
+        }
+
+        // Add live clearing of errors when user fixes a field
+        document.addEventListener('DOMContentLoaded', () => {
+            requiredFields.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.addEventListener('change', () => {
+                    if (el.value) {
+                        el.classList.remove('field-error');
+                        const err = document.getElementById('err-' + id);
+                        if (err) err.classList.remove('visible');
+                    }
+                });
+            });
+        });
+        // ────────────────────────────────────────────────────────────────────────
+
         function setLang(lang) {
             currentLang = lang;
             document.getElementById('btnEn').classList.toggle('active', lang === 'en');
@@ -639,21 +790,21 @@
             document.getElementById('loadingText').innerText = t.loadingText;
             document.getElementById('lblTopDriver').innerText = t.lblTopDriver;
             document.getElementById('lblLifecycleWidget').innerText = t.lblLifecycle;
+            document.getElementById('legendLabelTech').innerText = t.legendTech;
+            document.getElementById('legendLabelLegal').innerText = t.legendLegal;
+            document.getElementById('legendLabelBiz').innerText = t.legendBiz;
 
-            // Populate Selects with translated text (for form view)
             fillSelect('incidentType', t.options.scenarios);
             fillSelect('industryType', t.options.industries);
             fillSelect('recordCount', t.options.records);
             fillSelect('revenueBracket', t.options.revenue);
             fillSelect('rootCause', t.options.causes);
-            
-            // Render NCTA Block (Updates immediately)
+
             renderNCTA();
 
-            // CRITICAL CHANGE: Check if Dashboard is visible, if so, re-calculate to translate results
             const dashboard = document.getElementById("dashboardContainer");
             if (dashboard.style.display === "block") {
-                calculateAndRender(true); // true = Instant update, no loading animation
+                calculateAndRender(true);
             }
         }
 
@@ -702,21 +853,27 @@
         }
 
         function runSimulation() {
-            if(!document.getElementById("industryType").value || !document.getElementById("revenueBracket").value) {
-                const msg = currentLang === 'en' ? "Please select Industry and Revenue." : "Veuillez sélectionner le secteur et le revenu.";
-                alert(msg);
-                return;
-            }
+            clearErrors();
+            if (!validateFields()) return; // CHANGE 3: block if any field empty
+
             document.getElementById("formContainer").style.display = "none";
             document.getElementById("loadingOverlay").style.display = "flex";
-            
-            // Artificial delay for effect only on initial run
+
             setTimeout(() => {
-                calculateAndRender(false); // false = Normal run with UI switch
+                calculateAndRender(false);
                 document.getElementById("loadingOverlay").style.display = "none";
                 document.getElementById("dashboardContainer").style.display = "block";
             }, 1200);
         }
+
+        // ─── CHANGE 4: Soft reset — show form again, keep all values ──────────
+        function softReset() {
+            document.getElementById("dashboardContainer").style.display = "none";
+            document.getElementById("formContainer").style.display = "block";
+            clearErrors();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        // ────────────────────────────────────────────────────────────────────────
 
         function calculateAndRender(isUpdate = false) {
             const t = translations[currentLang];
@@ -726,103 +883,95 @@
             const records = document.getElementById("recordCount").value;
             const rootCause = document.getElementById("rootCause").value;
 
-            // --- MATH LOGIC ---
             let revenueMult = 1, revenueVal = 0, baseOpsLoss = 0;
             switch(revenue) {
                 case "Micro": revenueMult = 0.5; revenueVal = 1000000; baseOpsLoss = 5000; break;
                 case "Small": revenueMult = 1.8; revenueVal = 5000000; baseOpsLoss = 25000; break;
-                case "Mid": revenueMult = 7.5; revenueVal = 50000000; baseOpsLoss = 120000; break;
+                case "Mid":   revenueMult = 7.5; revenueVal = 50000000; baseOpsLoss = 120000; break;
                 case "Large": revenueMult = 22.0; revenueVal = 500000000; baseOpsLoss = 450000; break;
             }
 
             let techCauseMult = 1.0, forensicCauseMult = 1.0;
-            if(rootCause.includes("Third Party")) forensicCauseMult = 1.35;
-            if(rootCause.includes("Exploited")) techCauseMult = 1.2;
+            if (rootCause.includes("Third Party")) forensicCauseMult = 1.35;
+            if (rootCause.includes("Exploited")) techCauseMult = 1.2;
 
             let incidentLabel = "", duration = "", irHours = 0, legalHours = 0, ransom = 0, downtime = 0;
             const dur = t.durations;
-
-            // We must map the select Value to the translated Scenario Name manually or via index
-            // Simple way: Find the object in currentLang options where v matches
             const scenarioObj = t.options.scenarios.find(s => s.v === type);
             incidentLabel = scenarioObj ? scenarioObj.t : "Incident";
 
             switch(type) {
                 case "Ransomware":
-                    downtime = 23; 
-                    duration = dur.ransomware;
+                    downtime = 23; duration = dur.ransomware;
                     irHours = 120 * revenueMult; legalHours = 60 * revenueMult;
                     ransom = (revenue === "Micro") ? 45000 : (revenue === "Small") ? 280000 : (revenue === "Mid") ? 850000 : 2400000;
                     break;
                 case "BEC":
-                    downtime = 5; 
-                    duration = dur.bec;
+                    downtime = 5; duration = dur.bec;
                     irHours = 50 * revenueMult; legalHours = 40 * revenueMult;
                     ransom = (revenue === "Large") ? 750000 : 125000;
                     break;
                 case "DataBreach":
-                    downtime = 3; 
-                    duration = dur.data;
+                    downtime = 3; duration = dur.data;
                     irHours = 140 * revenueMult; legalHours = 220 * revenueMult;
                     break;
                 default:
-                    downtime = 7; 
-                    duration = dur.default;
+                    downtime = 7; duration = dur.default;
                     irHours = 80 * revenueMult; legalHours = 40 * revenueMult;
             }
 
             let userCount = (records === "Low") ? 800 : (records === "Medium") ? 8000 : (records === "High") ? 45000 : 150000;
-            
-            const costIR = (irHours * 350) * techCauseMult;
+
+            const costIR       = (irHours * 350) * techCauseMult;
             const costForensics = (irHours * 0.4 * 400) * forensicCauseMult;
             const costITSupport = (irHours * 2.5 * 185);
-            const totalTech = costIR + costForensics + costITSupport;
+            const totalTech    = costIR + costForensics + costITSupport;
 
-            const maxFine = Math.max(25000000, revenueVal * 0.04);
+            const maxFine   = Math.max(25000000, revenueVal * 0.04);
             const riskFactor = (type === "DataBreach" || type === "Ransomware") ? 0.005 : 0.0005;
-            const fineRisk = maxFine * riskFactor;
+            const fineRisk  = maxFine * riskFactor;
             const totalLegal = (legalHours * 575) + fineRisk + (userCount * 35) + (userCount * 18);
 
             const costBizInt = downtime * baseOpsLoss * industryMult;
-            const totalBiz = costBizInt + (revenueMult * 25000) + ransom;
+            const totalBiz   = costBizInt + (revenueMult * 25000) + ransom;
 
             let grossTotal = totalTech + totalLegal + totalBiz;
             let netTotal = grossTotal, insuranceCovered = 0, insuranceText = "";
 
-            if(document.getElementById("hasInsurance").checked) {
-                const limit = parseFloat(document.getElementById("insLimit").value || 0);
+            if (document.getElementById("hasInsurance").checked) {
+                const limit      = parseFloat(document.getElementById("insLimit").value || 0);
                 const deductible = parseFloat(document.getElementById("insDeductible").value || 0);
                 const premiumHike = deductible * 1.5;
 
-                if (grossTotal > limit) { 
-                    insuranceCovered = limit; 
-                    netTotal = deductible + (grossTotal - limit) + premiumHike; 
-                } else { 
-                    insuranceCovered = Math.max(0, grossTotal - deductible); 
-                    netTotal = deductible + premiumHike; 
+                if (grossTotal > limit) {
+                    insuranceCovered = limit;
+                    netTotal = deductible + (grossTotal - limit) + premiumHike;
+                } else {
+                    insuranceCovered = Math.max(0, grossTotal - deductible);
+                    netTotal = deductible + premiumHike;
                 }
-                
                 insuranceText = `<span class="insurance-badge">${t.insuranceBadgeLabel}: ${t.covered} ${formatCurrency(insuranceCovered)}</span>`;
                 document.getElementById("exposureLabel").innerText = t.exposureLabelNet;
             } else {
                 document.getElementById("exposureLabel").innerText = t.exposureLabelTotal;
             }
 
-            // --- RENDER LOGIC ---
+            // Render hero
             document.getElementById("resIncidentType").innerText = incidentLabel.toUpperCase();
-            document.getElementById("resGrandTotal").innerText = formatCurrency(netTotal);
-            document.getElementById("resVariableX").innerText = t.variableX;
-            document.getElementById("resDuration").innerText = duration;
+            document.getElementById("resGrandTotal").innerText   = formatCurrency(netTotal);
+            document.getElementById("resVariableX").innerText    = t.variableX;
+            document.getElementById("resDuration").innerText     = duration;
             document.getElementById("insuranceBadgeContainer").innerHTML = insuranceText;
-            document.getElementById("lblLifecycleWidget").innerText = t.lblLifecycle;
+            document.getElementById("lblLifecycleWidget").innerText      = t.lblLifecycle;
 
+            // Render detail cards
             document.getElementById("techDetails").innerHTML = `<h4>${t.techHeader}</h4>
                 <div class="cost-row"><span>${t.techIR}</span><span class="price">${formatCurrency(costIR)}</span></div>
                 <div class="cost-row"><span>${t.techForensics}</span><span class="price">${formatCurrency(costForensics)}</span></div>
                 <div class="cost-row"><span>${t.techIT}</span><span class="price">${formatCurrency(costITSupport)}</span></div>`;
 
             document.getElementById("legalDetails").innerHTML = `<h4>${t.legalHeader}</h4>
-                <div style="background:rgba(168, 85, 247, 0.15); border:1px solid rgba(168, 85, 247,0.3); padding:8px; border-radius:6px; margin-bottom:12px; font-size:0.75rem; color:#d8b4fe;">${t.regNotice}</div>
+                <div style="background:rgba(168,85,247,0.15); border:1px solid rgba(168,85,247,0.3); padding:8px; border-radius:6px; margin-bottom:12px; font-size:0.75rem; color:#d8b4fe;">${t.regNotice}</div>
                 <div class="cost-row"><span>${t.legalFines}</span><span class="price">${formatCurrency(fineRisk)}</span></div>
                 <div class="cost-row"><span>${t.legalCounsel}</span><span class="price">${formatCurrency(totalLegal - fineRisk)}</span></div>`;
 
@@ -831,32 +980,95 @@
                 <div class="cost-row"><span>${t.bizExtortion}</span><span class="price">${formatCurrency(ransom)}</span></div>`;
 
             document.getElementById("brandDetails").innerHTML = `<h4>${t.brandHeader}</h4>
-                <div class="cost-row" style="display:block; color:#f8fafc; margin-bottom:5px;"><span><strong>${t.unquantifiable}</strong></span></div>
+                <div class="cost-row" style="display:block; color:#f8fafc; margin-bottom:5px;"><strong>${t.unquantifiable}</strong></div>
                 <div class="cost-row" style="color:var(--text-muted); font-size:0.8rem;">${t.churnText}</div>`;
 
-            updateChart(totalTech, totalLegal, totalBiz, grossTotal);
+            updateChart(totalTech, totalLegal, totalBiz, grossTotal, t);
         }
 
-        function updateChart(tech, legal, biz, total) {
-            const pT = (tech/total)*100; const pL = (legal/total)*100;
-            document.getElementById("donutChart").style.background = `conic-gradient(var(--accent-blue) 0% ${pT}%, var(--accent-purple) ${pT}% ${pT+pL}%, var(--accent-red) ${pT+pL}% 100%)`;
-            
-            const max = Math.max(tech, legal, biz);
-            document.getElementById("topCostPercent").innerText = Math.round((max/total)*100) + "%";
+        // ─── CHANGES 1 & 2: Chart with legend + named top driver ──────────────
+        function updateChart(tech, legal, biz, total, t) {
+            const pT = (tech  / total) * 100;
+            const pL = (legal / total) * 100;
+            const pB = (biz   / total) * 100;
+
+            document.getElementById("donutChart").style.background =
+                `conic-gradient(var(--accent-blue) 0% ${pT}%, var(--accent-purple) ${pT}% ${pT + pL}%, var(--accent-red) ${pT + pL}% 100%)`;
+
+            // Determine top driver
+            const values = [
+                { key: 'tech',  val: tech,  pct: pT },
+                { key: 'legal', val: legal, pct: pL },
+                { key: 'biz',   val: biz,   pct: pB }
+            ];
+            const top = values.reduce((a, b) => b.val > a.val ? b : a);
+
+            document.getElementById("topCostPercent").innerText = Math.round(top.pct) + "%";
+            document.getElementById("topDriverName").innerText  = t.driverNames[top.key]; // CHANGE 2
+
+            // Colour the percent to match its segment colour
+            const colourMap = { tech: 'var(--accent-blue)', legal: 'var(--accent-purple)', biz: 'var(--accent-red)' };
+            document.getElementById("topCostPercent").style.color = colourMap[top.key];
+
+            // CHANGE 1: Update legend percentages
+            document.getElementById("legendPctTech").innerText  = Math.round(pT) + "%";
+            document.getElementById("legendPctLegal").innerText = Math.round(pL) + "%";
+            document.getElementById("legendPctBiz").innerText   = Math.round(pB) + "%";
+
+            // Bold the winning legend row
+            ['Tech', 'Legal', 'Biz'].forEach(k => {
+                const label = document.getElementById('legendLabel' + k);
+                const pct   = document.getElementById('legendPct' + k);
+                const isBest = k.toLowerCase() === top.key;
+                if (label) label.style.color = isBest ? 'white' : '';
+                if (pct)   pct.style.color   = isBest ? colourMap[top.key] : '';
+            });
         }
+        // ────────────────────────────────────────────────────────────────────────
 
         function formatCurrency(n) {
-            if (currentLang === 'fr') {
-                // Quebec Format: 10 000 $ CAD
-                return Math.round(n).toLocaleString('fr-CA') + " $ CAD";
-            }
-            // RoC / English Format: $10,000 CAD
+            if (currentLang === 'fr') return Math.round(n).toLocaleString('fr-CA') + " $ CAD";
             return "$" + Math.round(n).toLocaleString('en-CA') + " CAD";
         }
 
-        function resetSim() { location.reload(); }
+        function setLang(lang) {
+            currentLang = lang;
+            document.getElementById('btnEn').classList.toggle('active', lang === 'en');
+            document.getElementById('btnFr').classList.toggle('active', lang === 'fr');
 
-        // Init English
+            const t = translations[lang];
+            document.getElementById('mainTitle').innerText          = t.mainTitle;
+            document.getElementById('mainSubtitle').innerText       = t.mainSubtitle;
+            document.getElementById('lblScenario').innerText        = t.lblScenario;
+            document.getElementById('lblIndustry').innerText        = t.lblIndustry;
+            document.getElementById('lblRecords').innerText         = t.lblRecords;
+            document.getElementById('lblRevenue').innerText         = t.lblRevenue;
+            document.getElementById('lblRootCause').innerText       = t.lblRootCause;
+            document.getElementById('lblInsuranceToggle').innerText = t.lblInsuranceToggle;
+            document.getElementById('lblInsLimit').innerText        = t.lblInsLimit;
+            document.getElementById('lblInsDeductible').innerText   = t.lblInsDeductible;
+            document.getElementById('btnRun').innerText             = t.btnRun;
+            document.getElementById('btnRestart').innerText         = t.btnRestart;
+            document.getElementById('loadingText').innerText        = t.loadingText;
+            document.getElementById('lblTopDriver').innerText       = t.lblTopDriver;
+            document.getElementById('lblLifecycleWidget').innerText = t.lblLifecycle;
+            document.getElementById('legendLabelTech').innerText    = t.legendTech;
+            document.getElementById('legendLabelLegal').innerText   = t.legendLegal;
+            document.getElementById('legendLabelBiz').innerText     = t.legendBiz;
+
+            fillSelect('incidentType',  t.options.scenarios);
+            fillSelect('industryType',  t.options.industries);
+            fillSelect('recordCount',   t.options.records);
+            fillSelect('revenueBracket', t.options.revenue);
+            fillSelect('rootCause',     t.options.causes);
+
+            renderNCTA();
+
+            const dashboard = document.getElementById("dashboardContainer");
+            if (dashboard.style.display === "block") calculateAndRender(true);
+        }
+
+        // Init
         setLang('en');
     </script>
 </body>
