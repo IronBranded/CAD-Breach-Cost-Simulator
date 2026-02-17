@@ -33,30 +33,20 @@ In the current threat landscape, a "breach" is more than just downtime; it is a 
 
 ---
 
-## Logic
+### Logic & The Formula Approach
 
-The simulation logic is informed by a combination of industry-standard reports (IBM, Sophos, CCCS) and current Canadian legal fee schedules.
+The simulation logic is informed by a combination of industry-standard reports (IBM, Sophos, CCCS) and current Canadian legal fee schedules and also uses a weighted impact matrix to calculate Gross Exposure, then applies insurance parameters to determine Net Exposure (Loss):
 
-### The Formula Approach
 
-The simulator uses a weighted impact matrix to calculate Gross Exposure, then applies insurance parameters to determine Net Loss:
 
 $$
-\text{Total Cost} = (\text{Tech Response}) + (\text{Legal / Settlements}) + (\text{Business Impact})
+\text{Total Cost} = (\text{Technical Response}) + (\text{Legal / Regulatory / Settlements}) + (\text{Business Operational Impact})
+$$
+
 $$
 Net Exposure=(Gross Cost−Insurance Coverage)+Deductible+Premium Load
-
-
-
-
-
-### The Formula Approach
-
-The simulator uses a weighted impact matrix:
-
 $$
-\text{Total Cost} = (\text{Tech Response}) + (\text{Legal / Regulatory}) + (\text{Business Impact})
-$$
+#
 
 ### Cost Vectors
 
