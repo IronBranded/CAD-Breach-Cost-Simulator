@@ -81,4 +81,4 @@ This tool is built as a static, client-side web page.
 ---
 
 ### Author
-**M.Decayette (IronBranded)**
+**(IronBranded)**
