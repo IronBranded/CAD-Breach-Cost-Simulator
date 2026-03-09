@@ -2097,287 +2097,338 @@ html,body{width:210mm;background:#fff;}
 body{
   font-family:'IBM Plex Sans',Arial,sans-serif;
   font-size:8pt;color:#1a1a1a;
-  padding:0 14mm 10mm;
+  padding:0 13mm 8mm;
 }
 
-/* ── TOPBAR ── */
+/* ── TOPBAR ──────────────────────────── */
 .topbar{
-  height:5pt;
-  margin:0 -14mm 10mm;
+  height:5pt;margin:0 -13mm 9mm;
   background:linear-gradient(90deg,#2563eb 0%,#7c3aed 48%,#e11d48 100%);
   print-color-adjust:exact;-webkit-print-color-adjust:exact;
 }
 
-/* ── HEADER ── */
+/* ── HEADER ──────────────────────────── */
 .header{
-  display:flex;justify-content:space-between;align-items:stretch;
-  gap:14pt;margin-bottom:10pt;
+  display:flex;justify-content:space-between;
+  align-items:stretch;gap:12pt;margin-bottom:8pt;
 }
 .header-left{flex:1;display:flex;flex-direction:column;justify-content:center;}
 .eyebrow{
   font-family:'IBM Plex Mono',monospace;font-size:5.5pt;
-  letter-spacing:0.25em;color:#2563eb;text-transform:uppercase;margin-bottom:4pt;
+  letter-spacing:0.25em;color:#2563eb;text-transform:uppercase;
+  margin-bottom:4pt;
   print-color-adjust:exact;-webkit-print-color-adjust:exact;
 }
-.title{font-size:18pt;font-weight:700;line-height:1.1;letter-spacing:-0.02em;color:#0f0f0f;}
+.title{
+  font-size:18pt;font-weight:700;line-height:1.1;
+  letter-spacing:-0.02em;color:#0f0f0f;
+}
 .title-light{font-weight:300;color:#888;}
-.subtitle-txt{font-size:6.5pt;color:#aaa;font-style:italic;margin-top:4pt;padding-left:7pt;border-left:2pt solid #e0e0e0;}
-
+.subtitle-txt{
+  font-size:6pt;color:#aaa;font-style:italic;
+  margin-top:4pt;padding-left:7pt;border-left:2pt solid #e0e0e0;
+}
 .header-meta{
   display:flex;flex-direction:column;
   border:1pt solid #e0e0e0;border-left:3pt solid #2563eb;
-  min-width:148pt;
+  min-width:152pt;
   print-color-adjust:exact;-webkit-print-color-adjust:exact;
 }
 .meta-row{
   display:flex;justify-content:space-between;align-items:center;
-  padding:4.5pt 10pt;border-bottom:1pt solid #f0f0f0;gap:10pt;flex:1;
+  padding:4pt 9pt;border-bottom:1pt solid #f0f0f0;gap:10pt;flex:1;
 }
 .meta-row:last-child{border-bottom:none;}
-.meta-lbl{font-family:'IBM Plex Mono',monospace;font-size:4.5pt;letter-spacing:0.14em;text-transform:uppercase;color:#bbb;white-space:nowrap;}
+.meta-lbl{
+  font-family:'IBM Plex Mono',monospace;font-size:4.5pt;
+  letter-spacing:0.14em;text-transform:uppercase;color:#bbb;white-space:nowrap;
+}
 .meta-val{font-size:7pt;font-weight:600;color:#1a1a1a;text-align:right;}
-.meta-confidential{color:#dc2626;font-size:6pt;letter-spacing:0.04em;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
-.meta-phi{color:#7c3aed;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
-.meta-regime-val{font-family:'IBM Plex Mono',monospace;font-size:6.5pt;font-weight:700;color:#2563eb;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
+.meta-red{color:#dc2626;font-size:6pt;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
+.meta-purple{color:#7c3aed;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
+.meta-blue{
+  font-family:'IBM Plex Mono',monospace;font-size:6.5pt;
+  font-weight:700;color:#2563eb;
+  print-color-adjust:exact;-webkit-print-color-adjust:exact;
+}
 
-/* ── RULE ── */
-.rule{height:0.75pt;background:#e0e0e0;margin-bottom:10pt;}
+/* ── RULE / SECTION LABEL ────────────── */
+.rule{height:0.75pt;background:#e0e0e0;margin-bottom:8pt;}
+.slabel{
+  font-family:'IBM Plex Mono',monospace;font-size:4.5pt;
+  letter-spacing:0.3em;text-transform:uppercase;color:#2563eb;
+  margin-bottom:5pt;
+  print-color-adjust:exact;-webkit-print-color-adjust:exact;
+}
 
-/* ── SECTION LABEL ── */
-.section-label{
+/* ── PARAMS — 3 col ──────────────────── */
+.params{display:grid;grid-template-columns:repeat(3,1fr);border:1pt solid #e0e0e0;}
+.p{padding:5pt 9pt;border-right:1pt solid #e0e0e0;border-bottom:1pt solid #e0e0e0;}
+.params .p:nth-child(3n){border-right:none;}
+.params .p:nth-last-child(-n+3):nth-child(3n+1),
+.params .p:nth-last-child(-n+3):nth-child(3n+2),
+.params .p:nth-last-child(-n+3):nth-child(3n){border-bottom:none;}
+.pl{font-family:'IBM Plex Mono',monospace;font-size:4pt;color:#bbb;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:2pt;}
+.pv{font-size:7.5pt;font-weight:600;color:#1a1a1a;line-height:1.25;}
+
+/* ── EXPOSURE STRIP ──────────────────── */
+.exp-strip{
+  display:flex;border:1pt solid #e0e0e0;
+  border-left:4pt solid #2563eb;margin-top:8pt;
+  print-color-adjust:exact;-webkit-print-color-adjust:exact;
+}
+.exp-main{flex:1;padding:9pt 12pt 9pt 12pt;border-right:1pt solid #e0e0e0;}
+.exp-eyebrow{
+  font-family:'IBM Plex Mono',monospace;font-size:4pt;
+  letter-spacing:0.2em;color:#aaa;text-transform:uppercase;margin-bottom:3pt;
+}
+.exp-num{
+  font-size:22pt;font-weight:700;letter-spacing:-0.04em;
+  line-height:1;color:#0f0f0f;
+}
+.exp-details{
+  font-family:'IBM Plex Mono',monospace;font-size:5.5pt;
+  color:#999;margin-top:5pt;line-height:1.8;
+}
+.exp-tags{display:flex;gap:4pt;flex-wrap:wrap;margin-top:6pt;}
+.tag{
   font-family:'IBM Plex Mono',monospace;font-size:5pt;
-  letter-spacing:0.28em;text-transform:uppercase;color:#2563eb;
-  margin-bottom:6pt;
+  border:0.75pt solid;padding:1.5pt 5pt;
+}
+.tphi{border-color:#7c3aed;color:#7c3aed;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
+.tins{border-color:#15803d;color:#15803d;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
+
+.exp-lifecycle{width:115pt;padding:8pt 10pt;border-right:1pt solid #e0e0e0;}
+.exp-costsplit{width:115pt;padding:8pt 10pt;}
+.blk-lbl{
+  font-family:'IBM Plex Mono',monospace;font-size:4pt;
+  letter-spacing:0.18em;text-transform:uppercase;color:#bbb;margin-bottom:5pt;
+}
+.blk-val{font-size:7pt;font-weight:600;color:#1a1a1a;line-height:1.5;}
+.sr{display:flex;align-items:center;gap:5pt;padding:2.5pt 0;}
+.dot{width:5pt;height:5pt;border-radius:50%;flex-shrink:0;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
+.dt{background:#2563eb;}.dl{background:#7c3aed;}.db{background:#e11d48;}
+.sn{flex:1;font-size:6pt;color:#555;}
+.sp{font-family:'IBM Plex Mono',monospace;font-size:7pt;font-weight:700;color:#1a1a1a;}
+
+/* ── COST CARDS — 2×2 ────────────────── */
+.cgrid{display:grid;grid-template-columns:1fr 1fr;gap:6pt;margin-top:8pt;}
+.card{border:1pt solid #e0e0e0;page-break-inside:avoid;}
+.accent{height:3pt;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
+.ct .accent{background:#2563eb;}
+.cl .accent{background:#7c3aed;}
+.cb .accent{background:#e11d48;}
+.cx .accent{background:#ea580c;}
+.chead{
+  display:flex;justify-content:space-between;align-items:baseline;
+  padding:5pt 10pt 4pt;border-bottom:0.75pt solid #ebebeb;
+}
+.clbl{
+  font-family:'IBM Plex Mono',monospace;font-size:5.5pt;
+  font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#444;
+}
+.ctot{
+  font-family:'IBM Plex Mono',monospace;font-size:10pt;
+  font-weight:700;color:#0f0f0f;letter-spacing:-0.01em;
+  white-space:nowrap;
+}
+.cvar{
+  font-size:7pt;font-weight:600;color:#ea580c;
   print-color-adjust:exact;-webkit-print-color-adjust:exact;
 }
 
-/* ── PARAMS ── */
-.params-grid{display:grid;grid-template-columns:1fr 1fr;border:1pt solid #e0e0e0;}
-.param{padding:5.5pt 10pt;border-right:1pt solid #e0e0e0;border-bottom:1pt solid #e0e0e0;}
-.params-grid .param:nth-child(2n){border-right:none;}
-.param-lbl{font-family:'IBM Plex Mono',monospace;font-size:4.5pt;color:#bbb;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:2pt;}
-.param-val{font-size:8pt;font-weight:600;color:#1a1a1a;line-height:1.25;}
-
-/* ── TWO-COLUMN MAIN LAYOUT ── */
-.two-col{display:flex;gap:8pt;margin-top:10pt;align-items:flex-start;}
-.col-left{flex:1;min-width:0;}
-.col-right{width:118pt;flex-shrink:0;}
-
-/* ── EXPOSURE BLOCK ── */
-.exposure-block{
-  border:1pt solid #e0e0e0;
-  border-left:3.5pt solid #2563eb;
-  padding:10pt 12pt 10pt 14pt;
-  print-color-adjust:exact;-webkit-print-color-adjust:exact;
+/* Cost rows — label wraps, amount fixed right */
+table.ctable{width:100%;border-collapse:collapse;table-layout:fixed;}
+.ctl{
+  font-size:6.5pt;color:#555;
+  padding:3pt 6pt 3pt 10pt;
+  border-bottom:0.5pt solid #f5f5f5;
+  line-height:1.4;
+  width:62%;
+  word-wrap:break-word;
 }
-.exp-lbl{font-family:'IBM Plex Mono',monospace;font-size:4.5pt;letter-spacing:0.2em;color:#aaa;margin-bottom:3pt;text-transform:uppercase;}
-.exp-total{font-size:24pt;font-weight:700;letter-spacing:-0.04em;line-height:1;color:#0f0f0f;}
-.exp-gross{font-family:'IBM Plex Mono',monospace;font-size:6pt;color:#aaa;margin-top:4pt;}
-.exp-ins{font-size:6.5pt;font-weight:600;color:#15803d;margin-top:3pt;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
-.exp-tags{display:flex;gap:4pt;flex-wrap:wrap;margin-top:7pt;}
-.tag{font-family:'IBM Plex Mono',monospace;font-size:5pt;border:1pt solid;padding:2pt 5pt;}
-.tag-phi{border-color:#7c3aed;color:#7c3aed;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
-.tag-ins{border-color:#15803d;color:#15803d;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
+.ctr{
+  font-family:'IBM Plex Mono',monospace;font-size:6.5pt;
+  font-weight:600;color:#1a1a1a;
+  text-align:right;
+  padding:3pt 10pt 3pt 4pt;
+  border-bottom:0.5pt solid #f5f5f5;
+  white-space:nowrap;
+  width:38%;
+  vertical-align:top;
+}
+tr:last-child .ctl,tr:last-child .ctr{border-bottom:none;}
 
-/* ── SIDEBAR BLOCKS ── */
-.side-block{border:1pt solid #e0e0e0;padding:8pt 10pt;margin-bottom:6pt;}
-.side-lbl{font-family:'IBM Plex Mono',monospace;font-size:4.5pt;letter-spacing:0.15em;text-transform:uppercase;color:#bbb;margin-bottom:5pt;}
-.side-val{font-size:7.5pt;font-weight:600;color:#1a1a1a;line-height:1.4;}
-.split-row{display:flex;align-items:center;gap:5pt;padding:2.5pt 0;}
-.dot{width:5.5pt;height:5.5pt;border-radius:50%;flex-shrink:0;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
-.dot-tech{background:#2563eb;}.dot-legal{background:#7c3aed;}.dot-biz{background:#e11d48;}
-.split-name{flex:1;font-size:6.5pt;color:#555;}
-.split-pct{font-family:'IBM Plex Mono',monospace;font-size:7pt;font-weight:700;color:#1a1a1a;}
-
-/* ── COST CARDS ── */
-.costs-grid{display:grid;grid-template-columns:1fr 1fr;gap:5pt;margin-top:8pt;}
-.cost-card{border:1pt solid #e0e0e0;page-break-inside:avoid;}
-.card-accent{height:2.5pt;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
-.c-tech  .card-accent{background:#2563eb;}
-.c-legal .card-accent{background:#7c3aed;}
-.c-biz   .card-accent{background:#e11d48;}
-.c-brand .card-accent{background:#ea580c;}
-.card-head{display:flex;justify-content:space-between;align-items:baseline;padding:5pt 8pt 4pt;border-bottom:0.75pt solid #f0f0f0;}
-.card-lbl{font-family:'IBM Plex Mono',monospace;font-size:5pt;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#555;}
-.card-total{font-family:'IBM Plex Mono',monospace;font-size:9pt;font-weight:700;color:#0f0f0f;letter-spacing:-0.01em;}
-.card-variable{font-size:7pt;font-weight:600;color:#ea580c;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
-
-table.t{width:100%;border-collapse:collapse;}
-.tl{font-size:6.5pt;color:#555;padding:2.5pt 8pt;border-bottom:0.5pt solid #f5f5f5;width:57%;line-height:1.3;}
-.tr{font-family:'IBM Plex Mono',monospace;font-size:6.5pt;font-weight:600;color:#1a1a1a;text-align:right;padding:2.5pt 8pt;border-bottom:0.5pt solid #f5f5f5;white-space:nowrap;}
-tr:last-child .tl,tr:last-child .tr{border-bottom:none;}
-
-.brand-body{padding:6pt 8pt 8pt;}
-.brand-title{font-size:7pt;font-weight:600;color:#1a1a1a;margin-bottom:2pt;}
+.brand-body{padding:7pt 10pt 8pt;}
+.brand-title{font-size:7.5pt;font-weight:600;color:#1a1a1a;margin-bottom:3pt;}
 .brand-text{font-size:6pt;color:#777;line-height:1.65;font-style:italic;}
 
-/* ── TOTAL BAR ── */
-.total-bar{
+/* ── TOTAL BAR ───────────────────────── */
+.tbar{
   display:flex;justify-content:space-between;align-items:center;
-  margin-top:8pt;padding:8pt 12pt;
+  margin-top:7pt;padding:7pt 12pt;
   background:#0f0f0f;
   print-color-adjust:exact;-webkit-print-color-adjust:exact;
 }
-.total-lbl{font-family:'IBM Plex Mono',monospace;font-size:6pt;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:#fff;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
-.total-val{font-family:'IBM Plex Mono',monospace;font-size:14pt;font-weight:700;color:#fff;letter-spacing:-0.02em;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
+.tlbl{
+  font-family:'IBM Plex Mono',monospace;font-size:6pt;
+  font-weight:600;letter-spacing:0.14em;text-transform:uppercase;
+  color:#fff;
+  print-color-adjust:exact;-webkit-print-color-adjust:exact;
+}
+.tval{
+  font-family:'IBM Plex Mono',monospace;font-size:14pt;
+  font-weight:700;color:#fff;letter-spacing:-0.02em;
+  print-color-adjust:exact;-webkit-print-color-adjust:exact;
+}
 
-/* ── FOOTER ── */
-.footer{display:flex;gap:6pt;align-items:flex-start;margin-top:9pt;border-top:0.75pt solid #e0e0e0;padding-top:6pt;}
-.foot-icon{font-size:8pt;color:#ccc;flex-shrink:0;margin-top:1pt;}
-.disc-text{font-size:5.5pt;color:#aaa;line-height:1.65;margin-bottom:4pt;}
-.disc-sources{display:flex;flex-wrap:wrap;gap:2.5pt;}
-.chip{font-family:'IBM Plex Mono',monospace;font-size:4.5pt;border:0.5pt solid #ddd;padding:1.5pt 4pt;color:#bbb;}
-.repo-ref{margin-top:6pt;font-family:'IBM Plex Mono',monospace;font-size:5pt;color:#ccc;text-align:center;letter-spacing:0.08em;}
+/* ── FOOTER ──────────────────────────── */
+.footer{
+  display:flex;gap:6pt;align-items:flex-start;
+  margin-top:7pt;border-top:0.75pt solid #e0e0e0;padding-top:5pt;
+}
+.ficon{font-size:8pt;color:#ccc;flex-shrink:0;margin-top:1pt;}
+.dtext{font-size:5pt;color:#aaa;line-height:1.65;margin-bottom:4pt;}
+.dsources{display:flex;flex-wrap:wrap;gap:2.5pt;}
+.chip{
+  font-family:'IBM Plex Mono',monospace;font-size:4.5pt;
+  border:0.5pt solid #ddd;padding:1.5pt 4pt;color:#bbb;
+}
+.repo{
+  margin-top:5pt;
+  font-family:'IBM Plex Mono',monospace;font-size:5pt;
+  color:#ccc;text-align:center;letter-spacing:0.08em;
+}
 </style>
 </head>
 <body>
-  <div class="topbar"></div>
 
-  <!-- HEADER -->
-  <div class="header">
-    <div class="header-left">
-      <div class="eyebrow">${t.eyebrow}</div>
-      <div class="title">
-        ${lang === 'fr'
-          ? `Simulateur de Co&ucirc;ts <span class="title-light">de Cyber Incident</span>`
-          : `Cyber Incident <span class="title-light">Cost Simulator</span>`}
-      </div>
-      <div class="subtitle-txt">${subtitleTxt}</div>
+<div class="topbar"></div>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-left">
+    <div class="eyebrow">${t.eyebrow}</div>
+    <div class="title">
+      ${lang==='fr'
+        ? `Simulateur de Co&ucirc;ts <span class="title-light">de Cyber Incident</span>`
+        : `Cyber Incident <span class="title-light">Cost Simulator</span>`}
     </div>
-    <div class="header-meta">
-      <div class="meta-row"><span class="meta-lbl">${t.printGeneratedOn}</span><span class="meta-val">${date}</span></div>
-      <div class="meta-row"><span class="meta-lbl">${lang==='fr'?'Classification':'Classification'}</span><span class="meta-val meta-confidential">${t.printConfidential}</span></div>
-      <div class="meta-row"><span class="meta-lbl">${t.regimeLabelPrefix}</span><span class="meta-val meta-regime-val">${regimeLabel}</span></div>
-      ${hasPHI ? `<div class="meta-row"><span class="meta-lbl">PHI</span><span class="meta-val meta-phi">${t.phiTagLabel}</span></div>` : ''}
+    <div class="subtitle-txt">${subtitleTxt}</div>
+  </div>
+  <div class="header-meta">
+    <div class="meta-row"><span class="meta-lbl">${t.printGeneratedOn}</span><span class="meta-val">${date}</span></div>
+    <div class="meta-row"><span class="meta-lbl">${lang==='fr'?'Classification':'Classification'}</span><span class="meta-val meta-red">${t.printConfidential}</span></div>
+    <div class="meta-row"><span class="meta-lbl">${t.regimeLabelPrefix}</span><span class="meta-val meta-blue">${regimeLabel}</span></div>
+    ${hasPHI?`<div class="meta-row"><span class="meta-lbl">PHI</span><span class="meta-val meta-purple">${t.phiTagLabel}</span></div>`:''}
+  </div>
+</div>
+
+<div class="rule"></div>
+
+<!-- PARAMS -->
+<div class="slabel">${t.printParamsTitle}</div>
+<div class="params">
+  <div class="p"><div class="pl">${t.lblScenario}</div><div class="pv">${incidentLabel}</div></div>
+  <div class="p"><div class="pl">${t.lblIndustry}</div><div class="pv">${lookupOpt('industryType',t.options.industries)}</div></div>
+  <div class="p"><div class="pl">${t.lblRecords}</div><div class="pv">${lookupOpt('recordCount',t.options.records)}</div></div>
+  <div class="p"><div class="pl">${t.lblRevenue}</div><div class="pv">${lookupOpt('revenueBracket',t.options.revenue)}</div></div>
+  <div class="p"><div class="pl">${t.lblRootCause}</div><div class="pv">${lookupOpt('rootCause',t.options.causes)}</div></div>
+  <div class="p"><div class="pl">${t.lblProvince}</div><div class="pv">${provinceLabel}</div></div>
+  ${hasIns?`
+  <div class="p"><div class="pl">${t.lblInsLimit}</div><div class="pv">${insLimitVal}</div></div>
+  <div class="p"><div class="pl">${t.lblInsDeductible}</div><div class="pv">${insDedVal}</div></div>
+  <div class="p"></div>`:''}
+</div>
+
+<!-- EXPOSURE STRIP -->
+<div class="exp-strip">
+  <div class="exp-main">
+    <div class="exp-eyebrow">${totalLabel}</div>
+    <div class="exp-num">${fmtN(d.netTotal)}</div>
+    <div class="exp-details">${[
+      hasIns&&d.grossTotal!==d.netTotal ? `${grossLabel}: ${fmtN(d.grossTotal)}` : '',
+      hasIns&&d.insuranceCovered>0      ? `${t.printInsNote}: ${fmtN(d.insuranceCovered)}` : ''
+    ].filter(Boolean).join('&nbsp;&nbsp;·&nbsp;&nbsp;')}</div>
+    <div class="exp-tags">
+      ${hasPHI?`<span class="tag tphi">${t.phiTagLabel}</span>`:''}
+      ${hasIns?`<span class="tag tins">${lang==='fr'?'Assuré':'Insured'}</span>`:''}
     </div>
   </div>
+  <div class="exp-lifecycle">
+    <div class="blk-lbl">${t.lblLifecycle}</div>
+    <div class="blk-val">${duration}</div>
+  </div>
+  <div class="exp-costsplit">
+    <div class="blk-lbl">${costSplitLabel}</div>
+    <div class="sr"><span class="dot dt"></span><span class="sn">${t.legendTech}</span><span class="sp">${pct(d.tech.total,d.grossTotal)}</span></div>
+    <div class="sr"><span class="dot dl"></span><span class="sn">${t.legendLegal}</span><span class="sp">${pct(d.legal.total,d.grossTotal)}</span></div>
+    <div class="sr"><span class="dot db"></span><span class="sn">${t.legendBiz}</span><span class="sp">${pct(d.biz.total,d.grossTotal)}</span></div>
+  </div>
+</div>
 
-  <div class="rule"></div>
+<!-- COST BREAKDOWN -->
+<div class="slabel" style="margin-top:9pt;">${costBreakdownLabel}</div>
+<div class="cgrid">
 
-  <!-- PARAMETERS -->
-  <div class="section-label">${t.printParamsTitle}</div>
-  <div class="params-grid">
-    <div class="param"><div class="param-lbl">${t.lblScenario}</div><div class="param-val">${incidentLabel}</div></div>
-    <div class="param"><div class="param-lbl">${t.lblIndustry}</div><div class="param-val">${lookupOpt('industryType', t.options.industries)}</div></div>
-    <div class="param"><div class="param-lbl">${t.lblRecords}</div><div class="param-val">${lookupOpt('recordCount', t.options.records)}</div></div>
-    <div class="param"><div class="param-lbl">${t.lblRevenue}</div><div class="param-val">${lookupOpt('revenueBracket', t.options.revenue)}</div></div>
-    <div class="param"><div class="param-lbl">${t.lblRootCause}</div><div class="param-val">${lookupOpt('rootCause', t.options.causes)}</div></div>
-    <div class="param"><div class="param-lbl">${t.lblProvince}</div><div class="param-val">${provinceLabel}</div></div>
-    ${hasIns ? `
-    <div class="param"><div class="param-lbl">${t.lblInsLimit}</div><div class="param-val">${insLimitVal}</div></div>
-    <div class="param"><div class="param-lbl">${t.lblInsDeductible}</div><div class="param-val">${insDedVal}</div></div>` : ''}
+  <div class="card ct">
+    <div class="accent"></div>
+    <div class="chead"><span class="clbl">${t.techHeader}</span><span class="ctot">${fmtN(d.tech.total)}</span></div>
+    <table class="ctable">
+      ${rowA(t.techIR,        d.tech.costIR)}
+      ${rowA(t.techForensics, d.tech.costForensics)}
+      ${rowA(t.techIT,        d.tech.costIT)}
+    </table>
   </div>
 
-  <!-- TWO-COLUMN LAYOUT: exposure + sidebar LEFT, cost cards RIGHT -->
-  <div class="two-col">
+  <div class="card cl">
+    <div class="accent"></div>
+    <div class="chead"><span class="clbl">${t.legalHeader}</span><span class="ctot">${fmtN(d.legal.total)}</span></div>
+    <table class="ctable">
+      ${rowA(t.legalCounsel,  d.legal.costCounsel)}
+      ${row(t.legalFines,     d.legal.fineExposure)}
+      ${row(t.legalSettlement,d.legal.settlementRisk)}
+      ${rowA(t.legalNotify,   d.legal.costNotify)}
+      ${rowA(d.hasPHI?t.legalPHICredit:t.legalCredit, d.legal.costCredit)}
+    </table>
+  </div>
 
-    <!-- LEFT: exposure block + sidebar -->
-    <div class="col-left">
+  <div class="card cb">
+    <div class="accent"></div>
+    <div class="chead"><span class="clbl">${t.bizHeader}</span><span class="ctot">${fmtN(d.biz.total)}</span></div>
+    <table class="ctable">
+      ${rowA(t.bizOps,         d.biz.costOps)}
+      ${rowA(t.bizRemediation, d.biz.costRemediation)}
+      ${row(t.bizExtortion,    d.biz.ransom)}
+    </table>
+  </div>
 
-      <div class="exposure-block">
-        <div class="exp-lbl">${totalLabel}</div>
-        <div class="exp-total">${fmtN(d.netTotal)}</div>
-        ${hasIns && d.grossTotal !== d.netTotal ? `<div class="exp-gross">${grossLabel}: ${fmtN(d.grossTotal)}</div>` : ''}
-        ${hasIns && d.insuranceCovered > 0 ? `<div class="exp-ins">${t.printInsNote}: ${fmtN(d.insuranceCovered)}</div>` : ''}
-        <div class="exp-tags">
-          ${hasPHI ? `<span class="tag tag-phi">${t.phiTagLabel}</span>` : ''}
-          ${hasIns ? `<span class="tag tag-ins">${lang==='fr'?'Assuré':'Insured'}</span>` : ''}
-        </div>
-      </div>
-
-      <div style="margin-top:6pt;display:grid;grid-template-columns:1fr 1fr;gap:5pt;">
-        <div class="side-block" style="margin-bottom:0;">
-          <div class="side-lbl">${t.lblLifecycle}</div>
-          <div class="side-val">${duration}</div>
-        </div>
-        <div class="side-block" style="margin-bottom:0;">
-          <div class="side-lbl">${costSplitLabel}</div>
-          <div class="split-row"><span class="dot dot-tech"></span><span class="split-name">${t.legendTech}</span><span class="split-pct">${pct(d.tech.total, d.grossTotal)}</span></div>
-          <div class="split-row"><span class="dot dot-legal"></span><span class="split-name">${t.legendLegal}</span><span class="split-pct">${pct(d.legal.total, d.grossTotal)}</span></div>
-          <div class="split-row"><span class="dot dot-biz"></span><span class="split-name">${t.legendBiz}</span><span class="split-pct">${pct(d.biz.total, d.grossTotal)}</span></div>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- RIGHT: cost cards 1×4 stacked -->
-    <div class="col-right">
-      <div class="section-label" style="margin-top:0;">${costBreakdownLabel}</div>
-
-      <div class="cost-card c-tech" style="margin-bottom:5pt;">
-        <div class="card-accent"></div>
-        <div class="card-head">
-          <span class="card-lbl">${t.techHeader}</span>
-          <span class="card-total">${fmtN(d.tech.total)}</span>
-        </div>
-        <table class="t">
-          ${rowA(t.techIR,        d.tech.costIR)}
-          ${rowA(t.techForensics, d.tech.costForensics)}
-          ${rowA(t.techIT,        d.tech.costIT)}
-        </table>
-      </div>
-
-      <div class="cost-card c-legal" style="margin-bottom:5pt;">
-        <div class="card-accent"></div>
-        <div class="card-head">
-          <span class="card-lbl">${t.legalHeader}</span>
-          <span class="card-total">${fmtN(d.legal.total)}</span>
-        </div>
-        <table class="t">
-          ${rowA(t.legalCounsel,  d.legal.costCounsel)}
-          ${row(t.legalFines,     d.legal.fineExposure)}
-          ${row(t.legalSettlement,d.legal.settlementRisk)}
-          ${rowA(t.legalNotify,   d.legal.costNotify)}
-          ${rowA(d.hasPHI ? t.legalPHICredit : t.legalCredit, d.legal.costCredit)}
-        </table>
-      </div>
-
-      <div class="cost-card c-biz" style="margin-bottom:5pt;">
-        <div class="card-accent"></div>
-        <div class="card-head">
-          <span class="card-lbl">${t.bizHeader}</span>
-          <span class="card-total">${fmtN(d.biz.total)}</span>
-        </div>
-        <table class="t">
-          ${rowA(t.bizOps,         d.biz.costOps)}
-          ${rowA(t.bizRemediation, d.biz.costRemediation)}
-          ${row(t.bizExtortion,    d.biz.ransom)}
-        </table>
-      </div>
-
-      <div class="cost-card c-brand">
-        <div class="card-accent"></div>
-        <div class="card-head">
-          <span class="card-lbl">${t.brandHeader}</span>
-          <span class="card-total card-variable">Variable X</span>
-        </div>
-        <div class="brand-body">
-          <div class="brand-title">${t.unquantifiable}</div>
-          <div class="brand-text">${t.churnText}</div>
-        </div>
-      </div>
-
+  <div class="card cx">
+    <div class="accent"></div>
+    <div class="chead"><span class="clbl">${t.brandHeader}</span><span class="ctot cvar">Variable X</span></div>
+    <div class="brand-body">
+      <div class="brand-title">${t.unquantifiable}</div>
+      <div class="brand-text">${t.churnText}</div>
     </div>
   </div>
 
-  <!-- TOTAL -->
-  <div class="total-bar">
-    <span class="total-lbl">${totalLabel}</span>
-    <span class="total-val">${fmtN(d.netTotal)}</span>
-  </div>
+</div>
 
-  <!-- FOOTER -->
-  <div class="footer">
-    <span class="foot-icon">&#9432;</span>
-    <div style="flex:1;">
-      <div class="disc-text">${t.disclaimer}</div>
-      <div class="disc-sources">
-        ${t.sources.map(s => `<span class="chip">${s}</span>`).join('')}
-      </div>
-    </div>
-  </div>
+<!-- TOTAL -->
+<div class="tbar">
+  <span class="tlbl">${totalLabel}</span>
+  <span class="tval">${fmtN(d.netTotal)}</span>
+</div>
 
-  <div class="repo-ref">${repoUrl}</div>
+<!-- FOOTER -->
+<div class="footer">
+  <span class="ficon">&#9432;</span>
+  <div style="flex:1;">
+    <div class="dtext">${t.disclaimer}</div>
+    <div class="dsources">${t.sources.map(s=>`<span class="chip">${s}</span>`).join('')}</div>
+  </div>
+</div>
+<div class="repo">${repoUrl}</div>
 
 <script>window.onload=function(){window.print();};<\/script>
 </body>
