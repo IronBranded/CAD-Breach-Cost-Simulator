@@ -2088,347 +2088,632 @@ function printReport() {
 <html lang="${lang}">
 <head>
 <meta charset="UTF-8">
-<title>${lang === 'fr' ? 'Rapport — Simulateur de Coûts de Cyber Incident' : 'Report — Cyber Incident Cost Simulator'}</title>
+<title>${lang==='fr'?'Rapport — Simulateur de Coûts de Cyber Incident':'Report — Cyber Incident Cost Simulator'}</title>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 @page{margin:0;size:A4 portrait;}
 html,body{width:210mm;background:#fff;}
-body{
-  font-family:'IBM Plex Sans',Arial,sans-serif;
-  font-size:8pt;color:#1a1a1a;
-  padding:0 13mm 8mm;
-}
+body{font-family:'IBM Plex Sans',Arial,sans-serif;font-size:8pt;color:#1a1a1a;}
 
-/* ── TOPBAR ──────────────────────────── */
-.topbar{
-  height:5pt;margin:0 -13mm 9mm;
-  background:linear-gradient(90deg,#2563eb 0%,#7c3aed 48%,#e11d48 100%);
-  print-color-adjust:exact;-webkit-print-color-adjust:exact;
-}
-
-/* ── HEADER ──────────────────────────── */
-.header{
-  display:flex;justify-content:space-between;
-  align-items:stretch;gap:12pt;margin-bottom:8pt;
-}
-.header-left{flex:1;display:flex;flex-direction:column;justify-content:center;}
-.eyebrow{
-  font-family:'IBM Plex Mono',monospace;font-size:5.5pt;
-  letter-spacing:0.25em;color:#2563eb;text-transform:uppercase;
-  margin-bottom:4pt;
-  print-color-adjust:exact;-webkit-print-color-adjust:exact;
-}
-.title{
-  font-size:18pt;font-weight:700;line-height:1.1;
-  letter-spacing:-0.02em;color:#0f0f0f;
-}
+/* ── SHARED ── */
+.page{padding:0 13mm 10mm;page-break-after:always;}
+.page:last-child{page-break-after:avoid;}
+.topbar{height:5pt;margin:0 0 0;background:linear-gradient(90deg,#2563eb 0%,#7c3aed 48%,#e11d48 100%);print-color-adjust:exact;-webkit-print-color-adjust:exact;}
+.rule{height:0.75pt;background:#e0e0e0;margin:8pt 0;}
+.slabel{font-family:'IBM Plex Mono',monospace;font-size:4.5pt;letter-spacing:0.3em;text-transform:uppercase;color:#2563eb;margin-bottom:5pt;display:block;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
+.page-header{display:flex;justify-content:space-between;align-items:stretch;gap:12pt;padding:9pt 0 8pt;}
+.ph-left{flex:1;display:flex;flex-direction:column;justify-content:center;}
+.eyebrow{font-family:'IBM Plex Mono',monospace;font-size:5.5pt;letter-spacing:0.25em;color:#2563eb;text-transform:uppercase;margin-bottom:4pt;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
+.pg-title{font-size:18pt;font-weight:700;line-height:1.1;letter-spacing:-0.02em;color:#0f0f0f;}
 .title-light{font-weight:300;color:#888;}
-.subtitle-txt{
-  font-size:6pt;color:#aaa;font-style:italic;
-  margin-top:4pt;padding-left:7pt;border-left:2pt solid #e0e0e0;
-}
-.header-meta{
-  display:flex;flex-direction:column;
-  border:1pt solid #e0e0e0;border-left:3pt solid #2563eb;
-  min-width:152pt;
-  print-color-adjust:exact;-webkit-print-color-adjust:exact;
-}
-.meta-row{
-  display:flex;justify-content:space-between;align-items:center;
-  padding:4pt 9pt;border-bottom:1pt solid #f0f0f0;gap:10pt;flex:1;
-}
+.pg-subtitle{font-size:6pt;color:#aaa;font-style:italic;margin-top:4pt;padding-left:7pt;border-left:2pt solid #e0e0e0;}
+.header-meta{display:flex;flex-direction:column;border:1pt solid #e0e0e0;border-left:3pt solid #2563eb;min-width:152pt;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
+.meta-row{display:flex;justify-content:space-between;align-items:center;padding:4pt 9pt;border-bottom:1pt solid #f0f0f0;gap:10pt;flex:1;}
 .meta-row:last-child{border-bottom:none;}
-.meta-lbl{
-  font-family:'IBM Plex Mono',monospace;font-size:4.5pt;
-  letter-spacing:0.14em;text-transform:uppercase;color:#bbb;white-space:nowrap;
-}
-.meta-val{font-size:7pt;font-weight:600;color:#1a1a1a;text-align:right;}
-.meta-red{color:#dc2626;font-size:6pt;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
-.meta-purple{color:#7c3aed;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
-.meta-blue{
-  font-family:'IBM Plex Mono',monospace;font-size:6.5pt;
-  font-weight:700;color:#2563eb;
+.mlbl{font-family:'IBM Plex Mono',monospace;font-size:4.5pt;letter-spacing:0.14em;text-transform:uppercase;color:#bbb;white-space:nowrap;}
+.mval{font-size:7pt;font-weight:600;color:#1a1a1a;text-align:right;}
+.mred{color:#dc2626;font-size:6pt;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
+.mpurple{color:#7c3aed;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
+.mblue{font-family:'IBM Plex Mono',monospace;font-size:6.5pt;font-weight:700;color:#2563eb;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
+.footer{display:flex;gap:6pt;align-items:flex-start;margin-top:7pt;border-top:0.75pt solid #e0e0e0;padding-top:5pt;}
+.ficon{font-size:8pt;color:#ccc;flex-shrink:0;margin-top:1pt;}
+.dtext{font-size:5pt;color:#aaa;line-height:1.65;margin-bottom:4pt;}
+.dsources{display:flex;flex-wrap:wrap;gap:2.5pt;}
+.chip{font-family:'IBM Plex Mono',monospace;font-size:4.5pt;border:0.5pt solid #ddd;padding:1.5pt 4pt;color:#bbb;}
+.repo{margin-top:5pt;font-family:'IBM Plex Mono',monospace;font-size:5pt;color:#ccc;text-align:center;letter-spacing:0.08em;}
+
+/* ══════════════════════════════════════
+   PAGE 1 — COVER / EXECUTIVE SUMMARY
+══════════════════════════════════════ */
+.cover-hero{
+  background:#0f0f0f;padding:18pt 16pt 16pt;margin:0 -13mm;
   print-color-adjust:exact;-webkit-print-color-adjust:exact;
 }
+.cover-kicker{font-family:'IBM Plex Mono',monospace;font-size:5pt;letter-spacing:0.3em;color:#555;text-transform:uppercase;margin-bottom:10pt;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
+.cover-title{font-size:26pt;font-weight:700;color:#fff;letter-spacing:-0.03em;line-height:1.05;margin-bottom:4pt;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
+.cover-title-light{font-weight:300;color:#888;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
+.cover-sub{font-size:7pt;color:#555;font-style:italic;margin-top:8pt;line-height:1.6;max-width:340pt;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
+.cover-meta-row{display:flex;gap:20pt;margin-top:14pt;}
+.cover-meta-item{display:flex;flex-direction:column;gap:2pt;}
+.cmi-lbl{font-family:'IBM Plex Mono',monospace;font-size:4pt;letter-spacing:0.2em;text-transform:uppercase;color:#444;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
+.cmi-val{font-size:8pt;font-weight:600;color:#ccc;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
+.cmi-accent{color:#3b82f6;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
 
-/* ── RULE / SECTION LABEL ────────────── */
-.rule{height:0.75pt;background:#e0e0e0;margin-bottom:8pt;}
-.slabel{
-  font-family:'IBM Plex Mono',monospace;font-size:4.5pt;
-  letter-spacing:0.3em;text-transform:uppercase;color:#2563eb;
-  margin-bottom:5pt;
+.exec-grid{display:grid;grid-template-columns:1fr 1fr;gap:8pt;margin-top:10pt;}
+.exec-card{border:1pt solid #e0e0e0;padding:9pt 10pt;}
+.exec-card-title{font-size:7.5pt;font-weight:700;color:#0f0f0f;margin-bottom:5pt;display:flex;align-items:center;gap:5pt;}
+.ec-icon{font-size:9pt;}
+.exec-card p{font-size:6.5pt;color:#444;line-height:1.7;margin-bottom:4pt;}
+.exec-card p:last-child{margin-bottom:0;}
+
+.intent-box{
+  border:1pt solid #2563eb;padding:9pt 11pt;margin-top:8pt;
   print-color-adjust:exact;-webkit-print-color-adjust:exact;
 }
+.intent-label{font-family:'IBM Plex Mono',monospace;font-size:4.5pt;letter-spacing:0.2em;text-transform:uppercase;color:#2563eb;margin-bottom:5pt;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
+.intent-list{list-style:none;padding:0;}
+.intent-list li{font-size:6.5pt;color:#333;line-height:1.75;padding-left:10pt;position:relative;}
+.intent-list li::before{content:'→';position:absolute;left:0;color:#2563eb;font-family:'IBM Plex Mono',monospace;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
 
-/* ── PARAMS — 3 col ──────────────────── */
+.disclaimer-box{
+  background:#fafafa;border:1pt solid #e0e0e0;border-left:3pt solid #e11d48;
+  padding:8pt 10pt;margin-top:8pt;
+  print-color-adjust:exact;-webkit-print-color-adjust:exact;
+}
+.disclaimer-box .slabel{color:#e11d48;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
+.disclaimer-box p{font-size:6.5pt;color:#555;line-height:1.75;}
+
+/* ══════════════════════════════════════
+   PAGE 2 — DATA REPORT
+══════════════════════════════════════ */
 .params{display:grid;grid-template-columns:repeat(3,1fr);border:1pt solid #e0e0e0;}
 .p{padding:5pt 9pt;border-right:1pt solid #e0e0e0;border-bottom:1pt solid #e0e0e0;}
 .params .p:nth-child(3n){border-right:none;}
-.params .p:nth-last-child(-n+3):nth-child(3n+1),
-.params .p:nth-last-child(-n+3):nth-child(3n+2),
-.params .p:nth-last-child(-n+3):nth-child(3n){border-bottom:none;}
 .pl{font-family:'IBM Plex Mono',monospace;font-size:4pt;color:#bbb;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:2pt;}
 .pv{font-size:7.5pt;font-weight:600;color:#1a1a1a;line-height:1.25;}
-
-/* ── EXPOSURE STRIP ──────────────────── */
-.exp-strip{
-  display:flex;border:1pt solid #e0e0e0;
-  border-left:4pt solid #2563eb;margin-top:8pt;
-  print-color-adjust:exact;-webkit-print-color-adjust:exact;
-}
-.exp-main{flex:1;padding:9pt 12pt 9pt 12pt;border-right:1pt solid #e0e0e0;}
-.exp-eyebrow{
-  font-family:'IBM Plex Mono',monospace;font-size:4pt;
-  letter-spacing:0.2em;color:#aaa;text-transform:uppercase;margin-bottom:3pt;
-}
-.exp-num{
-  font-size:22pt;font-weight:700;letter-spacing:-0.04em;
-  line-height:1;color:#0f0f0f;
-}
-.exp-details{
-  font-family:'IBM Plex Mono',monospace;font-size:5.5pt;
-  color:#999;margin-top:5pt;line-height:1.8;
-}
+.exp-strip{display:flex;border:1pt solid #e0e0e0;border-left:4pt solid #2563eb;margin-top:8pt;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
+.exp-main{flex:1;padding:9pt 12pt;border-right:1pt solid #e0e0e0;}
+.exp-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:4pt;letter-spacing:0.2em;color:#aaa;text-transform:uppercase;margin-bottom:3pt;}
+.exp-num{font-size:22pt;font-weight:700;letter-spacing:-0.04em;line-height:1;color:#0f0f0f;}
+.exp-details{font-family:'IBM Plex Mono',monospace;font-size:5.5pt;color:#999;margin-top:5pt;line-height:1.8;}
 .exp-tags{display:flex;gap:4pt;flex-wrap:wrap;margin-top:6pt;}
-.tag{
-  font-family:'IBM Plex Mono',monospace;font-size:5pt;
-  border:0.75pt solid;padding:1.5pt 5pt;
-}
+.tag{font-family:'IBM Plex Mono',monospace;font-size:5pt;border:0.75pt solid;padding:1.5pt 5pt;}
 .tphi{border-color:#7c3aed;color:#7c3aed;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
 .tins{border-color:#15803d;color:#15803d;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
-
 .exp-lifecycle{width:115pt;padding:8pt 10pt;border-right:1pt solid #e0e0e0;}
 .exp-costsplit{width:115pt;padding:8pt 10pt;}
-.blk-lbl{
-  font-family:'IBM Plex Mono',monospace;font-size:4pt;
-  letter-spacing:0.18em;text-transform:uppercase;color:#bbb;margin-bottom:5pt;
-}
+.blk-lbl{font-family:'IBM Plex Mono',monospace;font-size:4pt;letter-spacing:0.18em;text-transform:uppercase;color:#bbb;margin-bottom:5pt;}
 .blk-val{font-size:7pt;font-weight:600;color:#1a1a1a;line-height:1.5;}
 .sr{display:flex;align-items:center;gap:5pt;padding:2.5pt 0;}
 .dot{width:5pt;height:5pt;border-radius:50%;flex-shrink:0;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
 .dt{background:#2563eb;}.dl{background:#7c3aed;}.db{background:#e11d48;}
 .sn{flex:1;font-size:6pt;color:#555;}
 .sp{font-family:'IBM Plex Mono',monospace;font-size:7pt;font-weight:700;color:#1a1a1a;}
-
-/* ── COST CARDS — 2×2 ────────────────── */
 .cgrid{display:grid;grid-template-columns:1fr 1fr;gap:6pt;margin-top:8pt;}
 .card{border:1pt solid #e0e0e0;page-break-inside:avoid;}
 .accent{height:3pt;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
-.ct .accent{background:#2563eb;}
-.cl .accent{background:#7c3aed;}
-.cb .accent{background:#e11d48;}
-.cx .accent{background:#ea580c;}
-.chead{
-  display:flex;justify-content:space-between;align-items:baseline;
-  padding:5pt 10pt 4pt;border-bottom:0.75pt solid #ebebeb;
-}
-.clbl{
-  font-family:'IBM Plex Mono',monospace;font-size:5.5pt;
-  font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#444;
-}
-.ctot{
-  font-family:'IBM Plex Mono',monospace;font-size:10pt;
-  font-weight:700;color:#0f0f0f;letter-spacing:-0.01em;
-  white-space:nowrap;
-}
-.cvar{
-  font-size:7pt;font-weight:600;color:#ea580c;
-  print-color-adjust:exact;-webkit-print-color-adjust:exact;
-}
-
-/* Cost rows — label wraps, amount fixed right */
+.ct .accent{background:#2563eb;}.cl .accent{background:#7c3aed;}.cb .accent{background:#e11d48;}.cx .accent{background:#ea580c;}
+.chead{display:flex;justify-content:space-between;align-items:baseline;padding:5pt 10pt 4pt;border-bottom:0.75pt solid #ebebeb;}
+.clbl{font-family:'IBM Plex Mono',monospace;font-size:5.5pt;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#444;}
+.ctot{font-family:'IBM Plex Mono',monospace;font-size:10pt;font-weight:700;color:#0f0f0f;letter-spacing:-0.01em;white-space:nowrap;}
+.cvar{font-size:7pt;font-weight:600;color:#ea580c;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
 table.ctable{width:100%;border-collapse:collapse;table-layout:fixed;}
-.ctl{
-  font-size:6.5pt;color:#555;
-  padding:3pt 6pt 3pt 10pt;
-  border-bottom:0.5pt solid #f5f5f5;
-  line-height:1.4;
-  width:62%;
-  word-wrap:break-word;
-}
-.ctr{
-  font-family:'IBM Plex Mono',monospace;font-size:6.5pt;
-  font-weight:600;color:#1a1a1a;
-  text-align:right;
-  padding:3pt 10pt 3pt 4pt;
-  border-bottom:0.5pt solid #f5f5f5;
-  white-space:nowrap;
-  width:38%;
-  vertical-align:top;
-}
+.ctl{font-size:6.5pt;color:#555;padding:3pt 6pt 3pt 10pt;border-bottom:0.5pt solid #f5f5f5;line-height:1.4;width:62%;word-wrap:break-word;}
+.ctr{font-family:'IBM Plex Mono',monospace;font-size:6.5pt;font-weight:600;color:#1a1a1a;text-align:right;padding:3pt 10pt 3pt 4pt;border-bottom:0.5pt solid #f5f5f5;white-space:nowrap;width:38%;vertical-align:top;}
 tr:last-child .ctl,tr:last-child .ctr{border-bottom:none;}
-
 .brand-body{padding:7pt 10pt 8pt;}
 .brand-title{font-size:7.5pt;font-weight:600;color:#1a1a1a;margin-bottom:3pt;}
 .brand-text{font-size:6pt;color:#777;line-height:1.65;font-style:italic;}
+.tbar{display:flex;justify-content:space-between;align-items:center;margin-top:7pt;padding:7pt 12pt;background:#0f0f0f;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
+.tlbl{font-family:'IBM Plex Mono',monospace;font-size:6pt;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:#fff;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
+.tval{font-family:'IBM Plex Mono',monospace;font-size:14pt;font-weight:700;color:#fff;letter-spacing:-0.02em;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
 
-/* ── TOTAL BAR ───────────────────────── */
-.tbar{
-  display:flex;justify-content:space-between;align-items:center;
-  margin-top:7pt;padding:7pt 12pt;
-  background:#0f0f0f;
+/* ══════════════════════════════════════
+   PAGE 3 — REFERENCE GUIDE
+══════════════════════════════════════ */
+.ref-intro{font-size:7pt;color:#555;line-height:1.75;margin-bottom:10pt;}
+.ref-section{margin-bottom:10pt;}
+.ref-section-title{
+  font-family:'IBM Plex Mono',monospace;font-size:6pt;font-weight:700;
+  letter-spacing:0.1em;text-transform:uppercase;color:#fff;
+  padding:4pt 9pt;margin-bottom:0;
   print-color-adjust:exact;-webkit-print-color-adjust:exact;
 }
-.tlbl{
-  font-family:'IBM Plex Mono',monospace;font-size:6pt;
-  font-weight:600;letter-spacing:0.14em;text-transform:uppercase;
-  color:#fff;
-  print-color-adjust:exact;-webkit-print-color-adjust:exact;
-}
-.tval{
-  font-family:'IBM Plex Mono',monospace;font-size:14pt;
-  font-weight:700;color:#fff;letter-spacing:-0.02em;
-  print-color-adjust:exact;-webkit-print-color-adjust:exact;
-}
+.ref-tech-head{background:#2563eb;}
+.ref-legal-head{background:#7c3aed;}
+.ref-biz-head{background:#e11d48;}
+.ref-brand-head{background:#ea580c;}
+.ref-reg-head{background:#0f0f0f;}
 
-/* ── FOOTER ──────────────────────────── */
-.footer{
-  display:flex;gap:6pt;align-items:flex-start;
-  margin-top:7pt;border-top:0.75pt solid #e0e0e0;padding-top:5pt;
+.ref-table{width:100%;border-collapse:collapse;border:1pt solid #e0e0e0;margin-bottom:0;}
+.ref-th{
+  font-family:'IBM Plex Mono',monospace;font-size:4.5pt;letter-spacing:0.12em;
+  text-transform:uppercase;color:#999;background:#fafafa;
+  padding:4pt 9pt;border-bottom:1pt solid #e0e0e0;border-right:1pt solid #e0e0e0;
+  print-color-adjust:exact;-webkit-print-color-adjust:exact;
 }
-.ficon{font-size:8pt;color:#ccc;flex-shrink:0;margin-top:1pt;}
-.dtext{font-size:5pt;color:#aaa;line-height:1.65;margin-bottom:4pt;}
-.dsources{display:flex;flex-wrap:wrap;gap:2.5pt;}
-.chip{
-  font-family:'IBM Plex Mono',monospace;font-size:4.5pt;
-  border:0.5pt solid #ddd;padding:1.5pt 4pt;color:#bbb;
+.ref-th:last-child{border-right:none;}
+.ref-td{font-size:6.5pt;color:#333;padding:4.5pt 9pt;border-bottom:0.5pt solid #f0f0f0;border-right:1pt solid #eee;vertical-align:top;line-height:1.6;}
+.ref-td:last-child{border-right:none;}
+.ref-td strong{color:#0f0f0f;}
+tr:last-child .ref-td{border-bottom:none;}
+.ref-note{font-size:5.5pt;color:#aaa;font-style:italic;margin-top:2pt;}
+
+.ref-rates-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  border:1pt solid #e0e0e0;margin-top:0;
 }
-.repo{
-  margin-top:5pt;
-  font-family:'IBM Plex Mono',monospace;font-size:5pt;
-  color:#ccc;text-align:center;letter-spacing:0.08em;
-}
+.rate-cell{padding:6pt 9pt;border-right:1pt solid #e0e0e0;border-bottom:1pt solid #e0e0e0;}
+.ref-rates-grid .rate-cell:nth-child(3n){border-right:none;}
+.ref-rates-grid .rate-cell:nth-last-child(-n+3){border-bottom:none;}
+.rate-lbl{font-family:'IBM Plex Mono',monospace;font-size:4pt;letter-spacing:0.12em;text-transform:uppercase;color:#bbb;margin-bottom:2pt;}
+.rate-val{font-family:'IBM Plex Mono',monospace;font-size:9pt;font-weight:700;color:#1a1a1a;}
+.rate-desc{font-size:5.5pt;color:#888;margin-top:2pt;line-height:1.5;}
 </style>
 </head>
 <body>
 
-<div class="topbar"></div>
+<!-- ══════════════════════════════════
+     PAGE 1 — COVER / EXECUTIVE SUMMARY
+══════════════════════════════════════ -->
+<div class="page">
+  <div class="topbar"></div>
 
-<!-- HEADER -->
-<div class="header">
-  <div class="header-left">
-    <div class="eyebrow">${t.eyebrow}</div>
-    <div class="title">
+  <!-- Cover hero -->
+  <div class="cover-hero">
+    <div class="cover-kicker">${lang==='fr'?'OUTIL D\'ÉVALUATION DES RISQUES CYBER · CADRE RÉGLEMENTAIRE CANADIEN':'CYBER RISK ASSESSMENT TOOL · CANADIAN REGULATORY FRAMEWORK'}</div>
+    <div class="cover-title">
       ${lang==='fr'
-        ? `Simulateur de Co&ucirc;ts <span class="title-light">de Cyber Incident</span>`
-        : `Cyber Incident <span class="title-light">Cost Simulator</span>`}
+        ? `Simulateur de Co&ucirc;ts <span class="cover-title-light">de Cyber Incident</span>`
+        : `Cyber Incident <span class="cover-title-light">Cost Simulator</span>`}
     </div>
-    <div class="subtitle-txt">${subtitleTxt}</div>
-  </div>
-  <div class="header-meta">
-    <div class="meta-row"><span class="meta-lbl">${t.printGeneratedOn}</span><span class="meta-val">${date}</span></div>
-    <div class="meta-row"><span class="meta-lbl">${lang==='fr'?'Classification':'Classification'}</span><span class="meta-val meta-red">${t.printConfidential}</span></div>
-    <div class="meta-row"><span class="meta-lbl">${t.regimeLabelPrefix}</span><span class="meta-val meta-blue">${regimeLabel}</span></div>
-    ${hasPHI?`<div class="meta-row"><span class="meta-lbl">PHI</span><span class="meta-val meta-purple">${t.phiTagLabel}</span></div>`:''}
-  </div>
-</div>
-
-<div class="rule"></div>
-
-<!-- PARAMS -->
-<div class="slabel">${t.printParamsTitle}</div>
-<div class="params">
-  <div class="p"><div class="pl">${t.lblScenario}</div><div class="pv">${incidentLabel}</div></div>
-  <div class="p"><div class="pl">${t.lblIndustry}</div><div class="pv">${lookupOpt('industryType',t.options.industries)}</div></div>
-  <div class="p"><div class="pl">${t.lblRecords}</div><div class="pv">${lookupOpt('recordCount',t.options.records)}</div></div>
-  <div class="p"><div class="pl">${t.lblRevenue}</div><div class="pv">${lookupOpt('revenueBracket',t.options.revenue)}</div></div>
-  <div class="p"><div class="pl">${t.lblRootCause}</div><div class="pv">${lookupOpt('rootCause',t.options.causes)}</div></div>
-  <div class="p"><div class="pl">${t.lblProvince}</div><div class="pv">${provinceLabel}</div></div>
-  ${hasIns?`
-  <div class="p"><div class="pl">${t.lblInsLimit}</div><div class="pv">${insLimitVal}</div></div>
-  <div class="p"><div class="pl">${t.lblInsDeductible}</div><div class="pv">${insDedVal}</div></div>
-  <div class="p"></div>`:''}
-</div>
-
-<!-- EXPOSURE STRIP -->
-<div class="exp-strip">
-  <div class="exp-main">
-    <div class="exp-eyebrow">${totalLabel}</div>
-    <div class="exp-num">${fmtN(d.netTotal)}</div>
-    <div class="exp-details">${[
-      hasIns&&d.grossTotal!==d.netTotal ? `${grossLabel}: ${fmtN(d.grossTotal)}` : '',
-      hasIns&&d.insuranceCovered>0      ? `${t.printInsNote}: ${fmtN(d.insuranceCovered)}` : ''
-    ].filter(Boolean).join('&nbsp;&nbsp;·&nbsp;&nbsp;')}</div>
-    <div class="exp-tags">
-      ${hasPHI?`<span class="tag tphi">${t.phiTagLabel}</span>`:''}
-      ${hasIns?`<span class="tag tins">${lang==='fr'?'Assuré':'Insured'}</span>`:''}
+    <div class="cover-sub">
+      ${lang==='fr'
+        ? `Ce rapport est généré automatiquement à partir des paramètres saisis dans le simulateur. Il présente une modélisation financière des coûts associés à un incident cyber, calibrée selon les cadres réglementaires provinciaux canadiens et les données de recherche publiées.`
+        : `This report is auto-generated from parameters entered in the simulator. It presents a financial cost model for a cyber incident, calibrated against Canadian provincial regulatory frameworks and published breach cost research.`}
     </div>
-  </div>
-  <div class="exp-lifecycle">
-    <div class="blk-lbl">${t.lblLifecycle}</div>
-    <div class="blk-val">${duration}</div>
-  </div>
-  <div class="exp-costsplit">
-    <div class="blk-lbl">${costSplitLabel}</div>
-    <div class="sr"><span class="dot dt"></span><span class="sn">${t.legendTech}</span><span class="sp">${pct(d.tech.total,d.grossTotal)}</span></div>
-    <div class="sr"><span class="dot dl"></span><span class="sn">${t.legendLegal}</span><span class="sp">${pct(d.legal.total,d.grossTotal)}</span></div>
-    <div class="sr"><span class="dot db"></span><span class="sn">${t.legendBiz}</span><span class="sp">${pct(d.biz.total,d.grossTotal)}</span></div>
-  </div>
-</div>
-
-<!-- COST BREAKDOWN -->
-<div class="slabel" style="margin-top:9pt;">${costBreakdownLabel}</div>
-<div class="cgrid">
-
-  <div class="card ct">
-    <div class="accent"></div>
-    <div class="chead"><span class="clbl">${t.techHeader}</span><span class="ctot">${fmtN(d.tech.total)}</span></div>
-    <table class="ctable">
-      ${rowA(t.techIR,        d.tech.costIR)}
-      ${rowA(t.techForensics, d.tech.costForensics)}
-      ${rowA(t.techIT,        d.tech.costIT)}
-    </table>
-  </div>
-
-  <div class="card cl">
-    <div class="accent"></div>
-    <div class="chead"><span class="clbl">${t.legalHeader}</span><span class="ctot">${fmtN(d.legal.total)}</span></div>
-    <table class="ctable">
-      ${rowA(t.legalCounsel,  d.legal.costCounsel)}
-      ${row(t.legalFines,     d.legal.fineExposure)}
-      ${row(t.legalSettlement,d.legal.settlementRisk)}
-      ${rowA(t.legalNotify,   d.legal.costNotify)}
-      ${rowA(d.hasPHI?t.legalPHICredit:t.legalCredit, d.legal.costCredit)}
-    </table>
-  </div>
-
-  <div class="card cb">
-    <div class="accent"></div>
-    <div class="chead"><span class="clbl">${t.bizHeader}</span><span class="ctot">${fmtN(d.biz.total)}</span></div>
-    <table class="ctable">
-      ${rowA(t.bizOps,         d.biz.costOps)}
-      ${rowA(t.bizRemediation, d.biz.costRemediation)}
-      ${row(t.bizExtortion,    d.biz.ransom)}
-    </table>
-  </div>
-
-  <div class="card cx">
-    <div class="accent"></div>
-    <div class="chead"><span class="clbl">${t.brandHeader}</span><span class="ctot cvar">Variable X</span></div>
-    <div class="brand-body">
-      <div class="brand-title">${t.unquantifiable}</div>
-      <div class="brand-text">${t.churnText}</div>
+    <div class="cover-meta-row">
+      <div class="cover-meta-item">
+        <span class="cmi-lbl">${t.printGeneratedOn}</span>
+        <span class="cmi-val">${date}</span>
+      </div>
+      <div class="cover-meta-item">
+        <span class="cmi-lbl">${lang==='fr'?'Scénario':'Scenario'}</span>
+        <span class="cmi-val cmi-accent">${incidentLabel}</span>
+      </div>
+      <div class="cover-meta-item">
+        <span class="cmi-lbl">${t.regimeLabelPrefix}</span>
+        <span class="cmi-val cmi-accent">${regimeLabel}</span>
+      </div>
+      <div class="cover-meta-item">
+        <span class="cmi-lbl">${lang==='fr'?'Exposition nette':'Net Exposure'}</span>
+        <span class="cmi-val cmi-accent">${fmtN(d.netTotal)}</span>
+      </div>
     </div>
   </div>
 
-</div>
-
-<!-- TOTAL -->
-<div class="tbar">
-  <span class="tlbl">${totalLabel}</span>
-  <span class="tval">${fmtN(d.netTotal)}</span>
-</div>
-
-<!-- FOOTER -->
-<div class="footer">
-  <span class="ficon">&#9432;</span>
-  <div style="flex:1;">
-    <div class="dtext">${t.disclaimer}</div>
-    <div class="dsources">${t.sources.map(s=>`<span class="chip">${s}</span>`).join('')}</div>
+  <!-- Executive summary cards -->
+  <span class="slabel" style="margin-top:10pt;display:block;">
+    ${lang==='fr'?'RÉSUMÉ EXÉCUTIF':'EXECUTIVE SUMMARY'}
+  </span>
+  <div class="exec-grid">
+    <div class="exec-card">
+      <div class="exec-card-title"><span class="ec-icon">&#127919;</span>${lang==='fr'?'Objectif du simulateur':'Purpose of This Simulator'}</div>
+      <p>${lang==='fr'
+        ? `Ce simulateur est conçu pour aider les équipes de direction, les responsables de la sécurité (RSSI) et les conseillers en gestion des risques à quantifier l'exposition financière réelle d'un incident cybernétique dans le contexte canadien.`
+        : `This simulator is designed to help executive teams, Chief Information Security Officers (CISOs), and risk management advisors quantify the realistic financial exposure of a cyber incident within the Canadian context.`}
+      </p>
+      <p>${lang==='fr'
+        ? `Il traduit des variables d'incident complexes — type de scénario, secteur, volume de données, cadre réglementaire applicable — en estimations de coûts structurées, fondées sur des précédents juridiques canadiens et des données sectorielles publiées.`
+        : `It translates complex incident variables — scenario type, industry, data volume, applicable regulatory framework — into structured cost estimates grounded in Canadian legal precedents and published industry data.`}
+      </p>
+    </div>
+    <div class="exec-card">
+      <div class="exec-card-title"><span class="ec-icon">&#128202;</span>${lang==='fr'?'Méthodologie':'Methodology'}</div>
+      <p>${lang==='fr'
+        ? `Les estimations combinent des taux horaires de marché pour les services de réponse aux incidents, des multiplicateurs d'industrie tirés des rapports IBM Cost of a Data Breach et CCCS, ainsi que des précédents de règlements judiciaires canadiens (Desjardins 2023, LifeLabs 2024).`
+        : `Estimates combine market hourly rates for incident response services, industry multipliers drawn from IBM Cost of a Data Breach and CCCS reports, and Canadian judicial settlement precedents (Desjardins 2023, LifeLabs 2024).`}
+      </p>
+      <p>${lang==='fr'
+        ? `Les chiffres réglementaires reflètent les pénalités maximales prévues par la Loi 25, LPRPDE, PIPA et les lignes directrices BSIF B-13. Des pondérations probabilistes sont appliquées aux amendes et aux réserves de recours collectifs.`
+        : `Regulatory figures reflect maximum penalties under Loi 25, PIPEDA, PIPA, and OSFI B-13 guidelines. Probabilistic weightings are applied to fines and class-action reserves.`}
+      </p>
+    </div>
+    <div class="exec-card">
+      <div class="exec-card-title"><span class="ec-icon">&#9989;</span>${lang==='fr'?'Cas d\'usage recommandés':'Recommended Use Cases'}</div>
+      <p>${lang==='fr'?'Ce rapport est destiné à :':'This report is intended for:'}</p>
+      <ul class="intent-list" style="list-style:none;padding:0;">
+        <li>${lang==='fr'?'Présenter le risque cyber au conseil d\'administration ou au comité d\'audit':'Board or audit committee cyber risk presentations'}</li>
+        <li>${lang==='fr'?'Justifier des investissements en sécurité ou en assurance cyber':'Justifying cybersecurity investment or cyber insurance procurement'}</li>
+        <li>${lang==='fr'?'Simuler des scénarios pour des exercices de tabletop':'Tabletop exercise scenario planning'}</li>
+        <li>${lang==='fr'?'Calibrer les limites d\'assurance cyber par rapport à l\'exposition réelle':'Calibrating cyber insurance coverage limits against real exposure'}</li>
+        <li>${lang==='fr'?'Sensibiliser les équipes dirigeantes aux enjeux financiers':'Executive awareness on the financial gravity of cyber incidents'}</li>
+      </ul>
+    </div>
+    <div class="exec-card">
+      <div class="exec-card-title"><span class="ec-icon">&#128269;</span>${lang==='fr'?'Résumé de cette simulation':'This Simulation at a Glance'}</div>
+      <p>${lang==='fr'?'Paramètres analysés :':'Parameters analysed:'} <strong>${incidentLabel}</strong> · <strong>${lookupOpt('industryType',t.options.industries)}</strong> · <strong>${provinceLabel}</strong></p>
+      <p>${lang==='fr'?'Volume de données :':'Data volume:'} <strong>${lookupOpt('recordCount',t.options.records)}</strong> &nbsp;|&nbsp; ${lang==='fr'?'Revenus :':'Revenue:'} <strong>${lookupOpt('revenueBracket',t.options.revenue)}</strong></p>
+      <p>${lang==='fr'?'Exposition brute estimée :':'Estimated gross exposure:'} <strong>${fmtN(d.grossTotal)}</strong></p>
+      ${hasIns?`<p>${lang==='fr'?'Après assurance :':'After insurance:'} <strong>${fmtN(d.netTotal)}</strong> &nbsp;(${lang==='fr'?'couvert':'covered'}: ${fmtN(d.insuranceCovered)})</p>`:''}
+      <p>${lang==='fr'?'Catégorie dominante :':'Dominant cost category:'} <strong>${
+        d.tech.total >= d.legal.total && d.tech.total >= d.biz.total ? t.legendTech :
+        d.legal.total >= d.biz.total ? t.legendLegal : t.legendBiz
+      }</strong> (${pct(
+        Math.max(d.tech.total, d.legal.total, d.biz.total), d.grossTotal
+      )})</p>
+    </div>
   </div>
+
+  <!-- Intent / not-intended-for box -->
+  <div class="intent-box">
+    <div class="intent-label">${lang==='fr'?'PÉRIMÈTRE ET INTENTION':'SCOPE & INTENT'}</div>
+    <p style="font-size:6.5pt;color:#333;line-height:1.75;">
+      ${lang==='fr'
+        ? `Ce simulateur produit des <strong>estimations illustratives</strong> à des fins de sensibilisation et de planification stratégique. Les résultats ne constituent pas une évaluation actuarielle certifiée, un devis d'assurance, ni un avis juridique. Les coûts réels varient significativement selon la nature précise de l'incident, la maturité du programme de sécurité de l'organisation, la qualité de la réponse et les décisions judiciaires applicables.`
+        : `This simulator produces <strong>illustrative estimates</strong> for awareness and strategic planning purposes. Results do not constitute a certified actuarial assessment, insurance quote, or legal opinion. Actual costs vary significantly depending on the precise nature of the incident, the organization's security program maturity, quality of response, and applicable judicial decisions.`}
+    </p>
+  </div>
+
+  <!-- Disclaimer box -->
+  <div class="disclaimer-box">
+    <div class="slabel">${lang==='fr'?'AVERTISSEMENT LÉGAL':'LEGAL DISCLAIMER'}</div>
+    <p>${t.disclaimer}</p>
+  </div>
+
+  <div class="rule" style="margin-top:8pt;"></div>
+  <div class="repo">${repoUrl}</div>
 </div>
-<div class="repo">${repoUrl}</div>
+
+
+<!-- ══════════════════════════════════
+     PAGE 2 — SIMULATION REPORT
+══════════════════════════════════════ -->
+<div class="page">
+  <div class="topbar"></div>
+
+  <div class="page-header">
+    <div class="ph-left">
+      <div class="eyebrow">${t.eyebrow}</div>
+      <div class="pg-title">
+        ${lang==='fr'
+          ? `Simulateur de Co&ucirc;ts <span class="title-light">de Cyber Incident</span>`
+          : `Cyber Incident <span class="title-light">Cost Simulator</span>`}
+      </div>
+      <div class="pg-subtitle">${subtitleTxt}</div>
+    </div>
+    <div class="header-meta">
+      <div class="meta-row"><span class="mlbl">${t.printGeneratedOn}</span><span class="mval">${date}</span></div>
+      <div class="meta-row"><span class="mlbl">${lang==='fr'?'Classification':'Classification'}</span><span class="mval mred">${t.printConfidential}</span></div>
+      <div class="meta-row"><span class="mlbl">${t.regimeLabelPrefix}</span><span class="mval mblue">${regimeLabel}</span></div>
+      ${hasPHI?`<div class="meta-row"><span class="mlbl">PHI</span><span class="mval mpurple">${t.phiTagLabel}</span></div>`:''}
+    </div>
+  </div>
+
+  <div class="rule" style="margin-top:0;"></div>
+
+  <span class="slabel">${t.printParamsTitle}</span>
+  <div class="params">
+    <div class="p"><div class="pl">${t.lblScenario}</div><div class="pv">${incidentLabel}</div></div>
+    <div class="p"><div class="pl">${t.lblIndustry}</div><div class="pv">${lookupOpt('industryType',t.options.industries)}</div></div>
+    <div class="p"><div class="pl">${t.lblRecords}</div><div class="pv">${lookupOpt('recordCount',t.options.records)}</div></div>
+    <div class="p"><div class="pl">${t.lblRevenue}</div><div class="pv">${lookupOpt('revenueBracket',t.options.revenue)}</div></div>
+    <div class="p"><div class="pl">${t.lblRootCause}</div><div class="pv">${lookupOpt('rootCause',t.options.causes)}</div></div>
+    <div class="p"><div class="pl">${t.lblProvince}</div><div class="pv">${provinceLabel}</div></div>
+    ${hasIns?`
+    <div class="p"><div class="pl">${t.lblInsLimit}</div><div class="pv">${insLimitVal}</div></div>
+    <div class="p"><div class="pl">${t.lblInsDeductible}</div><div class="pv">${insDedVal}</div></div>
+    <div class="p"></div>`:''}
+  </div>
+
+  <div class="exp-strip">
+    <div class="exp-main">
+      <div class="exp-eyebrow">${totalLabel}</div>
+      <div class="exp-num">${fmtN(d.netTotal)}</div>
+      <div class="exp-details">${[
+        hasIns&&d.grossTotal!==d.netTotal?`${grossLabel}: ${fmtN(d.grossTotal)}`:'',
+        hasIns&&d.insuranceCovered>0?`${t.printInsNote}: ${fmtN(d.insuranceCovered)}`:''
+      ].filter(Boolean).join('&nbsp;&nbsp;·&nbsp;&nbsp;')}</div>
+      <div class="exp-tags">
+        ${hasPHI?`<span class="tag tphi">${t.phiTagLabel}</span>`:''}
+        ${hasIns?`<span class="tag tins">${lang==='fr'?'Assuré':'Insured'}</span>`:''}
+      </div>
+    </div>
+    <div class="exp-lifecycle">
+      <div class="blk-lbl">${t.lblLifecycle}</div>
+      <div class="blk-val">${duration}</div>
+    </div>
+    <div class="exp-costsplit">
+      <div class="blk-lbl">${costSplitLabel}</div>
+      <div class="sr"><span class="dot dt"></span><span class="sn">${t.legendTech}</span><span class="sp">${pct(d.tech.total,d.grossTotal)}</span></div>
+      <div class="sr"><span class="dot dl"></span><span class="sn">${t.legendLegal}</span><span class="sp">${pct(d.legal.total,d.grossTotal)}</span></div>
+      <div class="sr"><span class="dot db"></span><span class="sn">${t.legendBiz}</span><span class="sp">${pct(d.biz.total,d.grossTotal)}</span></div>
+    </div>
+  </div>
+
+  <span class="slabel" style="margin-top:9pt;display:block;">${costBreakdownLabel}</span>
+  <div class="cgrid">
+    <div class="card ct">
+      <div class="accent"></div>
+      <div class="chead"><span class="clbl">${t.techHeader}</span><span class="ctot">${fmtN(d.tech.total)}</span></div>
+      <table class="ctable">
+        ${rowA(t.techIR,        d.tech.costIR)}
+        ${rowA(t.techForensics, d.tech.costForensics)}
+        ${rowA(t.techIT,        d.tech.costIT)}
+      </table>
+    </div>
+    <div class="card cl">
+      <div class="accent"></div>
+      <div class="chead"><span class="clbl">${t.legalHeader}</span><span class="ctot">${fmtN(d.legal.total)}</span></div>
+      <table class="ctable">
+        ${rowA(t.legalCounsel,  d.legal.costCounsel)}
+        ${row(t.legalFines,     d.legal.fineExposure)}
+        ${row(t.legalSettlement,d.legal.settlementRisk)}
+        ${rowA(t.legalNotify,   d.legal.costNotify)}
+        ${rowA(d.hasPHI?t.legalPHICredit:t.legalCredit, d.legal.costCredit)}
+      </table>
+    </div>
+    <div class="card cb">
+      <div class="accent"></div>
+      <div class="chead"><span class="clbl">${t.bizHeader}</span><span class="ctot">${fmtN(d.biz.total)}</span></div>
+      <table class="ctable">
+        ${rowA(t.bizOps,         d.biz.costOps)}
+        ${rowA(t.bizRemediation, d.biz.costRemediation)}
+        ${row(t.bizExtortion,    d.biz.ransom)}
+      </table>
+    </div>
+    <div class="card cx">
+      <div class="accent"></div>
+      <div class="chead"><span class="clbl">${t.brandHeader}</span><span class="ctot cvar">Variable X</span></div>
+      <div class="brand-body">
+        <div class="brand-title">${t.unquantifiable}</div>
+        <div class="brand-text">${t.churnText}</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tbar">
+    <span class="tlbl">${totalLabel}</span>
+    <span class="tval">${fmtN(d.netTotal)}</span>
+  </div>
+
+  <div class="footer">
+    <span class="ficon">&#9432;</span>
+    <div style="flex:1;">
+      <div class="dtext">${t.disclaimer}</div>
+      <div class="dsources">${t.sources.map(s=>`<span class="chip">${s}</span>`).join('')}</div>
+    </div>
+  </div>
+  <div class="repo">${repoUrl}</div>
+</div>
+
+
+<!-- ══════════════════════════════════
+     PAGE 3 — REFERENCE GUIDE
+══════════════════════════════════════ -->
+<div class="page">
+  <div class="topbar"></div>
+
+  <div class="page-header">
+    <div class="ph-left">
+      <div class="eyebrow">${t.eyebrow}</div>
+      <div class="pg-title">
+        ${lang==='fr'
+          ? `Guide de <span class="title-light">Référence</span>`
+          : `Cost Model <span class="title-light">Reference Guide</span>`}
+      </div>
+      <div class="pg-subtitle">
+        ${lang==='fr'
+          ? 'Définitions exhaustives des composantes de coûts, hypothèses de calcul et sources de données.'
+          : 'Exhaustive definitions of cost components, calculation assumptions, and data sources.'}
+      </div>
+    </div>
+    <div class="header-meta">
+      <div class="meta-row"><span class="mlbl">${lang==='fr'?'Document':'Document'}</span><span class="mval">${lang==='fr'?'Annexe — Guide de référence':'Appendix — Reference Guide'}</span></div>
+      <div class="meta-row"><span class="mlbl">${t.printGeneratedOn}</span><span class="mval">${date}</span></div>
+      <div class="meta-row"><span class="mlbl">${lang==='fr'?'Version':'Version'}</span><span class="mval mblue">CA-2026</span></div>
+    </div>
+  </div>
+
+  <div class="rule" style="margin-top:0;"></div>
+
+  <p class="ref-intro">
+    ${lang==='fr'
+      ? `Ce guide explique en détail comment chaque composante de coût est calculée dans le simulateur. Les taux et les multiplicateurs sont calibrés à partir de données de marché canadiennes 2024–2026, de rapports publiés par IBM, le CCCS et l'OPC, ainsi que des précédents judiciaires récents.`
+      : `This guide explains in detail how each cost component is calculated within the simulator. Rates and multipliers are calibrated from Canadian market data 2024–2026, published reports by IBM, CCCS, and the OPC, as well as recent judicial precedents.`}
+  </p>
+
+  <!-- RATE CARD -->
+  <span class="slabel">${lang==='fr'?'TARIFS DE RÉFÉRENCE (CAD 2026)':'REFERENCE RATE CARD (CAD 2026)'}</span>
+  <div class="ref-rates-grid">
+    <div class="rate-cell">
+      <div class="rate-lbl">${lang==='fr'?'Réponse aux incidents':'Incident Response'}</div>
+      <div class="rate-val">$325/hr</div>
+      <div class="rate-desc">${lang==='fr'?'Taux mixte analyste DFIR sénior/junior':'Blended senior/junior DFIR analyst rate'}</div>
+    </div>
+    <div class="rate-cell">
+      <div class="rate-lbl">${lang==='fr'?'Investigation numérique':'Digital Forensics'}</div>
+      <div class="rate-val">$380/hr</div>
+      <div class="rate-desc">${lang==='fr'?'Spécialiste en forensique numérique':'Specialized digital forensics consultant'}</div>
+    </div>
+    <div class="rate-cell">
+      <div class="rate-lbl">${lang==='fr'?'Conseiller juridique':'Legal Counsel'}</div>
+      <div class="rate-val">$600/hr</div>
+      <div class="rate-desc">${lang==='fr'?'Avocat spécialisé en brèche / coach':'Breach coach / specialized breach counsel'}</div>
+    </div>
+    <div class="rate-cell">
+      <div class="rate-lbl">${lang==='fr'?'TI – Restauration':'IT Restoration'}</div>
+      <div class="rate-val">$175/hr</div>
+      <div class="rate-desc">${lang==='fr'?'Support restauration et durcissement':'Restoration & hardening support'}</div>
+    </div>
+    <div class="rate-cell">
+      <div class="rate-lbl">${lang==='fr'?'Notification (par personne)':'Notification (per person)'}</div>
+      <div class="rate-val">$12/head</div>
+      <div class="rate-desc">${lang==='fr'?'Logistique mixte courriel/courrier':'Blended mail/email logistics'}</div>
+    </div>
+    <div class="rate-cell">
+      <div class="rate-lbl">${lang==='fr'?'Surveillance crédit / RPS':'Credit / PHI Monitoring'}</div>
+      <div class="rate-val">$35–$65</div>
+      <div class="rate-desc">${lang==='fr'?'Standard $35 · RPS/PHI renforcé $65':'Standard $35 · PHI enhanced ID $65'}</div>
+    </div>
+  </div>
+
+  <!-- TECHNICAL -->
+  <div class="ref-section" style="margin-top:9pt;">
+    <div class="ref-section-title ref-tech-head">${lang==='fr'?'RÉPONSE TECHNIQUE':'TECHNICAL RESPONSE'}</div>
+    <table class="ref-table">
+      <tr>
+        <th class="ref-th" style="width:24%;">${lang==='fr'?'Composante':'Component'}</th>
+        <th class="ref-th" style="width:38%;">${lang==='fr'?'Description':'Description'}</th>
+        <th class="ref-th" style="width:38%;">${lang==='fr'?'Méthode de calcul':'Calculation Method'}</th>
+      </tr>
+      <tr>
+        <td class="ref-td"><strong>${lang==='fr'?'Réponse aux incidents':'Incident Response'}</strong></td>
+        <td class="ref-td">${lang==='fr'?'Coordination initiale, triage, confinement et éradication de la menace par des analystes DFIR.':'Initial coordination, triage, containment and threat eradication by DFIR analysts.'}</td>
+        <td class="ref-td">${lang==='fr'?'Heures IR = taille org. × multiplicateur scénario × facteur secteur. Taux : $325/hr.':'IR hours = org. size × scenario multiplier × industry factor. Rate: $325/hr.'}</td>
+      </tr>
+      <tr>
+        <td class="ref-td"><strong>${lang==='fr'?'Investigation numérique':'Digital Forensics'}</strong></td>
+        <td class="ref-td">${lang==='fr'?'Analyse approfondie des journaux, artefacts et vecteurs d\'intrusion. Nécessaire pour les déclarations réglementaires.':'Deep log, artifact, and intrusion vector analysis. Required for regulatory disclosures.'}</td>
+        <td class="ref-td">${lang==='fr'?'Heures forensiques = 45% des heures IR. Taux spécialisé : $380/hr.':'Forensic hours = 45% of IR hours. Specialist rate: $380/hr.'}</td>
+      </tr>
+      <tr>
+        <td class="ref-td"><strong>${lang==='fr'?'Restauration TI & Durcissement':'IT Restoration & Hardening'}</strong></td>
+        <td class="ref-td">${lang==='fr'?'Reconstruction des systèmes, correctifs de sécurité, déploiement MFA, durcissement post-incident.':'Systems rebuild, security patching, MFA deployment, post-incident hardening.'}</td>
+        <td class="ref-td">${lang==='fr'?'Heures TI = 200% des heures IR (ratio reconstruction élevé). Taux : $175/hr.':'IT hours = 200% of IR hours (high rebuild ratio). Rate: $175/hr.'}</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- LEGAL -->
+  <div class="ref-section">
+    <div class="ref-section-title ref-legal-head">${lang==='fr'?'JURIDIQUE, RÉGLEMENTAIRE & LITIGES':'LEGAL, REGULATORY & SETTLEMENTS'}</div>
+    <table class="ref-table">
+      <tr>
+        <th class="ref-th" style="width:24%;">${lang==='fr'?'Composante':'Component'}</th>
+        <th class="ref-th" style="width:38%;">${lang==='fr'?'Description':'Description'}</th>
+        <th class="ref-th" style="width:38%;">${lang==='fr'?'Méthode de calcul':'Calculation Method'}</th>
+      </tr>
+      <tr>
+        <td class="ref-td"><strong>${lang==='fr'?'Avocats & Commissaires':'Counsel & Commissioners'}</strong></td>
+        <td class="ref-td">${lang==='fr'?'Honoraires juridiques pour la gestion de la brèche, préparation des déclarations réglementaires (OPC, CAI, BSIF).':'Legal fees for breach management and regulatory filing preparation (OPC, CAI, OSFI).'}</td>
+        <td class="ref-td">${lang==='fr'?'Heures juridiques = 30% des heures IR. Taux avocat : $600/hr.':'Legal hours = 30% of IR hours. Counsel rate: $600/hr.'}</td>
+      </tr>
+      <tr>
+        <td class="ref-td"><strong>${lang==='fr'?'Amendes réglementaires':'Regulatory Fines'}</strong></td>
+        <td class="ref-td">${lang==='fr'?'Amendes probabilistes basées sur le régime applicable. Loi 25 : jusqu\'à 25 M$ ou 4% du CA. LPRPDE : jusqu\'à 100 k$.':'Probabilistic fines based on applicable regime. Loi 25: up to $25M or 4% revenue. PIPEDA: up to $100k.'}</td>
+        <td class="ref-td">${lang==='fr'?'Fine = max_fine × probabilité (15–45% selon régime et sévérité).':'Fine = max_fine × probability (15–45% based on regime and severity).'}</td>
+      </tr>
+      <tr>
+        <td class="ref-td"><strong>${lang==='fr'?'Réserve recours collectif':'Class Action Reserve'}</strong></td>
+        <td class="ref-td">${lang==='fr'?'Provision pour règlement de recours collectif. Calibrée sur Desjardins (2023) et LifeLabs (2024).':'Settlement reserve for class action litigation. Calibrated on Desjardins (2023) and LifeLabs (2024).'}</td>
+        <td class="ref-td">${lang==='fr'?'$15/dossier (base) + $30 si RPS + $10 si Finance. Appliqué sur volume de dossiers impactés.':'$15/record (base) + $30 if PHI + $10 if Finance. Applied to impacted record volume.'}</td>
+      </tr>
+      <tr>
+        <td class="ref-td"><strong>${lang==='fr'?'Logistique de notification':'Notification Logistics'}</strong></td>
+        <td class="ref-td">${lang==='fr'?'Coût d\'envoi des avis de brèche aux personnes touchées (courriel, courrier, ligne d\'assistance).':'Cost of sending breach notices to affected individuals (email, mail, support line).'}</td>
+        <td class="ref-td">${lang==='fr'?'$12 par personne notifiée. Volume estimé selon la plage de dossiers sélectionnée.':'$12 per notified person. Volume estimated from selected record range midpoint.'}</td>
+      </tr>
+      <tr>
+        <td class="ref-td"><strong>${lang==='fr'?'Surveillance identité':'Identity Monitoring'}</strong></td>
+        <td class="ref-td">${lang==='fr'?'Service de surveillance du crédit ou de l\'identité offert aux victimes. Requis dans plusieurs règlements judiciaires canadiens.':'Credit or identity monitoring service offered to victims. Required in several Canadian judicial settlements.'}</td>
+        <td class="ref-td">${lang==='fr'?'$35/personne standard · $65/personne si RPS. Durée : 12 mois standard.':'$35/person standard · $65/person if PHI. Duration: 12-month standard.'}</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- BIZ -->
+  <div class="ref-section">
+    <div class="ref-section-title ref-biz-head">${lang==='fr'?'IMPACT OPÉRATIONNEL':'BUSINESS IMPACT'}</div>
+    <table class="ref-table">
+      <tr>
+        <th class="ref-th" style="width:24%;">${lang==='fr'?'Composante':'Component'}</th>
+        <th class="ref-th" style="width:38%;">${lang==='fr'?'Description':'Description'}</th>
+        <th class="ref-th" style="width:38%;">${lang==='fr'?'Méthode de calcul':'Calculation Method'}</th>
+      </tr>
+      <tr>
+        <td class="ref-td"><strong>${lang==='fr'?'Interruption des opérations':'Operations Downtime'}</strong></td>
+        <td class="ref-td">${lang==='fr'?'Perte de revenus directe liée à l\'indisponibilité des systèmes. Varie fortement selon le type d\'incident et le secteur.':'Direct revenue loss due to system unavailability. Varies significantly by incident type and industry.'}</td>
+        <td class="ref-td">${lang==='fr'?'Perte opérationnelle journalière × durée × multiplicateur sectoriel. Ex. : Mid = $90k/jour base.':'Daily ops loss × duration × industry multiplier. E.g. Mid = $90k/day base.'}</td>
+      </tr>
+      <tr>
+        <td class="ref-td"><strong>${lang==='fr'?'Remédiation post-incident':'Post-Incident Remediation'}</strong></td>
+        <td class="ref-td">${lang==='fr'?'Formation du personnel, campagnes de relations publiques, nouveaux appels d\'offres de fournisseurs, mise à jour des processus.':'Staff training, PR campaigns, vendor re-procurement, process updates.'}</td>
+        <td class="ref-td">${lang==='fr'?'Coût fixe par taille : Micro $8k · PME $35k · Moyen $180k · Grande $650k.':'Fixed cost by size: Micro $8k · Small $35k · Mid $180k · Large $650k.'}</td>
+      </tr>
+      <tr>
+        <td class="ref-td"><strong>${lang==='fr'?'Pertes par extorsion':'Extortion / Theft Loss'}</strong></td>
+        <td class="ref-td">${lang==='fr'?'Paiement de rançon (si applicable) ou vol de fonds dans le cas de BEC. N\'est inclus que pour les scénarios Rançongiciel, BEC et Menace interne.':'Ransom payment (if applicable) or fund theft in BEC cases. Only included for Ransomware, BEC, and Insider scenarios.'}</td>
+        <td class="ref-td">${lang==='fr'?'Rançongiciel : demande moyenne × taux de paiement probabiliste. BEC : fraude par virement estimée.':'Ransomware: average demand × probabilistic payment rate. BEC: estimated wire fraud amount.'}</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- BRAND -->
+  <div class="ref-section">
+    <div class="ref-section-title ref-brand-head">${lang==='fr'?'MARQUE & RÉPUTATION (VARIABLE X)':'BRAND & REPUTATION (VARIABLE X)'}</div>
+    <table class="ref-table">
+      <tr>
+        <th class="ref-th" style="width:24%;">${lang==='fr'?'Composante':'Component'}</th>
+        <th class="ref-th" colspan="2">${lang==='fr'?'Explication':'Explanation'}</th>
+      </tr>
+      <tr>
+        <td class="ref-td"><strong>${lang==='fr'?'Impact non quantifiable':'Unquantifiable Impact'}</strong></td>
+        <td class="ref-td" colspan="2">${lang==='fr'
+          ? `L\'attrition client, la dégradation de la valeur de marque et les effets à long terme sur le recrutement et les partenariats ne peuvent pas être modélisés de manière fiable sans données internes spécifiques. Pour les PME canadiennes, une brèche significative est souvent corrélée à une <strong>contraction de 15–20% des revenus</strong> dans l\'année fiscale suivante. Pour les grandes organisations, les séquelles réputationnelles peuvent persister <strong>3 à 5 ans</strong>. Ces impacts ne sont pas inclus dans le total calculé du simulateur.`
+          : `Customer attrition, brand equity degradation, and long-term effects on recruitment and partnerships cannot be reliably modelled without specific internal data. For Canadian SMBs, a significant breach often correlates with a <strong>15–20% revenue contraction</strong> in the following fiscal year. For enterprise organizations, reputational damage can persist <strong>3–5 years</strong>. These impacts are excluded from the simulator's calculated total.`}
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- REGULATORY -->
+  <div class="ref-section">
+    <div class="ref-section-title ref-reg-head">${lang==='fr'?'CADRES RÉGLEMENTAIRES CANADIENS':'CANADIAN REGULATORY FRAMEWORKS'}</div>
+    <table class="ref-table">
+      <tr>
+        <th class="ref-th" style="width:18%;">${lang==='fr'?'Régime':'Regime'}</th>
+        <th class="ref-th" style="width:44%;">${lang==='fr'?'Portée & Obligations':'Scope & Obligations'}</th>
+        <th class="ref-th" style="width:38%;">${lang==='fr'?'Pénalités maximales':'Maximum Penalties'}</th>
+      </tr>
+      <tr>
+        <td class="ref-td"><strong>Loi 25 (QC)</strong></td>
+        <td class="ref-td">${lang==='fr'?'Organisations exerçant au Québec. Notification obligatoire à la CAI et aux personnes affectées en cas de risque de préjudice sérieux. Évaluation des facteurs relatifs à la vie privée (EFVP) requise.':'Organizations operating in Quebec. Mandatory notification to the CAI and affected persons where there is a risk of serious prejudice. Privacy Impact Assessments (PIA) required.'}</td>
+        <td class="ref-td"><strong>$25M CAD</strong> ${lang==='fr'?'ou':'or'} <strong>4%</strong> ${lang==='fr'?'du CA mondial (la plus élevée des deux)':'of global revenue (whichever is higher)'}</td>
+      </tr>
+      <tr>
+        <td class="ref-td"><strong>LPRPDE / PIPEDA</strong></td>
+        <td class="ref-td">${lang==='fr'?'Loi fédérale. S\'applique à toutes les organisations du secteur privé non couvertes par une loi provinciale équivalente. Déclaration obligatoire à l\'OPC en cas de Risque réel de préjudice grave (RRPG).':'Federal law. Applies to all private sector organizations not covered by substantially similar provincial law. Mandatory reporting to the OPC when there is a Real Risk of Significant Harm (RROSH).'}</td>
+        <td class="ref-td"><strong>$100,000 CAD</strong> ${lang==='fr'?'par infraction':'per violation'}</td>
+      </tr>
+      <tr>
+        <td class="ref-td"><strong>PHIPA / LPRPS (ON)</strong></td>
+        <td class="ref-td">${lang==='fr'?'Loi de l\'Ontario sur la protection des renseignements personnels sur la santé. S\'active lorsque des RPS (renseignements personnels sur la santé) sont impliqués. Notification au Commissaire à la protection de la vie privée de l\'Ontario.':'Ontario\'s Personal Health Information Protection Act. Activates when PHI is involved. Notification to the Ontario Privacy Commissioner.'}</td>
+        <td class="ref-td"><strong>$500,000 CAD</strong> ${lang==='fr'?'par infraction':'per violation'}</td>
+      </tr>
+      <tr>
+        <td class="ref-td"><strong>PIPA AB / PIPA CB</strong></td>
+        <td class="ref-td">${lang==='fr'?'Lois provinciales de l\'Alberta et de la Colombie-Britannique. Notification obligatoire en cas de risque réel de préjudice grave. Jurisprudence récente en CB renforce les recours pour « intrusion dans l\'intimité ».':'Provincial laws of Alberta and British Columbia. Mandatory notification where there is a real risk of significant harm. Recent BC case law strengthens "Intrusion upon Seclusion" tort claims.'}</td>
+        <td class="ref-td">${lang==='fr'?'Amendes statutaires modérées; accent sur la remédiation et la conformité.':'Statutory fines moderate; emphasis on remediation and compliance.'}</td>
+      </tr>
+      <tr>
+        <td class="ref-td"><strong>BSIF B-13 / OSFI B-13</strong></td>
+        <td class="ref-td">${lang==='fr'?'Ligne directrice pour les entités financières fédéralement réglementées (banques, assureurs, sociétés de fiducie). Exige des programmes de résilience opérationnelle et des déclarations d\'incidents TI dans des délais stricts.':'Guideline for federally regulated financial entities (banks, insurers, trust companies). Requires operational resilience programs and IT incident reporting within strict timeframes.'}</td>
+        <td class="ref-td">${lang==='fr'?'Intervention de surveillance, augmentation des exigences de fonds propres, suspension potentielle des activités.':'Supervisory intervention, increased capital requirements, potential operational suspension.'}</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="footer">
+    <span class="ficon">&#9432;</span>
+    <div style="flex:1;">
+      <div class="dtext">${t.disclaimer}</div>
+      <div class="dsources">${t.sources.map(s=>`<span class="chip">${s}</span>`).join('')}</div>
+    </div>
+  </div>
+  <div class="repo">${repoUrl}</div>
+</div>
 
 <script>window.onload=function(){window.print();};<\/script>
 </body>
