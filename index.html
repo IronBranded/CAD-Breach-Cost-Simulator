@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Canadian Cyber Incident Cost Estimator — CA-2026</title>
+<title>Canadian Cyber Incident Cost Simulator — CA-2026</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 /* ── RESET & BASE ───────────────────────────────────────────── */
@@ -69,9 +69,13 @@ body::before{
 }
 
 /* ── LANGUAGE SWITCHER ──────────────────────────────────────── */
+/* ── TOP BAR (lang + dashboard actions) ─────────────────────── */
+.top-bar{
+  position:fixed;top:14px;right:20px;
+  display:flex;align-items:center;gap:8px;z-index:200;
+}
 .lang-switcher{
-  position:fixed;top:18px;right:24px;
-  display:flex;gap:4px;z-index:200;
+  display:flex;gap:4px;
   background:var(--bg2);border:1px solid var(--border2);
   border-radius:8px;padding:4px;
 }
@@ -86,6 +90,22 @@ body::before{
   background:var(--blue);color:#fff;
   box-shadow:0 2px 12px rgba(59,158,255,0.35);
 }
+.dash-actions{
+  display:none;align-items:center;gap:6px;
+}
+.dash-actions.visible{display:flex}
+.top-action-btn{
+  display:inline-flex;align-items:center;
+  padding:6px 14px;
+  background:var(--bg2);border:1px solid var(--border2);
+  border-radius:8px;color:var(--muted2);
+  font-family:var(--font-mono);font-size:0.65rem;
+  letter-spacing:0.09em;font-weight:600;
+  cursor:pointer;transition:all 0.18s;text-transform:uppercase;
+  white-space:nowrap;
+}
+.top-action-btn:hover{border-color:var(--blue);color:var(--blue);background:var(--blue-dim)}
+.top-action-btn.restart:hover{border-color:var(--muted2);color:var(--text)}
 
 /* ── LOADING OVERLAY ────────────────────────────────────────── */
 .loading-overlay{
@@ -667,21 +687,6 @@ input[type="checkbox"]:checked + .checkmark::after{opacity:1}
   border-radius:4px;color:var(--muted2);
 }
 
-/* ── PRINT BUTTON ───────────────────────────────────────────── */
-.print-btn{
-  display:inline-flex;align-items:center;gap:8px;
-  padding:11px 26px;
-  background:transparent;
-  border:1px solid var(--border2);
-  border-radius:var(--radius);
-  color:var(--muted2);
-  font-family:var(--font-mono);font-size:0.72rem;
-  letter-spacing:0.1em;font-weight:600;
-  cursor:pointer;transition:all 0.18s;text-transform:uppercase;
-  margin-right:12px;
-}
-.print-btn:hover{border-color:var(--blue);color:var(--blue);background:var(--blue-dim)}
-
 /* ── PRINT DOCUMENT ─────────────────────────────────────────── */
 #printReport{display:none}
 
@@ -692,116 +697,148 @@ input[type="checkbox"]:checked + .checkmark::after{opacity:1}
     font-family:'IBM Plex Sans',Arial,sans-serif;
     font-size:9pt;color:#0a0a0a;background:#fff;margin:0;padding:0;
   }
-  .pr-page{width:100%;padding:18mm 18mm 14mm;box-sizing:border-box;}
+  .pr-page{width:100%;padding:16mm 18mm 14mm;box-sizing:border-box;}
 
-  /* Header */
+  /* ── Header ── */
   .pr-header{
     display:flex;align-items:flex-start;justify-content:space-between;
-    border-bottom:2pt solid #0a0a0a;padding-bottom:8pt;margin-bottom:14pt;
+    border-bottom:2pt solid #0a0a0a;padding-bottom:8pt;margin-bottom:12pt;
   }
   .pr-eyebrow{
-    font-family:'IBM Plex Mono',monospace;font-size:6.5pt;
-    letter-spacing:0.18em;color:#666;text-transform:uppercase;margin-bottom:4pt;
+    font-family:'IBM Plex Mono',monospace;font-size:6pt;
+    letter-spacing:0.18em;color:#777;text-transform:uppercase;margin-bottom:3pt;
   }
-  .pr-title{font-size:16pt;font-weight:600;letter-spacing:-0.01em;line-height:1.15;color:#0a0a0a;}
+  .pr-title{font-size:15pt;font-weight:600;letter-spacing:-0.01em;line-height:1.15;color:#0a0a0a;}
   .pr-title-muted{font-weight:300;color:#555}
   .pr-header-right{
     text-align:right;font-family:'IBM Plex Mono',monospace;
-    font-size:7pt;color:#555;line-height:1.7;padding-top:2pt;
+    font-size:7pt;color:#555;line-height:1.75;
   }
 
-  /* Parameters */
+  /* ── Section label ── */
   .pr-section-label{
-    font-family:'IBM Plex Mono',monospace;font-size:6.5pt;
-    letter-spacing:0.15em;text-transform:uppercase;color:#888;margin-bottom:5pt;
+    font-family:'IBM Plex Mono',monospace;font-size:6pt;
+    letter-spacing:0.18em;text-transform:uppercase;color:#999;
+    margin-bottom:4pt;margin-top:12pt;
   }
+  .pr-section-label:first-of-type{margin-top:0}
+
+  /* ── Parameters grid ── */
   .pr-params-grid{
-    display:grid;grid-template-columns:repeat(3,1fr);
-    gap:6pt 14pt;background:#f4f4f4;border-radius:4pt;
-    padding:10pt 12pt;margin-bottom:14pt;
+    display:grid;grid-template-columns:repeat(4,1fr);
+    gap:5pt 10pt;
+    background:#f5f5f5;
+    border-left:2.5pt solid #0a0a0a;
+    padding:9pt 12pt;margin-bottom:12pt;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;
   }
   .pr-param-label{
-    font-family:'IBM Plex Mono',monospace;font-size:6.5pt;
-    color:#888;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:1.5pt;
+    font-family:'IBM Plex Mono',monospace;font-size:6pt;
+    color:#999;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:1.5pt;
   }
-  .pr-param-value{font-size:8.5pt;font-weight:600;color:#0a0a0a;}
+  .pr-param-value{font-size:8pt;font-weight:600;color:#0a0a0a;line-height:1.3;}
 
-  /* Exposure hero */
+  /* ── Exposure hero ── */
   .pr-exposure{
-    display:flex;align-items:flex-start;justify-content:space-between;
     background:#0a0a0a;color:#fff;
-    border-radius:4pt;padding:12pt 16pt;margin-bottom:14pt;
+    padding:12pt 16pt;margin-bottom:12pt;
+    display:grid;grid-template-columns:1fr auto;gap:16pt;align-items:start;
     -webkit-print-color-adjust:exact;print-color-adjust:exact;
   }
   .pr-exposure-label{
-    font-family:'IBM Plex Mono',monospace;font-size:6.5pt;
-    letter-spacing:0.14em;color:#aaa;margin-bottom:4pt;
+    font-family:'IBM Plex Mono',monospace;font-size:6pt;
+    letter-spacing:0.14em;color:#888;margin-bottom:3pt;
   }
-  .pr-exposure-total{font-size:22pt;font-weight:600;letter-spacing:-0.02em;}
+  .pr-exposure-total{font-size:24pt;font-weight:600;letter-spacing:-0.02em;line-height:1;}
+  .pr-exposure-gross{
+    font-family:'IBM Plex Mono',monospace;font-size:7.5pt;
+    color:#777;margin-top:4pt;
+  }
   .pr-exposure-right{text-align:right;}
   .pr-lifecycle-label{
-    font-family:'IBM Plex Mono',monospace;font-size:6.5pt;
-    letter-spacing:0.10em;color:#aaa;margin-bottom:3pt;
+    font-family:'IBM Plex Mono',monospace;font-size:6pt;
+    letter-spacing:0.10em;color:#888;margin-bottom:2pt;
   }
-  .pr-lifecycle-val{font-size:9pt;font-weight:500;}
+  .pr-lifecycle-val{font-size:8.5pt;font-weight:500;}
   .pr-regime{
-    font-family:'IBM Plex Mono',monospace;font-size:7pt;
-    background:#333;border-radius:3pt;padding:2pt 6pt;
-    display:inline-block;margin-top:5pt;color:#fff;
-    -webkit-print-color-adjust:exact;print-color-adjust:exact;
-  }
-  .pr-phi-tag{
     font-family:'IBM Plex Mono',monospace;font-size:6.5pt;
-    background:#7c3aed;border-radius:3pt;padding:2pt 6pt;
-    display:inline-block;margin-top:4pt;margin-right:4pt;color:#fff;
+    background:#222;border-radius:2pt;padding:2pt 6pt;
+    display:inline-block;margin-top:5pt;
     -webkit-print-color-adjust:exact;print-color-adjust:exact;
   }
-  .pr-ins-note{font-size:7.5pt;color:#aaa;margin-top:5pt;}
+  .pr-tags{margin-top:6pt;display:flex;gap:4pt;flex-wrap:wrap;}
+  .pr-phi-tag{
+    font-family:'IBM Plex Mono',monospace;font-size:6pt;
+    background:#7c3aed;border-radius:2pt;padding:2pt 6pt;
+    display:inline-block;color:#fff;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;
+  }
+  .pr-ins-tag{
+    font-family:'IBM Plex Mono',monospace;font-size:6pt;
+    background:#1a4a1a;border-radius:2pt;padding:2pt 6pt;
+    display:inline-block;color:#5cf075;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;
+  }
 
-  /* Cost cards */
-  .pr-costs{display:grid;grid-template-columns:1fr 1fr;gap:10pt;margin-bottom:14pt;}
+  /* ── Cost cards — full-width stacked ── */
+  .pr-costs{display:flex;flex-direction:column;gap:8pt;margin-bottom:12pt;}
+  .pr-cost-card{
+    border:0.5pt solid #ddd;
+    page-break-inside:avoid;
+  }
   .pr-cost-card-header{
-    font-family:'IBM Plex Mono',monospace;font-size:7pt;font-weight:600;
-    letter-spacing:0.1em;text-transform:uppercase;color:#0a0a0a;
-    border-bottom:1.5pt solid #0a0a0a;padding-bottom:3pt;margin-bottom:5pt;
+    font-family:'IBM Plex Mono',monospace;font-size:6.5pt;font-weight:600;
+    letter-spacing:0.12em;text-transform:uppercase;
+    background:#f5f5f5;color:#0a0a0a;
+    padding:5pt 10pt;
+    border-bottom:1pt solid #ddd;
+    display:flex;justify-content:space-between;align-items:center;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;
   }
+  .pr-cost-card-header-total{
+    font-size:8.5pt;font-weight:700;color:#0a0a0a;
+    font-family:'IBM Plex Mono',monospace;
+  }
+  .pr-cost-rows{padding:4pt 10pt 6pt;}
   .pr-cost-row{
-    display:flex;justify-content:space-between;
-    font-size:8pt;padding:2.5pt 0;border-bottom:0.5pt solid #ddd;
+    display:flex;justify-content:space-between;align-items:baseline;
+    font-size:8pt;padding:2.5pt 0;border-bottom:0.5pt solid #eee;
   }
-  .pr-cost-label{color:#333;}
-  .pr-cost-val{font-family:'IBM Plex Mono',monospace;font-weight:600;color:#0a0a0a;}
-  .pr-cost-subtotal{
-    display:flex;justify-content:space-between;
-    font-size:8pt;font-weight:600;padding:4pt 0 0;margin-top:1pt;
+  .pr-cost-row:last-child{border-bottom:none;}
+  .pr-cost-label{color:#333;padding-right:8pt;}
+  .pr-cost-val{font-family:'IBM Plex Mono',monospace;font-weight:600;color:#0a0a0a;white-space:nowrap;}
+  .pr-brand-text{
+    font-size:7.5pt;color:#555;line-height:1.55;
+    padding:6pt 10pt;font-style:italic;
   }
-  .pr-cost-subtotal-val{font-family:'IBM Plex Mono',monospace;color:#0a0a0a;}
 
-  /* Disclaimer */
+  /* ── Grand total row ── */
+  .pr-grand-total{
+    display:flex;justify-content:space-between;align-items:center;
+    border-top:2pt solid #0a0a0a;padding:7pt 10pt;
+    margin-bottom:12pt;
+    background:#f9f9f9;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;
+  }
+  .pr-grand-label{
+    font-family:'IBM Plex Mono',monospace;font-size:7.5pt;
+    font-weight:700;letter-spacing:0.1em;text-transform:uppercase;
+  }
+  .pr-grand-val{
+    font-family:'IBM Plex Mono',monospace;font-size:13pt;
+    font-weight:700;color:#0a0a0a;
+  }
+
+  /* ── Disclaimer ── */
   .pr-disclaimer{
     border-top:0.5pt solid #ccc;padding-top:7pt;
-    font-size:6.5pt;color:#888;line-height:1.55;
+    font-size:6pt;color:#999;line-height:1.6;
   }
   .pr-disclaimer-sources{margin-top:4pt;display:flex;flex-wrap:wrap;gap:3pt;}
   .pr-source-chip{
     font-family:'IBM Plex Mono',monospace;font-size:5.5pt;
-    border:0.5pt solid #ccc;border-radius:2pt;padding:1pt 4pt;color:#999;
+    border:0.5pt solid #ccc;border-radius:2pt;padding:1pt 4pt;color:#aaa;
   }
-}
-
-.restart-wrap{text-align:center;margin-top:28px}
-.restart-btn{
-  display:inline-flex;align-items:center;gap:8px;
-  padding:11px 28px;
-  background:transparent;border:1px solid var(--border2);
-  border-radius:var(--radius);color:var(--muted2);
-  font-family:var(--font-mono);font-size:0.72rem;
-  letter-spacing:0.1em;font-weight:600;
-  cursor:pointer;transition:all 0.18s;text-transform:uppercase;
-}
-.restart-btn:hover{
-  border-color:var(--blue);color:var(--blue);
-  background:var(--blue-dim);
 }
 
 /* ── ACCESSIBILITY ──────────────────────────────────────────── */
@@ -857,10 +894,20 @@ input[type="checkbox"]:checked + .checkmark::after{opacity:1}
   <p id="loadingText">CALCULATING EXPOSURE...</p>
 </div>
 
-<!-- Language switcher -->
-<div class="lang-switcher" role="navigation" aria-label="Language selection">
-  <button class="lang-btn active" id="btnEn" onclick="setLang('en')" aria-pressed="true" aria-label="Switch to English">EN</button>
-  <button class="lang-btn" id="btnFr" onclick="setLang('fr')" aria-pressed="false" aria-label="Passer au français">FR</button>
+<!-- Top bar: language + dashboard actions -->
+<div class="top-bar">
+  <div class="dash-actions" id="dashActions">
+    <button class="top-action-btn" onclick="printReport()" id="btnPrint">
+      <span id="btnPrintText">Print Report</span>
+    </button>
+    <button class="top-action-btn restart" onclick="softReset()" id="btnRestart">
+      <span>← <span id="btnRestartText">Restart</span></span>
+    </button>
+  </div>
+  <div class="lang-switcher" role="navigation" aria-label="Language selection">
+    <button class="lang-btn active" id="btnEn" onclick="setLang('en')" aria-pressed="true" aria-label="Switch to English">EN</button>
+    <button class="lang-btn" id="btnFr" onclick="setLang('fr')" aria-pressed="false" aria-label="Passer au français">FR</button>
+  </div>
 </div>
 
 <div class="page">
@@ -875,8 +922,8 @@ input[type="checkbox"]:checked + .checkmark::after{opacity:1}
       <div class="title-block">
         <div class="title-accent-bar" aria-hidden="true"></div>
         <div>
-          <h1 id="mainTitle">Cyber Incident <span class="title-muted">Cost Estimator</span></h1>
-          <p class="subtitle" id="mainSubtitle">A structured financial exposure model for Canadian organizations — derived from provincial regulatory frameworks, published breach cost research, and legal precedent.</p>
+          <h1 id="mainTitle">Cyber Incident <span class="title-muted">Cost Simulator</span></h1>
+          <p class="subtitle" id="mainSubtitle">Visualizing the financial and operational gravity of a cyber incident through a Canadian lens — grounded in provincial regulatory frameworks, published breach cost research, and legal precedent.</p>
         </div>
       </div>
     </header>
@@ -1085,15 +1132,6 @@ input[type="checkbox"]:checked + .checkmark::after{opacity:1}
     <!-- NCTA block -->
     <div class="ncta-card" id="nctaBlock" aria-label="National Cyber Threat Assessment intelligence"></div>
 
-    <div class="restart-wrap">
-      <button class="print-btn" onclick="printReport()" id="btnPrint">
-        <span id="btnPrintText">Print Report</span>
-      </button>
-      <button class="restart-btn" onclick="softReset()" id="btnRestart">
-        ← Restart Simulation
-      </button>
-    </div>
-
     <footer class="disclaimer-footer" role="contentinfo">
       <div class="disclaimer-inner">
         <span class="disclaimer-icon" aria-hidden="true">⚠</span>
@@ -1163,9 +1201,9 @@ const CIRCUMFERENCE = 2 * Math.PI * 60; // ~377
 const T = {
   en: {
     eyebrow: 'CANADIAN CYBER RISK · CA-2026',
-    mainTitle: 'Cyber Incident Cost Estimator',
-    mainTitleHTML: 'Cyber Incident <span class="title-muted">Cost Estimator</span>',
-    mainSubtitle: 'A structured financial exposure model for Canadian organizations — derived from provincial regulatory frameworks, published breach cost research, and legal precedent.',
+    mainTitle: 'Cyber Incident Cost Simulator',
+    mainTitleHTML: 'Cyber Incident <span class="title-muted">Cost Simulator</span>',
+    mainSubtitle: 'Visualizing the financial and operational gravity of a cyber incident through a Canadian lens — grounded in provincial regulatory frameworks, published breach cost research, and legal precedent.',
     sectionLabelScenario: 'Incident Parameters',
     lblScenario: 'Incident Scenario',
     lblIndustry: 'Industry',
@@ -1304,9 +1342,9 @@ const T = {
   },
   fr: {
     eyebrow: 'RISQUE CYBER CANADIEN · CA-2026',
-    mainTitle: 'Estimateur de Coûts de Cyber Incident',
-    mainTitleHTML: 'Estimateur de Coûts <span class="title-muted">de Cyber Incident</span>',
-    mainSubtitle: 'Un modèle structuré d\'exposition financière pour les organisations canadiennes — fondé sur les cadres réglementaires provinciaux, la recherche publiée et les précédents juridiques.',
+    mainTitle: 'Simulateur de Coûts de Cyber Incident',
+    mainTitleHTML: 'Simulateur de Coûts <span class="title-muted">de Cyber Incident</span>',
+    mainSubtitle: 'Visualisation de la gravité financière et opérationnelle d\'un cyber incident à travers un prisme canadien — ancré dans les cadres réglementaires provinciaux, la recherche publiée et les précédents juridiques.',
     sectionLabelScenario: 'Paramètres d\'incident',
     lblScenario: 'Scénario d\'incident',
     lblIndustry: 'Secteur d\'activité',
@@ -1800,7 +1838,7 @@ function setLang(l) {
     lblInsLimit: t.lblInsLimit,
     lblInsDeductible: t.lblInsDeductible,
     btnRunText: t.btnRun,
-    btnRestart: t.btnRestart,
+    btnRestartText: lang === 'fr' ? 'Recommencer' : 'Restart',
     btnPrintText: t.btnPrint,
     loadingText: t.loadingText,
     lblTopDriver: t.lblTopDriver,
@@ -1928,6 +1966,7 @@ function runSimulation() {
         renderDashboard(data);
         el('loadingOverlay').classList.remove('active');
         el('dashboardSection').classList.add('active');
+        el('dashActions').classList.add('visible');
         el('dashboardSection').scrollIntoView({ behavior:'smooth', block:'start' });
       }, remaining);
     });
@@ -1960,14 +1999,7 @@ function printReport() {
   const prAny = (label, val) =>
     `<div class="pr-cost-row"><span class="pr-cost-label">${label}</span><span class="pr-cost-val">${fmt(val)}</span></div>`;
 
-  const phiTag = hasPHI
-    ? `<span class="pr-phi-tag">${t.phiTagLabel}</span>` : '';
-
-  const insNote = hasIns && d.insuranceCovered > 0
-    ? `<div class="pr-ins-note">${t.printInsNote}: ${fmt(d.insuranceCovered)}</div>` : '';
-
   const regimeText = `${t.regimeLabelPrefix} ${REGIME_DISPLAY[d.regimeKey] || 'PIPEDA'}`;
-
   const totalLabel = d.hasIns ? t.printTotalLabelNet : t.printTotalLabel;
 
   el('printReport').innerHTML = `
@@ -1975,12 +2007,12 @@ function printReport() {
 
     <!-- Header -->
     <div class="pr-header">
-      <div class="pr-header-left">
+      <div>
         <div class="pr-eyebrow">${t.eyebrow}</div>
         <div class="pr-title">
           ${lang === 'fr'
-            ? `Estimateur de Coûts <span class="pr-title-muted">de Cyber Incident</span>`
-            : `Cyber Incident <span class="pr-title-muted">Cost Estimator</span>`}
+            ? `Simulateur de Coûts <span class="pr-title-muted">de Cyber Incident</span>`
+            : `Cyber Incident <span class="pr-title-muted">Cost Simulator</span>`}
         </div>
       </div>
       <div class="pr-header-right">
@@ -2016,11 +2048,10 @@ function printReport() {
         <div class="pr-param-label">${t.lblProvince}</div>
         <div class="pr-param-value">${selText('provinceSelect')}</div>
       </div>
-      ${hasPHI ? `
-      <div class="pr-param">
+      ${hasPHI ? `<div class="pr-param">
         <div class="pr-param-label">PHI</div>
         <div class="pr-param-value">${t.phiTagLabel}</div>
-      </div>` : ''}
+      </div>` : '<div class="pr-param"></div>'}
       ${hasIns ? `
       <div class="pr-param">
         <div class="pr-param-label">${t.lblInsLimit}</div>
@@ -2037,8 +2068,14 @@ function printReport() {
       <div>
         <div class="pr-exposure-label">${totalLabel}</div>
         <div class="pr-exposure-total">${fmt(d.netTotal)}</div>
-        ${phiTag}
-        ${insNote}
+        ${hasIns && d.grossTotal !== d.netTotal
+          ? `<div class="pr-exposure-gross">${lang==='fr'?'Exposition brute':'Gross exposure'}: ${fmt(d.grossTotal)}</div>`
+          : ''}
+        <div class="pr-tags">
+          ${hasPHI ? `<span class="pr-phi-tag">${t.phiTagLabel}</span>` : ''}
+          ${hasIns && d.insuranceCovered > 0
+            ? `<span class="pr-ins-tag">${t.printInsNote}: ${fmt(d.insuranceCovered)}</span>` : ''}
+        </div>
       </div>
       <div class="pr-exposure-right">
         <div class="pr-lifecycle-label">${t.lblLifecycle}</div>
@@ -2052,48 +2089,57 @@ function printReport() {
     <div class="pr-costs">
 
       <div class="pr-cost-card">
-        <div class="pr-cost-card-header">${t.techHeader}</div>
-        ${prAny(t.techIR,        d.tech.costIR)}
-        ${prAny(t.techForensics, d.tech.costForensics)}
-        ${prAny(t.techIT,        d.tech.costIT)}
-        <div class="pr-cost-subtotal">
-          <span>${lang === 'fr' ? 'Sous-total' : 'Subtotal'}</span>
-          <span class="pr-cost-subtotal-val">${fmt(d.tech.total)}</span>
+        <div class="pr-cost-card-header">
+          <span>${t.techHeader}</span>
+          <span class="pr-cost-card-header-total">${fmt(d.tech.total)}</span>
+        </div>
+        <div class="pr-cost-rows">
+          ${prAny(t.techIR,        d.tech.costIR)}
+          ${prAny(t.techForensics, d.tech.costForensics)}
+          ${prAny(t.techIT,        d.tech.costIT)}
         </div>
       </div>
 
       <div class="pr-cost-card">
-        <div class="pr-cost-card-header">${t.legalHeader}</div>
-        ${prAny(t.legalCounsel,  d.legal.costCounsel)}
-        ${pr(t.legalFines,       d.legal.fineExposure)}
-        ${pr(t.legalSettlement,  d.legal.settlementRisk)}
-        ${prAny(t.legalNotify,   d.legal.costNotify)}
-        ${prAny(d.hasPHI ? t.legalPHICredit : t.legalCredit, d.legal.costCredit)}
-        <div class="pr-cost-subtotal">
-          <span>${lang === 'fr' ? 'Sous-total' : 'Subtotal'}</span>
-          <span class="pr-cost-subtotal-val">${fmt(d.legal.total)}</span>
+        <div class="pr-cost-card-header">
+          <span>${t.legalHeader}</span>
+          <span class="pr-cost-card-header-total">${fmt(d.legal.total)}</span>
+        </div>
+        <div class="pr-cost-rows">
+          ${prAny(t.legalCounsel,  d.legal.costCounsel)}
+          ${pr(t.legalFines,       d.legal.fineExposure)}
+          ${pr(t.legalSettlement,  d.legal.settlementRisk)}
+          ${prAny(t.legalNotify,   d.legal.costNotify)}
+          ${prAny(d.hasPHI ? t.legalPHICredit : t.legalCredit, d.legal.costCredit)}
         </div>
       </div>
 
       <div class="pr-cost-card">
-        <div class="pr-cost-card-header">${t.bizHeader}</div>
-        ${prAny(t.bizOps,         d.biz.costOps)}
-        ${prAny(t.bizRemediation, d.biz.costRemediation)}
-        ${pr(t.bizExtortion,      d.biz.ransom)}
-        <div class="pr-cost-subtotal">
-          <span>${lang === 'fr' ? 'Sous-total' : 'Subtotal'}</span>
-          <span class="pr-cost-subtotal-val">${fmt(d.biz.total)}</span>
+        <div class="pr-cost-card-header">
+          <span>${t.bizHeader}</span>
+          <span class="pr-cost-card-header-total">${fmt(d.biz.total)}</span>
+        </div>
+        <div class="pr-cost-rows">
+          ${prAny(t.bizOps,         d.biz.costOps)}
+          ${prAny(t.bizRemediation, d.biz.costRemediation)}
+          ${pr(t.bizExtortion,      d.biz.ransom)}
         </div>
       </div>
 
       <div class="pr-cost-card">
-        <div class="pr-cost-card-header">${t.brandHeader}</div>
-        <div class="pr-cost-row" style="padding:4pt 0;border-bottom:none;">
-          <span class="pr-cost-label" style="font-style:italic;color:#666;">${t.unquantifiable}</span>
+        <div class="pr-cost-card-header">
+          <span>${t.brandHeader}</span>
+          <span class="pr-cost-card-header-total">${lang==='fr'?'Variable X':'Variable X'}</span>
         </div>
-        <div style="font-size:7pt;color:#666;line-height:1.5;margin-top:3pt;">${t.churnText}</div>
+        <div class="pr-brand-text">${t.unquantifiable} — ${t.churnText}</div>
       </div>
 
+    </div>
+
+    <!-- Grand total summary -->
+    <div class="pr-grand-total">
+      <span class="pr-grand-label">${totalLabel}</span>
+      <span class="pr-grand-val">${fmt(d.netTotal)}</span>
     </div>
 
     <!-- Disclaimer -->
@@ -2112,6 +2158,7 @@ function printReport() {
 function softReset() {
   window._lastCalcData = null;
   el('dashboardSection').classList.remove('active');
+  el('dashActions').classList.remove('visible');
   el('formSection').style.display = '';
   clearErrors();
   window.scrollTo({ top:0, behavior:'smooth' });
