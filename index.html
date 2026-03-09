@@ -688,7 +688,7 @@ input[type="checkbox"]:checked + .checkmark::after{opacity:1}
 }
 
 /* ── PRINT DOCUMENT ─────────────────────────────────────────── */
-#printReport{display:none}
+#printReport{display:none;visibility:hidden;position:absolute;left:-9999px;}
 
 @media print{
   @page{margin:14mm 16mm 12mm;size:A4 portrait;}
@@ -701,6 +701,9 @@ input[type="checkbox"]:checked + .checkmark::after{opacity:1}
   .lang-switcher{display:none!important;}
   #printReport{
     display:block!important;
+    visibility:visible!important;
+    position:static!important;
+    left:auto!important;
     position:fixed;top:0;left:0;width:100%;
     font-family:'IBM Plex Sans',Arial,sans-serif;
     font-size:9pt;color:#111;background:#fff;
@@ -879,6 +882,12 @@ input[type="checkbox"]:checked + .checkmark::after{opacity:1}
     font-family:'IBM Plex Mono',monospace;font-size:5pt;
     border:0.5pt solid #ddd;padding:1pt 4pt;color:#bbb;
     -webkit-print-color-adjust:exact;print-color-adjust:exact;
+  }
+  .pr-repo-ref{
+    margin-top:8pt;padding-top:6pt;
+    border-top:0.5pt solid #eee;
+    font-family:'IBM Plex Mono',monospace;font-size:5.5pt;
+    color:#ccc;text-align:center;letter-spacing:0.05em;
   }
 }
 
@@ -2203,9 +2212,16 @@ function printReport() {
       </div>
     </div>
 
+    <div class="pr-repo-ref">https://github.com/IronBranded/CAD-Breach-Cost-Simulator/</div>
+
   </div>`;
 
-  window.print();
+  // Give the browser two frames to paint the report before opening the print dialog
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      setTimeout(() => { window.print(); }, 120);
+    });
+  });
 }
 
 function softReset() {
