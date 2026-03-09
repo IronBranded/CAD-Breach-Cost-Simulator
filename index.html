@@ -2089,165 +2089,274 @@ function printReport() {
 <head>
 <meta charset="UTF-8">
 <title>${lang === 'fr' ? 'Rapport — Simulateur de Coûts de Cyber Incident' : 'Report — Cyber Incident Cost Simulator'}</title>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=IBM+Plex+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
 <style>
-  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-  @page{margin:14mm 16mm 12mm;size:A4 portrait;}
-  body{
-    font-family:'IBM Plex Sans',Arial,sans-serif;
-    font-size:8.5pt;color:#111;background:#fff;
-  }
-  .page{padding:0;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+@page{margin:0;size:A4 portrait;}
+html,body{width:210mm;min-height:297mm;background:#fff;}
+body{
+  font-family:'IBM Plex Sans',Arial,sans-serif;
+  font-size:8pt;color:#1a1a1a;
+  padding:12mm 14mm 10mm;
+}
 
-  /* Top bar */
-  .topbar{
-    height:5pt;
-    background:linear-gradient(90deg,#3b9eff 0%,#b06bff 50%,#ff4455 100%);
-    margin-bottom:14pt;
-    print-color-adjust:exact;-webkit-print-color-adjust:exact;
-  }
+/* ── TOPBAR ── */
+.topbar{
+  height:4pt;margin:-12mm -14mm 0;width:calc(100% + 28mm);
+  background:linear-gradient(90deg,#2563eb 0%,#7c3aed 45%,#e11d48 100%);
+  print-color-adjust:exact;-webkit-print-color-adjust:exact;
+  margin-bottom:11mm;
+}
 
-  /* Header */
-  .header{
-    display:flex;align-items:flex-start;justify-content:space-between;
-    border-bottom:1.5pt solid #111;padding-bottom:10pt;margin-bottom:13pt;gap:14pt;
-  }
-  .header-left{flex:1;}
-  .eyebrow{
-    font-family:'IBM Plex Mono',monospace;font-size:6pt;
-    letter-spacing:0.2em;color:#3b9eff;text-transform:uppercase;margin-bottom:3pt;
-    print-color-adjust:exact;-webkit-print-color-adjust:exact;
-  }
-  .title{font-size:17pt;font-weight:600;letter-spacing:-0.01em;line-height:1.1;color:#111;margin-bottom:2pt;}
-  .subtitle-txt{font-size:7pt;color:#999;font-style:italic;margin-top:2pt;}
+/* ── HEADER ── */
+.header{display:flex;justify-content:space-between;align-items:stretch;gap:12pt;margin-bottom:11pt;}
+.header-left{flex:1;display:flex;flex-direction:column;justify-content:center;}
+.eyebrow{
+  font-family:'IBM Plex Mono',monospace;font-size:5.5pt;
+  letter-spacing:0.25em;color:#2563eb;text-transform:uppercase;margin-bottom:4pt;
+  print-color-adjust:exact;-webkit-print-color-adjust:exact;
+}
+.title{
+  font-size:19pt;font-weight:700;line-height:1.05;letter-spacing:-0.02em;color:#0f0f0f;
+}
+.title-light{font-weight:300;color:#888;}
+.subtitle-txt{
+  font-size:6.5pt;color:#aaa;font-style:italic;margin-top:3.5pt;
+  border-left:2pt solid #e5e5e5;padding-left:6pt;
+}
 
-  .header-right{
-    min-width:150pt;
-    border:1pt solid #e0e0e0;border-left:3pt solid #3b9eff;
-    padding:7pt 10pt;
-    print-color-adjust:exact;-webkit-print-color-adjust:exact;
-  }
-  .meta-row{display:flex;justify-content:space-between;gap:10pt;font-size:6.5pt;padding:1.5pt 0;border-bottom:0.5pt solid #f0f0f0;}
-  .meta-row:last-child{border-bottom:none;}
-  .meta-lbl{font-family:'IBM Plex Mono',monospace;color:#999;letter-spacing:0.06em;text-transform:uppercase;white-space:nowrap;}
-  .meta-val{font-weight:600;color:#111;text-align:right;}
-  .meta-confidential{color:#cc3333;font-size:6pt;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
-  .meta-phi{color:#7c3aed;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
+.header-meta{
+  display:flex;flex-direction:column;justify-content:stretch;
+  border:1pt solid #e5e5e5;min-width:148pt;
+}
+.meta-row{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:4pt 9pt;border-bottom:1pt solid #f0f0f0;gap:8pt;flex:1;
+}
+.meta-row:last-child{border-bottom:none;}
+.meta-lbl{
+  font-family:'IBM Plex Mono',monospace;font-size:5pt;
+  letter-spacing:0.12em;text-transform:uppercase;color:#bbb;white-space:nowrap;
+}
+.meta-val{font-size:7pt;font-weight:600;color:#1a1a1a;text-align:right;}
+.meta-confidential{
+  font-size:6pt;color:#dc2626;letter-spacing:0.04em;
+  print-color-adjust:exact;-webkit-print-color-adjust:exact;
+}
+.meta-phi{
+  color:#7c3aed;
+  print-color-adjust:exact;-webkit-print-color-adjust:exact;
+}
+.meta-regime-val{
+  font-family:'IBM Plex Mono',monospace;font-size:6.5pt;
+  font-weight:700;color:#2563eb;
+  print-color-adjust:exact;-webkit-print-color-adjust:exact;
+}
 
-  /* Section label */
-  .section-label{
-    font-family:'IBM Plex Mono',monospace;font-size:5.5pt;
-    letter-spacing:0.22em;text-transform:uppercase;color:#3b9eff;
-    margin-bottom:5pt;margin-top:13pt;
-    print-color-adjust:exact;-webkit-print-color-adjust:exact;
-  }
+/* ── DIVIDER ── */
+.divider{height:0.75pt;background:#e5e5e5;margin:0 0 11pt;}
 
-  /* Parameters */
-  .params-grid{
-    display:grid;grid-template-columns:repeat(4,1fr);
-    gap:5pt 10pt;
-  }
-  .param{border-left:2pt solid #ddd;padding-left:6pt;padding-bottom:3pt;}
-  .param-lbl{font-family:'IBM Plex Mono',monospace;font-size:5.5pt;color:#aaa;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:1.5pt;}
-  .param-val{font-size:7.5pt;font-weight:600;color:#111;line-height:1.3;}
+/* ── SECTION LABEL ── */
+.section-label{
+  font-family:'IBM Plex Mono',monospace;font-size:5pt;
+  letter-spacing:0.28em;text-transform:uppercase;color:#2563eb;
+  margin-bottom:6pt;
+  print-color-adjust:exact;-webkit-print-color-adjust:exact;
+}
 
-  /* Exposure */
-  .exposure-wrap{
-    display:flex;border:1pt solid #ddd;
-    border-left:4pt solid #3b9eff;margin-top:11pt;
-    print-color-adjust:exact;-webkit-print-color-adjust:exact;
-  }
-  .exposure-main{flex:1;padding:10pt 14pt;border-right:1pt solid #eee;}
-  .exp-lbl{font-family:'IBM Plex Mono',monospace;font-size:5.5pt;letter-spacing:0.15em;color:#999;margin-bottom:3pt;text-transform:uppercase;}
-  .exp-total{font-size:24pt;font-weight:700;letter-spacing:-0.03em;line-height:1;color:#111;}
-  .exp-gross{font-family:'IBM Plex Mono',monospace;font-size:6.5pt;color:#999;margin-top:4pt;}
-  .exp-ins{font-size:7pt;color:#1a6e35;margin-top:3pt;font-weight:600;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
-  .exp-tags{display:flex;gap:4pt;flex-wrap:wrap;margin-top:6pt;}
-  .tag{font-family:'IBM Plex Mono',monospace;font-size:6pt;border:1pt solid #ccc;padding:1.5pt 5pt;color:#555;}
-  .tag-phi{border-color:#7c3aed;color:#7c3aed;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
-  .tag-ins{border-color:#1a6e35;color:#1a6e35;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
+/* ── PARAMS ── */
+.params-grid{
+  display:grid;grid-template-columns:repeat(2,1fr);
+  gap:0;border:1pt solid #e5e5e5;
+  margin-bottom:0;
+}
+.param{
+  padding:5pt 10pt;border-right:1pt solid #e5e5e5;border-bottom:1pt solid #e5e5e5;
+}
+.param:nth-child(2n){border-right:none;}
+.param:nth-last-child(-n+2){border-bottom:none;}
+.param-lbl{
+  font-family:'IBM Plex Mono',monospace;font-size:5pt;
+  color:#bbb;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:2pt;
+}
+.param-val{font-size:8pt;font-weight:600;color:#1a1a1a;line-height:1.3;}
 
-  .exposure-side{width:130pt;display:flex;flex-direction:column;}
-  .exp-side-block{flex:1;padding:7pt 10pt;border-bottom:1pt solid #eee;}
-  .exp-side-block:last-child{border-bottom:none;}
-  .side-lbl{font-family:'IBM Plex Mono',monospace;font-size:5.5pt;letter-spacing:0.12em;text-transform:uppercase;color:#999;margin-bottom:4pt;}
-  .side-val{font-size:8pt;font-weight:600;color:#111;}
-  .split-row{display:flex;align-items:center;gap:4pt;font-size:7pt;padding:1pt 0;}
-  .dot{width:6pt;height:6pt;border-radius:50%;flex-shrink:0;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
-  .dot-tech{background:#3b9eff;} .dot-legal{background:#b06bff;} .dot-biz{background:#ff4455;}
-  .split-name{flex:1;color:#444;}
-  .split-pct{font-family:'IBM Plex Mono',monospace;font-weight:700;color:#111;}
+/* ── EXPOSURE BLOCK ── */
+.exposure-wrap{
+  display:flex;margin-top:11pt;
+  border:1pt solid #e5e5e5;
+}
+.exposure-main{
+  flex:1;padding:12pt 14pt;
+  border-right:1pt solid #e5e5e5;
+  position:relative;
+}
+.exposure-main::before{
+  content:'';position:absolute;left:0;top:0;bottom:0;width:3.5pt;
+  background:linear-gradient(180deg,#2563eb,#7c3aed);
+  print-color-adjust:exact;-webkit-print-color-adjust:exact;
+}
+.exp-lbl{
+  font-family:'IBM Plex Mono',monospace;font-size:5pt;
+  letter-spacing:0.2em;color:#aaa;margin-bottom:4pt;text-transform:uppercase;
+}
+.exp-total{
+  font-size:26pt;font-weight:700;letter-spacing:-0.04em;line-height:1;
+  color:#0f0f0f;
+}
+.exp-currency{font-size:11pt;font-weight:400;color:#666;margin-left:2pt;}
+.exp-gross{
+  font-family:'IBM Plex Mono',monospace;font-size:6pt;
+  color:#aaa;margin-top:5pt;
+}
+.exp-ins{
+  font-size:7pt;font-weight:600;color:#15803d;margin-top:3pt;
+  print-color-adjust:exact;-webkit-print-color-adjust:exact;
+}
+.exp-tags{display:flex;gap:5pt;flex-wrap:wrap;margin-top:8pt;}
+.tag{
+  font-family:'IBM Plex Mono',monospace;font-size:5.5pt;
+  border:1pt solid;padding:2pt 6pt;letter-spacing:0.04em;
+}
+.tag-phi{border-color:#7c3aed;color:#7c3aed;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
+.tag-ins{border-color:#15803d;color:#15803d;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
 
-  /* Cost grid */
-  .costs-grid{display:grid;grid-template-columns:1fr 1fr;gap:6pt;margin-top:11pt;}
-  .cost-card{border:1pt solid #ddd;}
-  .cost-card.c-tech{border-top:3pt solid #3b9eff;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
-  .cost-card.c-legal{border-top:3pt solid #b06bff;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
-  .cost-card.c-biz{border-top:3pt solid #ff4455;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
-  .cost-card.c-brand{border-top:3pt solid #ff7b2c;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
+.exposure-side{width:110pt;display:flex;flex-direction:column;}
+.exp-side-block{
+  flex:1;padding:9pt 11pt;
+  border-bottom:1pt solid #e5e5e5;
+}
+.exp-side-block:last-child{border-bottom:none;}
+.side-lbl{
+  font-family:'IBM Plex Mono',monospace;font-size:5pt;
+  letter-spacing:0.15em;text-transform:uppercase;color:#bbb;margin-bottom:5pt;
+}
+.side-val{font-size:7.5pt;font-weight:600;color:#1a1a1a;line-height:1.4;}
 
-  .card-head{
-    display:flex;justify-content:space-between;align-items:center;
-    padding:5pt 8pt;border-bottom:0.75pt solid #eee;
-  }
-  .card-head-lbl{font-family:'IBM Plex Mono',monospace;font-size:6pt;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#333;}
-  .card-head-total{font-family:'IBM Plex Mono',monospace;font-size:9pt;font-weight:700;color:#111;}
-  .card-variable{font-size:7pt;color:#ff7b2c;font-weight:600;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
+.split-row{display:flex;align-items:center;gap:5pt;padding:2pt 0;}
+.dot{
+  width:5pt;height:5pt;border-radius:50%;flex-shrink:0;
+  print-color-adjust:exact;-webkit-print-color-adjust:exact;
+}
+.dot-tech{background:#2563eb;}
+.dot-legal{background:#7c3aed;}
+.dot-biz{background:#e11d48;}
+.split-name{flex:1;font-size:6.5pt;color:#555;}
+.split-pct{
+  font-family:'IBM Plex Mono',monospace;font-size:7pt;
+  font-weight:700;color:#1a1a1a;
+}
 
-  table.cost-table{width:100%;border-collapse:collapse;}
-  .td-l{font-size:7pt;color:#444;padding:2.5pt 8pt;border-bottom:0.5pt solid #f5f5f5;width:60%;}
-  .td-r{font-family:'IBM Plex Mono',monospace;font-size:7pt;font-weight:600;color:#111;text-align:right;padding:2.5pt 8pt;border-bottom:0.5pt solid #f5f5f5;white-space:nowrap;}
-  tr:last-child .td-l,tr:last-child .td-r{border-bottom:none;}
+/* ── COSTS ── */
+.costs-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:7pt;margin-top:11pt;
+}
+.cost-card{border:1pt solid #e5e5e5;page-break-inside:avoid;}
 
-  .brand-body{padding:6pt 8pt 8pt;}
-  .brand-title{font-size:7.5pt;font-weight:600;color:#111;margin-bottom:2pt;}
-  .brand-text{font-size:6.5pt;color:#666;line-height:1.6;font-style:italic;}
+.cost-card.c-tech  .card-accent{background:#2563eb;}
+.cost-card.c-legal .card-accent{background:#7c3aed;}
+.cost-card.c-biz   .card-accent{background:#e11d48;}
+.cost-card.c-brand .card-accent{background:#ea580c;}
 
-  /* Total bar */
-  .total-bar{
-    display:flex;justify-content:space-between;align-items:center;
-    border-top:1.5pt solid #111;border-bottom:1.5pt solid #111;
-    padding:7pt 8pt;margin-top:8pt;
-  }
-  .total-lbl{font-family:'IBM Plex Mono',monospace;font-size:7pt;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#111;}
-  .total-val{font-family:'IBM Plex Mono',monospace;font-size:14pt;font-weight:700;color:#111;letter-spacing:-0.02em;}
+.card-accent{
+  height:2.5pt;
+  print-color-adjust:exact;-webkit-print-color-adjust:exact;
+}
+.card-head{
+  display:flex;justify-content:space-between;align-items:baseline;
+  padding:6pt 9pt 5pt;border-bottom:1pt solid #f0f0f0;
+}
+.card-head-lbl{
+  font-family:'IBM Plex Mono',monospace;font-size:5.5pt;
+  font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#555;
+}
+.card-head-total{
+  font-family:'IBM Plex Mono',monospace;font-size:9.5pt;
+  font-weight:700;color:#0f0f0f;letter-spacing:-0.01em;
+}
+.card-variable{
+  font-size:7pt;font-weight:600;color:#ea580c;letter-spacing:0.02em;
+  print-color-adjust:exact;-webkit-print-color-adjust:exact;
+}
 
-  /* Disclaimer */
-  .disclaimer{
-    display:flex;gap:6pt;align-items:flex-start;
-    border-top:0.5pt solid #e0e0e0;padding-top:6pt;margin-top:10pt;
-  }
-  .disc-icon{font-size:9pt;color:#ccc;}
-  .disc-text{font-size:5.5pt;color:#aaa;line-height:1.6;margin-bottom:4pt;}
-  .disc-sources{display:flex;flex-wrap:wrap;gap:3pt;margin-top:4pt;}
-  .source-chip{font-family:'IBM Plex Mono',monospace;font-size:5pt;border:0.5pt solid #ddd;padding:1pt 4pt;color:#bbb;}
+table.cost-table{width:100%;border-collapse:collapse;}
+.td-l{
+  font-size:7pt;color:#555;padding:3pt 9pt;
+  border-bottom:0.5pt solid #f5f5f5;width:58%;line-height:1.3;
+}
+.td-r{
+  font-family:'IBM Plex Mono',monospace;font-size:7pt;
+  font-weight:600;color:#1a1a1a;
+  text-align:right;padding:3pt 9pt;
+  border-bottom:0.5pt solid #f5f5f5;white-space:nowrap;
+}
+tr:last-child .td-l,tr:last-child .td-r{border-bottom:none;}
 
-  /* Repo */
-  .repo-ref{
-    margin-top:7pt;padding-top:5pt;border-top:0.5pt solid #eee;
-    font-family:'IBM Plex Mono',monospace;font-size:5.5pt;
-    color:#ccc;text-align:center;letter-spacing:0.05em;
-  }
+.brand-body{padding:7pt 9pt 9pt;}
+.brand-title{font-size:7.5pt;font-weight:600;color:#1a1a1a;margin-bottom:3pt;}
+.brand-text{font-size:6.5pt;color:#777;line-height:1.65;font-style:italic;}
+
+/* ── TOTAL BAR ── */
+.total-bar{
+  display:flex;justify-content:space-between;align-items:center;
+  margin-top:9pt;padding:8pt 12pt;
+  border:1pt solid #0f0f0f;
+  background:#0f0f0f;
+  print-color-adjust:exact;-webkit-print-color-adjust:exact;
+}
+.total-lbl{
+  font-family:'IBM Plex Mono',monospace;font-size:6.5pt;
+  font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#fff;
+  print-color-adjust:exact;-webkit-print-color-adjust:exact;
+}
+.total-val{
+  font-family:'IBM Plex Mono',monospace;font-size:14pt;
+  font-weight:700;color:#fff;letter-spacing:-0.02em;
+  print-color-adjust:exact;-webkit-print-color-adjust:exact;
+}
+
+/* ── FOOTER ── */
+.footer{margin-top:10pt;display:flex;gap:8pt;align-items:flex-start;}
+.footer-icon{font-size:8pt;color:#ccc;flex-shrink:0;margin-top:1pt;}
+.footer-body{flex:1;}
+.disc-text{font-size:5.5pt;color:#aaa;line-height:1.65;margin-bottom:5pt;}
+.disc-sources{display:flex;flex-wrap:wrap;gap:3pt;}
+.source-chip{
+  font-family:'IBM Plex Mono',monospace;font-size:4.5pt;
+  border:0.5pt solid #ddd;padding:1.5pt 5pt;color:#bbb;
+}
+.repo-ref{
+  margin-top:7pt;padding-top:5pt;
+  border-top:0.5pt solid #ebebeb;
+  font-family:'IBM Plex Mono',monospace;font-size:5pt;
+  color:#ccc;text-align:center;letter-spacing:0.08em;
+}
 </style>
 </head>
 <body>
-<div class="page">
   <div class="topbar"></div>
 
   <!-- HEADER -->
   <div class="header">
     <div class="header-left">
       <div class="eyebrow">${t.eyebrow}</div>
-      <div class="title">${titleHTML}</div>
+      <div class="title">
+        ${lang === 'fr'
+          ? `Simulateur de Co&ucirc;ts <span class="title-light">de Cyber Incident</span>`
+          : `Cyber Incident <span class="title-light">Cost Simulator</span>`}
+      </div>
       <div class="subtitle-txt">${subtitleTxt}</div>
     </div>
-    <div class="header-right">
+    <div class="header-meta">
       <div class="meta-row"><span class="meta-lbl">${t.printGeneratedOn}</span><span class="meta-val">${date}</span></div>
       <div class="meta-row"><span class="meta-lbl">${lang==='fr'?'Classification':'Classification'}</span><span class="meta-val meta-confidential">${t.printConfidential}</span></div>
-      <div class="meta-row"><span class="meta-lbl">${t.regimeLabelPrefix}</span><span class="meta-val">${regimeLabel}</span></div>
+      <div class="meta-row"><span class="meta-lbl">${t.regimeLabelPrefix}</span><span class="meta-val meta-regime-val">${regimeLabel}</span></div>
       ${hasPHI ? `<div class="meta-row"><span class="meta-lbl">PHI</span><span class="meta-val meta-phi">${t.phiTagLabel}</span></div>` : ''}
     </div>
   </div>
+
+  <div class="divider"></div>
 
   <!-- PARAMETERS -->
   <div class="section-label">${t.printParamsTitle}</div>
@@ -2269,9 +2378,10 @@ function printReport() {
       <div class="exp-lbl">${totalLabel}</div>
       <div class="exp-total">${fmtN(d.netTotal)}</div>
       ${hasIns && d.grossTotal !== d.netTotal ? `<div class="exp-gross">${grossLabel}: ${fmtN(d.grossTotal)}</div>` : ''}
+      ${hasIns && d.insuranceCovered > 0 ? `<div class="exp-ins">${t.printInsNote}: ${fmtN(d.insuranceCovered)}</div>` : ''}
       <div class="exp-tags">
         ${hasPHI ? `<span class="tag tag-phi">${t.phiTagLabel}</span>` : ''}
-        ${hasIns && d.insuranceCovered > 0 ? `<span class="tag tag-ins">${t.printInsNote}: ${fmtN(d.insuranceCovered)}</span>` : ''}
+        ${hasIns ? `<span class="tag tag-ins">${lang==='fr'?'Assuré':'Insured'}</span>` : ''}
       </div>
     </div>
     <div class="exposure-side">
@@ -2289,10 +2399,11 @@ function printReport() {
   </div>
 
   <!-- COST BREAKDOWN -->
-  <div class="section-label">${costBreakdownLabel}</div>
+  <div class="section-label" style="margin-top:11pt;">${costBreakdownLabel}</div>
   <div class="costs-grid">
 
     <div class="cost-card c-tech">
+      <div class="card-accent"></div>
       <div class="card-head">
         <span class="card-head-lbl">${t.techHeader}</span>
         <span class="card-head-total">${fmtN(d.tech.total)}</span>
@@ -2305,6 +2416,7 @@ function printReport() {
     </div>
 
     <div class="cost-card c-legal">
+      <div class="card-accent"></div>
       <div class="card-head">
         <span class="card-head-lbl">${t.legalHeader}</span>
         <span class="card-head-total">${fmtN(d.legal.total)}</span>
@@ -2319,6 +2431,7 @@ function printReport() {
     </div>
 
     <div class="cost-card c-biz">
+      <div class="card-accent"></div>
       <div class="card-head">
         <span class="card-head-lbl">${t.bizHeader}</span>
         <span class="card-head-total">${fmtN(d.biz.total)}</span>
@@ -2331,6 +2444,7 @@ function printReport() {
     </div>
 
     <div class="cost-card c-brand">
+      <div class="card-accent"></div>
       <div class="card-head">
         <span class="card-head-lbl">${t.brandHeader}</span>
         <span class="card-head-total card-variable">Variable X</span>
@@ -2349,10 +2463,10 @@ function printReport() {
     <span class="total-val">${fmtN(d.netTotal)}</span>
   </div>
 
-  <!-- DISCLAIMER -->
-  <div class="disclaimer">
-    <span class="disc-icon">&#9432;</span>
-    <div>
+  <!-- FOOTER -->
+  <div class="footer">
+    <span class="footer-icon">&#9432;</span>
+    <div class="footer-body">
       <div class="disc-text">${t.disclaimer}</div>
       <div class="disc-sources">
         ${t.sources.map(s => `<span class="source-chip">${s}</span>`).join('')}
@@ -2361,8 +2475,8 @@ function printReport() {
   </div>
 
   <div class="repo-ref">${repoUrl}</div>
-</div>
-<script>window.onload = function(){ window.print(); };<\/script>
+
+<script>window.onload=function(){window.print();};<\/script>
 </body>
 </html>`;
 
