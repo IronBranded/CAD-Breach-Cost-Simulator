@@ -691,39 +691,52 @@ input[type="checkbox"]:checked + .checkmark::after{opacity:1}
 #printReport{display:none}
 
 @media print{
-  @page{margin:16mm 18mm 14mm;size:A4 portrait;}
-  body > *:not(#printReport){display:none!important}
+  @page{margin:14mm 16mm 12mm;size:A4 portrait;}
+
+  /* Hide everything except the print report */
+  body{background:#fff!important;}
+  .loading-overlay,
+  .page,
+  .top-bar,
+  .lang-switcher{display:none!important;}
   #printReport{
     display:block!important;
+    position:fixed;top:0;left:0;width:100%;
     font-family:'IBM Plex Sans',Arial,sans-serif;
-    font-size:9pt;color:#111;background:#fff;margin:0;padding:0;
+    font-size:9pt;color:#111;background:#fff;
   }
+
+  /* ── Page layout ── */
   .pr-page{width:100%;box-sizing:border-box;}
 
   /* ── Header ── */
   .pr-header{
     display:flex;align-items:flex-end;justify-content:space-between;
-    padding-bottom:10pt;margin-bottom:14pt;
+    padding-bottom:9pt;margin-bottom:13pt;
     border-bottom:2pt solid #111;
   }
   .pr-eyebrow{
     font-family:'IBM Plex Mono',monospace;font-size:6pt;
-    letter-spacing:0.2em;color:#3b9eff;text-transform:uppercase;margin-bottom:4pt;
+    letter-spacing:0.22em;text-transform:uppercase;margin-bottom:4pt;
+    color:#3b9eff;
     -webkit-print-color-adjust:exact;print-color-adjust:exact;
   }
-  .pr-title{font-size:17pt;font-weight:600;letter-spacing:-0.01em;line-height:1.1;color:#111;}
-  .pr-title-muted{font-weight:300;color:#666;}
+  .pr-title{
+    font-size:18pt;font-weight:600;letter-spacing:-0.01em;
+    line-height:1.1;color:#111;
+  }
+  .pr-title-muted{font-weight:300;color:#555;}
   .pr-header-right{
     text-align:right;font-family:'IBM Plex Mono',monospace;
-    font-size:6.5pt;color:#666;line-height:1.8;
+    font-size:6.5pt;color:#666;line-height:1.9;padding-bottom:1pt;
   }
-  .pr-header-right strong{color:#111;}
+  .pr-header-right strong{color:#111;font-weight:700;}
 
   /* ── Section labels ── */
   .pr-section-label{
-    font-family:'IBM Plex Mono',monospace;font-size:6pt;
-    letter-spacing:0.2em;text-transform:uppercase;color:#3b9eff;
-    margin-bottom:5pt;margin-top:14pt;
+    font-family:'IBM Plex Mono',monospace;font-size:5.5pt;
+    letter-spacing:0.22em;text-transform:uppercase;
+    color:#3b9eff;margin-bottom:5pt;margin-top:13pt;
     -webkit-print-color-adjust:exact;print-color-adjust:exact;
   }
   .pr-section-label:first-of-type{margin-top:0;}
@@ -731,111 +744,141 @@ input[type="checkbox"]:checked + .checkmark::after{opacity:1}
   /* ── Parameters grid ── */
   .pr-params-grid{
     display:grid;grid-template-columns:repeat(4,1fr);
-    gap:7pt 12pt;
-    border-left:3pt solid #111;
-    padding:9pt 0 9pt 12pt;
-    margin-bottom:14pt;
+    gap:6pt 10pt;
+    border-left:3pt solid #3b9eff;
+    padding:8pt 0 8pt 11pt;
+    margin-bottom:13pt;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;
   }
   .pr-param-label{
     font-family:'IBM Plex Mono',monospace;font-size:5.5pt;
-    color:#999;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:2pt;
+    color:#aaa;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:2pt;
   }
   .pr-param-value{font-size:8pt;font-weight:600;color:#111;line-height:1.3;}
 
-  /* ── Exposure block: accent border, no fills ── */
+  /* ── Exposure block ── */
+  /* Two-column layout: big number left, lifecycle right */
   .pr-exposure{
-    border:1.5pt solid #ddd;
-    border-left:4pt solid #3b9eff;
-    padding:10pt 14pt;margin-bottom:4pt;
-    display:grid;grid-template-columns:1fr auto;gap:16pt;align-items:start;
+    display:grid;grid-template-columns:1fr 200pt;gap:0;
+    margin-bottom:4pt;
+    border:1pt solid #ddd;
     -webkit-print-color-adjust:exact;print-color-adjust:exact;
   }
+  .pr-exposure-left{
+    padding:10pt 14pt 10pt 14pt;
+    border-right:1pt solid #ddd;
+  }
   .pr-exposure-label{
-    font-family:'IBM Plex Mono',monospace;font-size:6pt;
-    letter-spacing:0.14em;color:#999;margin-bottom:4pt;text-transform:uppercase;
+    font-family:'IBM Plex Mono',monospace;font-size:5.5pt;
+    letter-spacing:0.16em;color:#999;margin-bottom:4pt;text-transform:uppercase;
   }
   .pr-exposure-total{
-    font-size:26pt;font-weight:700;letter-spacing:-0.03em;line-height:1;color:#111;
+    font-size:27pt;font-weight:700;letter-spacing:-0.03em;line-height:1;color:#111;
   }
   .pr-exposure-gross{
     font-family:'IBM Plex Mono',monospace;font-size:7pt;color:#888;margin-top:5pt;
   }
-  .pr-exposure-right{text-align:right;}
-  .pr-lifecycle-label{
-    font-family:'IBM Plex Mono',monospace;font-size:5.5pt;
-    letter-spacing:0.12em;color:#999;margin-bottom:2pt;text-transform:uppercase;
-  }
-  .pr-lifecycle-val{font-size:9pt;font-weight:600;color:#111;}
-  .pr-regime{
-    font-family:'IBM Plex Mono',monospace;font-size:6pt;
-    border:1pt solid #333;padding:2pt 6pt;
-    display:inline-block;margin-top:6pt;color:#333;letter-spacing:0.08em;
-  }
   .pr-tags{margin-top:7pt;display:flex;gap:4pt;flex-wrap:wrap;align-items:center;}
   .pr-phi-tag{
-    font-family:'IBM Plex Mono',monospace;font-size:6pt;
-    border:1pt solid #7c3aed;color:#7c3aed;
-    padding:1.5pt 5pt;display:inline-block;letter-spacing:0.06em;
+    font-family:'IBM Plex Mono',monospace;font-size:5.5pt;letter-spacing:0.08em;
+    border:0.75pt solid #7c3aed;color:#7c3aed;padding:1.5pt 5pt;
     -webkit-print-color-adjust:exact;print-color-adjust:exact;
   }
   .pr-ins-tag{
-    font-family:'IBM Plex Mono',monospace;font-size:6pt;
-    border:1pt solid #1a7a3a;color:#1a7a3a;
-    padding:1.5pt 5pt;display:inline-block;letter-spacing:0.06em;
+    font-family:'IBM Plex Mono',monospace;font-size:5.5pt;letter-spacing:0.08em;
+    border:0.75pt solid #1a7a3a;color:#1a7a3a;padding:1.5pt 5pt;
     -webkit-print-color-adjust:exact;print-color-adjust:exact;
   }
+  .pr-exposure-right{
+    padding:10pt 12pt;
+    display:flex;flex-direction:column;justify-content:space-between;
+  }
+  .pr-exposure-right-top{}
+  .pr-lifecycle-label{
+    font-family:'IBM Plex Mono',monospace;font-size:5.5pt;
+    letter-spacing:0.12em;color:#999;margin-bottom:3pt;text-transform:uppercase;
+  }
+  .pr-lifecycle-val{font-size:9.5pt;font-weight:700;color:#111;line-height:1.2;}
+  .pr-regime-label{
+    font-family:'IBM Plex Mono',monospace;font-size:5.5pt;
+    letter-spacing:0.12em;color:#999;margin-bottom:3pt;margin-top:8pt;text-transform:uppercase;
+  }
+  .pr-regime{
+    font-family:'IBM Plex Mono',monospace;font-size:7pt;font-weight:600;
+    color:#111;letter-spacing:0.06em;
+  }
 
-  /* ── Cost cards ── */
-  .pr-costs{display:flex;flex-direction:column;gap:5pt;margin-bottom:0;}
-  .pr-cost-card{border:0.75pt solid #ddd;page-break-inside:avoid;}
-  .pr-cost-card.tech{border-left:3.5pt solid #3b9eff;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
-  .pr-cost-card.legal{border-left:3.5pt solid #b06bff;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
-  .pr-cost-card.biz{border-left:3.5pt solid #ff4455;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
-  .pr-cost-card.brand{border-left:3.5pt solid #ff7b2c;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  /* ── Cost cards — two-column grid ── */
+  .pr-costs{
+    display:grid;grid-template-columns:1fr 1fr;
+    gap:5pt;margin-bottom:0;
+  }
+  .pr-cost-card{
+    border:0.75pt solid #ddd;
+    page-break-inside:avoid;
+    display:flex;flex-direction:column;
+  }
+  /* Coloured top bar on each card */
+  .pr-cost-card::before{
+    content:'';display:block;height:3pt;width:100%;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;
+  }
+  .pr-cost-card.tech::before{background:#3b9eff;}
+  .pr-cost-card.legal::before{background:#b06bff;}
+  .pr-cost-card.biz::before{background:#ff4455;}
+  .pr-cost-card.brand::before{background:#ff7b2c;}
 
   .pr-cost-card-header{
-    font-family:'IBM Plex Mono',monospace;font-size:6.5pt;font-weight:700;
+    font-family:'IBM Plex Mono',monospace;font-size:6pt;font-weight:700;
     letter-spacing:0.12em;text-transform:uppercase;color:#111;
-    padding:5pt 10pt;border-bottom:0.75pt solid #e8e8e8;
-    display:flex;justify-content:space-between;align-items:center;
+    padding:5pt 9pt 4pt;border-bottom:0.75pt solid #ebebeb;
+    display:flex;justify-content:space-between;align-items:baseline;
   }
   .pr-cost-card-header-total{
-    font-size:9pt;font-weight:700;color:#111;font-family:'IBM Plex Mono',monospace;
+    font-size:8.5pt;font-weight:700;color:#111;font-family:'IBM Plex Mono',monospace;
   }
-  .pr-cost-rows{padding:3pt 10pt 5pt 10pt;}
+  .pr-cost-rows{padding:3pt 9pt 6pt;flex:1;}
   .pr-cost-row{
     display:flex;justify-content:space-between;align-items:baseline;
-    font-size:7.5pt;padding:2pt 0;border-bottom:0.5pt solid #f0f0f0;
+    font-size:7pt;padding:2pt 0;border-bottom:0.5pt solid #f3f3f3;
   }
   .pr-cost-row:last-child{border-bottom:none;}
-  .pr-cost-label{color:#444;padding-right:8pt;}
-  .pr-cost-val{font-family:'IBM Plex Mono',monospace;font-weight:600;color:#111;white-space:nowrap;}
-  .pr-brand-text{font-size:7pt;color:#666;line-height:1.6;padding:5pt 10pt 7pt;font-style:italic;}
+  .pr-cost-label{color:#444;padding-right:6pt;flex:1;}
+  .pr-cost-val{
+    font-family:'IBM Plex Mono',monospace;font-weight:700;
+    color:#111;white-space:nowrap;font-size:7pt;
+  }
+  .pr-brand-text{
+    font-size:6.5pt;color:#666;line-height:1.6;
+    padding:5pt 9pt 8pt;font-style:italic;flex:1;
+  }
 
   /* ── Grand total ── */
   .pr-grand-total{
     display:flex;justify-content:space-between;align-items:center;
-    border-top:2pt solid #111;padding:8pt 10pt;
+    border-top:2pt solid #111;
     margin-top:8pt;margin-bottom:12pt;
+    padding:7pt 9pt;
   }
   .pr-grand-label{
     font-family:'IBM Plex Mono',monospace;font-size:7pt;
-    font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#111;
+    font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#111;
   }
   .pr-grand-val{
-    font-family:'IBM Plex Mono',monospace;font-size:14pt;
+    font-family:'IBM Plex Mono',monospace;font-size:15pt;
     font-weight:700;color:#111;letter-spacing:-0.02em;
   }
 
   /* ── Disclaimer ── */
   .pr-disclaimer{
-    border-top:0.5pt solid #ddd;padding-top:7pt;
-    font-size:6pt;color:#aaa;line-height:1.65;
+    border-top:0.5pt solid #ddd;padding-top:6pt;
+    font-size:5.5pt;color:#aaa;line-height:1.7;
   }
   .pr-disclaimer-sources{margin-top:5pt;display:flex;flex-wrap:wrap;gap:3pt;}
   .pr-source-chip{
     font-family:'IBM Plex Mono',monospace;font-size:5pt;
     border:0.5pt solid #ddd;padding:1pt 4pt;color:#bbb;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;
   }
 }
 
@@ -1628,9 +1671,9 @@ function runCalc() {
     }
   }
 
-  const scenarioObj  = (T[lang].options.scenarios.find(s => s.v === type));
+  const scenarioObj   = (T[lang].options.scenarios.find(s => s.v === type));
   const incidentLabel = scenarioObj ? scenarioObj.t : type;
-  const provinceObj  = T[lang].options.provinces.find(p => p.v === province);
+  const provinceObj   = T[lang].options.provinces.find(p => p.v === province);
   const provinceLabel = provinceObj ? provinceObj.t.split(' (')[0] : province;
   const duration      = T[lang].durations[type] || '—';
 
@@ -1640,6 +1683,8 @@ function runCalc() {
     grossTotal, netTotal, insuranceCovered, hasIns,
     incidentLabel, provinceLabel, duration, hasPHI,
     regimeKey: legal.regimeKey,
+    // raw keys for re-resolving labels after a lang switch
+    _type: type, _province: province,
   };
 }
 
@@ -1976,6 +2021,11 @@ function printReport() {
   const d   = window._lastCalcData;
   if (!d) return;
 
+  // Re-resolve labels using current language (user may have switched after running)
+  const incidentLabel = (T[lang].options.scenarios.find(s => s.v === d._type) || {}).t || d._type;
+  const provinceLabel = (T[lang].options.provinces.find(p => p.v === d._province) || {}).t || d._province;
+  const duration      = T[lang].durations[d._type] || '—';
+
   const date = new Date().toLocaleDateString(lang === 'fr' ? 'fr-CA' : 'en-CA', {
     year:'numeric', month:'long', day:'numeric'
   });
@@ -2063,22 +2113,27 @@ function printReport() {
 
     <!-- Exposure hero -->
     <div class="pr-exposure">
-      <div>
+      <div class="pr-exposure-left">
         <div class="pr-exposure-label">${totalLabel}</div>
         <div class="pr-exposure-total">${fmt(d.netTotal)}</div>
         ${hasIns && d.grossTotal !== d.netTotal
           ? `<div class="pr-exposure-gross">${lang==='fr'?'Exposition brute':'Gross exposure'}: ${fmt(d.grossTotal)}</div>`
           : ''}
         <div class="pr-tags">
-          ${hasPHI ? `<span class="pr-phi-tag">${t.phiTagLabel}</span>` : ''}
+          ${d.hasPHI ? `<span class="pr-phi-tag">${t.phiTagLabel}</span>` : ''}
           ${hasIns && d.insuranceCovered > 0
             ? `<span class="pr-ins-tag">${t.printInsNote}: ${fmt(d.insuranceCovered)}</span>` : ''}
         </div>
       </div>
       <div class="pr-exposure-right">
-        <div class="pr-lifecycle-label">${t.lblLifecycle}</div>
-        <div class="pr-lifecycle-val">${d.duration}</div>
-        <div class="pr-regime">${regimeText}</div>
+        <div class="pr-exposure-right-top">
+          <div class="pr-lifecycle-label">${t.lblLifecycle}</div>
+          <div class="pr-lifecycle-val">${duration}</div>
+        </div>
+        <div>
+          <div class="pr-regime-label">${t.regimeLabelPrefix.replace(':','')}</div>
+          <div class="pr-regime">${REGIME_DISPLAY[d.regimeKey] || 'PIPEDA'}</div>
+        </div>
       </div>
     </div>
 
