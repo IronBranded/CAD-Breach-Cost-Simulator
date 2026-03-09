@@ -2026,202 +2026,351 @@ function runSimulation() {
 }
 
 function printReport() {
-  const t   = T[lang];
-  const d   = window._lastCalcData;
+  const t = T[lang];
+  const d = window._lastCalcData;
   if (!d) return;
 
-  // Re-resolve labels using current language (user may have switched after running)
-  const incidentLabel = (T[lang].options.scenarios.find(s => s.v === d._type) || {}).t || d._type;
-  const provinceLabel = (T[lang].options.provinces.find(p => p.v === d._province) || {}).t || d._province;
-  const duration      = T[lang].durations[d._type] || '—';
+  const type     = d._type;
+  const province = d._province;
+
+  const incidentLabel = (t.options.scenarios.find(s => s.v === type)  || {t: type}).t;
+  const provinceLabel = (t.options.provinces.find(p => p.v === province) || {t: province}).t.split(' (')[0];
+  const duration      = t.durations[type] || '—';
+
+  const REGIME_FR = { QC:'Loi 25', ON:'LPRPDE + LPRPS', AB:'PIPA AB', BC:'PIPA CB', OTHER:'LPRPDE', FIN:'LPRPDE + BSIF B-13' };
+  const regimeLabel = lang === 'fr' ? (REGIME_FR[d.regimeKey] || 'LPRPDE') : (REGIME_DISPLAY[d.regimeKey] || 'PIPEDA');
+
+  const totalLabel  = d.hasIns ? t.printTotalLabelNet : t.printTotalLabel;
+  const hasPHI      = el('hasPHI').checked;
+  const hasIns      = el('hasInsurance').checked;
+
+  const fmtN = n => {
+    const r = Math.round(n);
+    return lang === 'fr'
+      ? r.toLocaleString('fr-CA') + '\u00a0$ CAD'
+      : '$' + r.toLocaleString('en-CA') + '\u00a0CAD';
+  };
+
+  const insLimitVal = hasIns ? fmtN(Number(el('insLimit').value  || 0)) : '—';
+  const insDedVal   = hasIns ? fmtN(Number(el('insDeductible').value || 0)) : '—';
+
+  const lookupOpt = (selectId, optArr) => {
+    const v = el(selectId) ? el(selectId).value : '';
+    return (optArr.find(o => o.v === v) || {t:'—'}).t;
+  };
+
+  const row  = (label, val) => val > 0
+    ? `<tr><td class="td-l">${label}</td><td class="td-r">${fmtN(val)}</td></tr>` : '';
+  const rowA = (label, val) =>
+    `<tr><td class="td-l">${label}</td><td class="td-r">${fmtN(val)}</td></tr>`;
+
+  const pct = (a, b) => b > 0 ? Math.round(a / b * 100) + '%' : '0%';
 
   const date = new Date().toLocaleDateString(lang === 'fr' ? 'fr-CA' : 'en-CA', {
-    year:'numeric', month:'long', day:'numeric'
+    year: 'numeric', month: 'long', day: 'numeric'
   });
 
-  // Read form field labels + selected option text
-  function selText(id) {
-    const s = el(id);
-    return s && s.selectedIndex >= 0 ? s.options[s.selectedIndex].text : '—';
+  const titleHTML = lang === 'fr'
+    ? `Simulateur de Co&ucirc;ts <span style="font-weight:300;color:#777">de Cyber Incident</span>`
+    : `Cyber Incident <span style="font-weight:300;color:#777">Cost Simulator</span>`;
+
+  const subtitleTxt = lang === 'fr'
+    ? 'Mod&egrave;le d&rsquo;exposition financi&egrave;re &ndash; Cadre r&eacute;glementaire canadien'
+    : 'Financial Exposure Model &ndash; Canadian Regulatory Framework';
+
+  const costBreakdownLabel = lang === 'fr' ? 'D&eacute;tail des co&ucirc;ts' : 'Cost Breakdown';
+  const subtotalLabel      = lang === 'fr' ? 'Sous-total' : 'Subtotal';
+  const grossLabel         = lang === 'fr' ? 'Exposition brute' : 'Gross exposure';
+  const costSplitLabel     = lang === 'fr' ? 'R&eacute;partition' : 'Cost Split';
+  const repoUrl            = 'https://github.com/IronBranded/CAD-Breach-Cost-Simulator/';
+
+  const html = `<!DOCTYPE html>
+<html lang="${lang}">
+<head>
+<meta charset="UTF-8">
+<title>${lang === 'fr' ? 'Rapport — Simulateur de Coûts de Cyber Incident' : 'Report — Cyber Incident Cost Simulator'}</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=IBM+Plex+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  @page{margin:14mm 16mm 12mm;size:A4 portrait;}
+  body{
+    font-family:'IBM Plex Sans',Arial,sans-serif;
+    font-size:8.5pt;color:#111;background:#fff;
   }
-  const hasPHI  = el('hasPHI').checked;
-  const hasIns  = el('hasInsurance').checked;
-  const insLimit = hasIns ? '$' + Number(el('insLimit').value || 0).toLocaleString('en-CA') : '—';
-  const insDed  = hasIns ? '$' + Number(el('insDeductible').value || 0).toLocaleString('en-CA') : '—';
+  .page{padding:0;}
 
-  // Helper: one print cost row
-  const pr = (label, val) => val > 0
-    ? `<div class="pr-cost-row"><span class="pr-cost-label">${label}</span><span class="pr-cost-val">${fmt(val)}</span></div>`
-    : '';
-  const prAny = (label, val) =>
-    `<div class="pr-cost-row"><span class="pr-cost-label">${label}</span><span class="pr-cost-val">${fmt(val)}</span></div>`;
+  /* Top bar */
+  .topbar{
+    height:5pt;
+    background:linear-gradient(90deg,#3b9eff 0%,#b06bff 50%,#ff4455 100%);
+    margin-bottom:14pt;
+    print-color-adjust:exact;-webkit-print-color-adjust:exact;
+  }
 
-  const regimeText = `${t.regimeLabelPrefix} ${REGIME_DISPLAY[d.regimeKey] || 'PIPEDA'}`;
-  const totalLabel = d.hasIns ? t.printTotalLabelNet : t.printTotalLabel;
+  /* Header */
+  .header{
+    display:flex;align-items:flex-start;justify-content:space-between;
+    border-bottom:1.5pt solid #111;padding-bottom:10pt;margin-bottom:13pt;gap:14pt;
+  }
+  .header-left{flex:1;}
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace;font-size:6pt;
+    letter-spacing:0.2em;color:#3b9eff;text-transform:uppercase;margin-bottom:3pt;
+    print-color-adjust:exact;-webkit-print-color-adjust:exact;
+  }
+  .title{font-size:17pt;font-weight:600;letter-spacing:-0.01em;line-height:1.1;color:#111;margin-bottom:2pt;}
+  .subtitle-txt{font-size:7pt;color:#999;font-style:italic;margin-top:2pt;}
 
-  el('printReport').innerHTML = `
-  <div class="pr-page">
+  .header-right{
+    min-width:150pt;
+    border:1pt solid #e0e0e0;border-left:3pt solid #3b9eff;
+    padding:7pt 10pt;
+    print-color-adjust:exact;-webkit-print-color-adjust:exact;
+  }
+  .meta-row{display:flex;justify-content:space-between;gap:10pt;font-size:6.5pt;padding:1.5pt 0;border-bottom:0.5pt solid #f0f0f0;}
+  .meta-row:last-child{border-bottom:none;}
+  .meta-lbl{font-family:'IBM Plex Mono',monospace;color:#999;letter-spacing:0.06em;text-transform:uppercase;white-space:nowrap;}
+  .meta-val{font-weight:600;color:#111;text-align:right;}
+  .meta-confidential{color:#cc3333;font-size:6pt;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
+  .meta-phi{color:#7c3aed;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
 
-    <!-- Header -->
-    <div class="pr-header">
-      <div>
-        <div class="pr-eyebrow">${t.eyebrow}</div>
-        <div class="pr-title">
-          ${lang === 'fr'
-            ? `Simulateur de Coûts <span class="pr-title-muted">de Cyber Incident</span>`
-            : `Cyber Incident <span class="pr-title-muted">Cost Simulator</span>`}
-        </div>
+  /* Section label */
+  .section-label{
+    font-family:'IBM Plex Mono',monospace;font-size:5.5pt;
+    letter-spacing:0.22em;text-transform:uppercase;color:#3b9eff;
+    margin-bottom:5pt;margin-top:13pt;
+    print-color-adjust:exact;-webkit-print-color-adjust:exact;
+  }
+
+  /* Parameters */
+  .params-grid{
+    display:grid;grid-template-columns:repeat(4,1fr);
+    gap:5pt 10pt;
+  }
+  .param{border-left:2pt solid #ddd;padding-left:6pt;padding-bottom:3pt;}
+  .param-lbl{font-family:'IBM Plex Mono',monospace;font-size:5.5pt;color:#aaa;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:1.5pt;}
+  .param-val{font-size:7.5pt;font-weight:600;color:#111;line-height:1.3;}
+
+  /* Exposure */
+  .exposure-wrap{
+    display:flex;border:1pt solid #ddd;
+    border-left:4pt solid #3b9eff;margin-top:11pt;
+    print-color-adjust:exact;-webkit-print-color-adjust:exact;
+  }
+  .exposure-main{flex:1;padding:10pt 14pt;border-right:1pt solid #eee;}
+  .exp-lbl{font-family:'IBM Plex Mono',monospace;font-size:5.5pt;letter-spacing:0.15em;color:#999;margin-bottom:3pt;text-transform:uppercase;}
+  .exp-total{font-size:24pt;font-weight:700;letter-spacing:-0.03em;line-height:1;color:#111;}
+  .exp-gross{font-family:'IBM Plex Mono',monospace;font-size:6.5pt;color:#999;margin-top:4pt;}
+  .exp-ins{font-size:7pt;color:#1a6e35;margin-top:3pt;font-weight:600;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
+  .exp-tags{display:flex;gap:4pt;flex-wrap:wrap;margin-top:6pt;}
+  .tag{font-family:'IBM Plex Mono',monospace;font-size:6pt;border:1pt solid #ccc;padding:1.5pt 5pt;color:#555;}
+  .tag-phi{border-color:#7c3aed;color:#7c3aed;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
+  .tag-ins{border-color:#1a6e35;color:#1a6e35;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
+
+  .exposure-side{width:130pt;display:flex;flex-direction:column;}
+  .exp-side-block{flex:1;padding:7pt 10pt;border-bottom:1pt solid #eee;}
+  .exp-side-block:last-child{border-bottom:none;}
+  .side-lbl{font-family:'IBM Plex Mono',monospace;font-size:5.5pt;letter-spacing:0.12em;text-transform:uppercase;color:#999;margin-bottom:4pt;}
+  .side-val{font-size:8pt;font-weight:600;color:#111;}
+  .split-row{display:flex;align-items:center;gap:4pt;font-size:7pt;padding:1pt 0;}
+  .dot{width:6pt;height:6pt;border-radius:50%;flex-shrink:0;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
+  .dot-tech{background:#3b9eff;} .dot-legal{background:#b06bff;} .dot-biz{background:#ff4455;}
+  .split-name{flex:1;color:#444;}
+  .split-pct{font-family:'IBM Plex Mono',monospace;font-weight:700;color:#111;}
+
+  /* Cost grid */
+  .costs-grid{display:grid;grid-template-columns:1fr 1fr;gap:6pt;margin-top:11pt;}
+  .cost-card{border:1pt solid #ddd;}
+  .cost-card.c-tech{border-top:3pt solid #3b9eff;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
+  .cost-card.c-legal{border-top:3pt solid #b06bff;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
+  .cost-card.c-biz{border-top:3pt solid #ff4455;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
+  .cost-card.c-brand{border-top:3pt solid #ff7b2c;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
+
+  .card-head{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:5pt 8pt;border-bottom:0.75pt solid #eee;
+  }
+  .card-head-lbl{font-family:'IBM Plex Mono',monospace;font-size:6pt;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#333;}
+  .card-head-total{font-family:'IBM Plex Mono',monospace;font-size:9pt;font-weight:700;color:#111;}
+  .card-variable{font-size:7pt;color:#ff7b2c;font-weight:600;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
+
+  table.cost-table{width:100%;border-collapse:collapse;}
+  .td-l{font-size:7pt;color:#444;padding:2.5pt 8pt;border-bottom:0.5pt solid #f5f5f5;width:60%;}
+  .td-r{font-family:'IBM Plex Mono',monospace;font-size:7pt;font-weight:600;color:#111;text-align:right;padding:2.5pt 8pt;border-bottom:0.5pt solid #f5f5f5;white-space:nowrap;}
+  tr:last-child .td-l,tr:last-child .td-r{border-bottom:none;}
+
+  .brand-body{padding:6pt 8pt 8pt;}
+  .brand-title{font-size:7.5pt;font-weight:600;color:#111;margin-bottom:2pt;}
+  .brand-text{font-size:6.5pt;color:#666;line-height:1.6;font-style:italic;}
+
+  /* Total bar */
+  .total-bar{
+    display:flex;justify-content:space-between;align-items:center;
+    border-top:1.5pt solid #111;border-bottom:1.5pt solid #111;
+    padding:7pt 8pt;margin-top:8pt;
+  }
+  .total-lbl{font-family:'IBM Plex Mono',monospace;font-size:7pt;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#111;}
+  .total-val{font-family:'IBM Plex Mono',monospace;font-size:14pt;font-weight:700;color:#111;letter-spacing:-0.02em;}
+
+  /* Disclaimer */
+  .disclaimer{
+    display:flex;gap:6pt;align-items:flex-start;
+    border-top:0.5pt solid #e0e0e0;padding-top:6pt;margin-top:10pt;
+  }
+  .disc-icon{font-size:9pt;color:#ccc;}
+  .disc-text{font-size:5.5pt;color:#aaa;line-height:1.6;margin-bottom:4pt;}
+  .disc-sources{display:flex;flex-wrap:wrap;gap:3pt;margin-top:4pt;}
+  .source-chip{font-family:'IBM Plex Mono',monospace;font-size:5pt;border:0.5pt solid #ddd;padding:1pt 4pt;color:#bbb;}
+
+  /* Repo */
+  .repo-ref{
+    margin-top:7pt;padding-top:5pt;border-top:0.5pt solid #eee;
+    font-family:'IBM Plex Mono',monospace;font-size:5.5pt;
+    color:#ccc;text-align:center;letter-spacing:0.05em;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="topbar"></div>
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-left">
+      <div class="eyebrow">${t.eyebrow}</div>
+      <div class="title">${titleHTML}</div>
+      <div class="subtitle-txt">${subtitleTxt}</div>
+    </div>
+    <div class="header-right">
+      <div class="meta-row"><span class="meta-lbl">${t.printGeneratedOn}</span><span class="meta-val">${date}</span></div>
+      <div class="meta-row"><span class="meta-lbl">${lang==='fr'?'Classification':'Classification'}</span><span class="meta-val meta-confidential">${t.printConfidential}</span></div>
+      <div class="meta-row"><span class="meta-lbl">${t.regimeLabelPrefix}</span><span class="meta-val">${regimeLabel}</span></div>
+      ${hasPHI ? `<div class="meta-row"><span class="meta-lbl">PHI</span><span class="meta-val meta-phi">${t.phiTagLabel}</span></div>` : ''}
+    </div>
+  </div>
+
+  <!-- PARAMETERS -->
+  <div class="section-label">${t.printParamsTitle}</div>
+  <div class="params-grid">
+    <div class="param"><div class="param-lbl">${t.lblScenario}</div><div class="param-val">${incidentLabel}</div></div>
+    <div class="param"><div class="param-lbl">${t.lblIndustry}</div><div class="param-val">${lookupOpt('industryType', t.options.industries)}</div></div>
+    <div class="param"><div class="param-lbl">${t.lblRecords}</div><div class="param-val">${lookupOpt('recordCount', t.options.records)}</div></div>
+    <div class="param"><div class="param-lbl">${t.lblRevenue}</div><div class="param-val">${lookupOpt('revenueBracket', t.options.revenue)}</div></div>
+    <div class="param"><div class="param-lbl">${t.lblRootCause}</div><div class="param-val">${lookupOpt('rootCause', t.options.causes)}</div></div>
+    <div class="param"><div class="param-lbl">${t.lblProvince}</div><div class="param-val">${provinceLabel}</div></div>
+    ${hasIns ? `
+    <div class="param"><div class="param-lbl">${t.lblInsLimit}</div><div class="param-val">${insLimitVal}</div></div>
+    <div class="param"><div class="param-lbl">${t.lblInsDeductible}</div><div class="param-val">${insDedVal}</div></div>` : ''}
+  </div>
+
+  <!-- EXPOSURE -->
+  <div class="exposure-wrap">
+    <div class="exposure-main">
+      <div class="exp-lbl">${totalLabel}</div>
+      <div class="exp-total">${fmtN(d.netTotal)}</div>
+      ${hasIns && d.grossTotal !== d.netTotal ? `<div class="exp-gross">${grossLabel}: ${fmtN(d.grossTotal)}</div>` : ''}
+      <div class="exp-tags">
+        ${hasPHI ? `<span class="tag tag-phi">${t.phiTagLabel}</span>` : ''}
+        ${hasIns && d.insuranceCovered > 0 ? `<span class="tag tag-ins">${t.printInsNote}: ${fmtN(d.insuranceCovered)}</span>` : ''}
       </div>
-      <div class="pr-header-right">
-        <div>${t.printGeneratedOn}: <strong>${date}</strong></div>
-        <div>${t.printConfidential}</div>
+    </div>
+    <div class="exposure-side">
+      <div class="exp-side-block">
+        <div class="side-lbl">${t.lblLifecycle}</div>
+        <div class="side-val">${duration}</div>
+      </div>
+      <div class="exp-side-block">
+        <div class="side-lbl">${costSplitLabel}</div>
+        <div class="split-row"><span class="dot dot-tech"></span><span class="split-name">${t.legendTech}</span><span class="split-pct">${pct(d.tech.total, d.grossTotal)}</span></div>
+        <div class="split-row"><span class="dot dot-legal"></span><span class="split-name">${t.legendLegal}</span><span class="split-pct">${pct(d.legal.total, d.grossTotal)}</span></div>
+        <div class="split-row"><span class="dot dot-biz"></span><span class="split-name">${t.legendBiz}</span><span class="split-pct">${pct(d.biz.total, d.grossTotal)}</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- COST BREAKDOWN -->
+  <div class="section-label">${costBreakdownLabel}</div>
+  <div class="costs-grid">
+
+    <div class="cost-card c-tech">
+      <div class="card-head">
+        <span class="card-head-lbl">${t.techHeader}</span>
+        <span class="card-head-total">${fmtN(d.tech.total)}</span>
+      </div>
+      <table class="cost-table">
+        ${rowA(t.techIR,        d.tech.costIR)}
+        ${rowA(t.techForensics, d.tech.costForensics)}
+        ${rowA(t.techIT,        d.tech.costIT)}
+      </table>
+    </div>
+
+    <div class="cost-card c-legal">
+      <div class="card-head">
+        <span class="card-head-lbl">${t.legalHeader}</span>
+        <span class="card-head-total">${fmtN(d.legal.total)}</span>
+      </div>
+      <table class="cost-table">
+        ${rowA(t.legalCounsel,  d.legal.costCounsel)}
+        ${row(t.legalFines,     d.legal.fineExposure)}
+        ${row(t.legalSettlement,d.legal.settlementRisk)}
+        ${rowA(t.legalNotify,   d.legal.costNotify)}
+        ${rowA(d.hasPHI ? t.legalPHICredit : t.legalCredit, d.legal.costCredit)}
+      </table>
+    </div>
+
+    <div class="cost-card c-biz">
+      <div class="card-head">
+        <span class="card-head-lbl">${t.bizHeader}</span>
+        <span class="card-head-total">${fmtN(d.biz.total)}</span>
+      </div>
+      <table class="cost-table">
+        ${rowA(t.bizOps,         d.biz.costOps)}
+        ${rowA(t.bizRemediation, d.biz.costRemediation)}
+        ${row(t.bizExtortion,    d.biz.ransom)}
+      </table>
+    </div>
+
+    <div class="cost-card c-brand">
+      <div class="card-head">
+        <span class="card-head-lbl">${t.brandHeader}</span>
+        <span class="card-head-total card-variable">Variable X</span>
+      </div>
+      <div class="brand-body">
+        <div class="brand-title">${t.unquantifiable}</div>
+        <div class="brand-text">${t.churnText}</div>
       </div>
     </div>
 
-    <!-- Incident Parameters -->
-    <div class="pr-section-label">${t.printParamsTitle}</div>
-    <div class="pr-params-grid">
-      <div class="pr-param">
-        <div class="pr-param-label">${t.lblScenario}</div>
-        <div class="pr-param-value">${selText('incidentType')}</div>
-      </div>
-      <div class="pr-param">
-        <div class="pr-param-label">${t.lblIndustry}</div>
-        <div class="pr-param-value">${selText('industryType')}</div>
-      </div>
-      <div class="pr-param">
-        <div class="pr-param-label">${t.lblRecords}</div>
-        <div class="pr-param-value">${selText('recordCount')}</div>
-      </div>
-      <div class="pr-param">
-        <div class="pr-param-label">${t.lblRevenue}</div>
-        <div class="pr-param-value">${selText('revenueBracket')}</div>
-      </div>
-      <div class="pr-param">
-        <div class="pr-param-label">${t.lblRootCause}</div>
-        <div class="pr-param-value">${selText('rootCause')}</div>
-      </div>
-      <div class="pr-param">
-        <div class="pr-param-label">${t.lblProvince}</div>
-        <div class="pr-param-value">${selText('provinceSelect')}</div>
-      </div>
-      ${hasPHI ? `<div class="pr-param">
-        <div class="pr-param-label">PHI</div>
-        <div class="pr-param-value">${t.phiTagLabel}</div>
-      </div>` : '<div class="pr-param"></div>'}
-      ${hasIns ? `
-      <div class="pr-param">
-        <div class="pr-param-label">${t.lblInsLimit}</div>
-        <div class="pr-param-value">${insLimit}</div>
-      </div>
-      <div class="pr-param">
-        <div class="pr-param-label">${t.lblInsDeductible}</div>
-        <div class="pr-param-value">${insDed}</div>
-      </div>` : ''}
-    </div>
+  </div>
 
-    <!-- Exposure hero -->
-    <div class="pr-exposure">
-      <div class="pr-exposure-left">
-        <div class="pr-exposure-label">${totalLabel}</div>
-        <div class="pr-exposure-total">${fmt(d.netTotal)}</div>
-        ${hasIns && d.grossTotal !== d.netTotal
-          ? `<div class="pr-exposure-gross">${lang==='fr'?'Exposition brute':'Gross exposure'}: ${fmt(d.grossTotal)}</div>`
-          : ''}
-        <div class="pr-tags">
-          ${d.hasPHI ? `<span class="pr-phi-tag">${t.phiTagLabel}</span>` : ''}
-          ${hasIns && d.insuranceCovered > 0
-            ? `<span class="pr-ins-tag">${t.printInsNote}: ${fmt(d.insuranceCovered)}</span>` : ''}
-        </div>
-      </div>
-      <div class="pr-exposure-right">
-        <div class="pr-exposure-right-top">
-          <div class="pr-lifecycle-label">${t.lblLifecycle}</div>
-          <div class="pr-lifecycle-val">${duration}</div>
-        </div>
-        <div>
-          <div class="pr-regime-label">${t.regimeLabelPrefix.replace(':','')}</div>
-          <div class="pr-regime">${REGIME_DISPLAY[d.regimeKey] || 'PIPEDA'}</div>
-        </div>
+  <!-- TOTAL -->
+  <div class="total-bar">
+    <span class="total-lbl">${totalLabel}</span>
+    <span class="total-val">${fmtN(d.netTotal)}</span>
+  </div>
+
+  <!-- DISCLAIMER -->
+  <div class="disclaimer">
+    <span class="disc-icon">&#9432;</span>
+    <div>
+      <div class="disc-text">${t.disclaimer}</div>
+      <div class="disc-sources">
+        ${t.sources.map(s => `<span class="source-chip">${s}</span>`).join('')}
       </div>
     </div>
+  </div>
 
-    <!-- Cost breakdown -->
-    <div class="pr-section-label">${lang === 'fr' ? 'Détail des coûts' : 'Cost Breakdown'}</div>
-    <div class="pr-costs">
+  <div class="repo-ref">${repoUrl}</div>
+</div>
+<script>window.onload = function(){ window.print(); };<\/script>
+</body>
+</html>`;
 
-      <div class="pr-cost-card tech">
-        <div class="pr-cost-card-header">
-          <span>${t.techHeader}</span>
-          <span class="pr-cost-card-header-total">${fmt(d.tech.total)}</span>
-        </div>
-        <div class="pr-cost-rows">
-          ${prAny(t.techIR,        d.tech.costIR)}
-          ${prAny(t.techForensics, d.tech.costForensics)}
-          ${prAny(t.techIT,        d.tech.costIT)}
-        </div>
-      </div>
-
-      <div class="pr-cost-card legal">
-        <div class="pr-cost-card-header">
-          <span>${t.legalHeader}</span>
-          <span class="pr-cost-card-header-total">${fmt(d.legal.total)}</span>
-        </div>
-        <div class="pr-cost-rows">
-          ${prAny(t.legalCounsel,  d.legal.costCounsel)}
-          ${pr(t.legalFines,       d.legal.fineExposure)}
-          ${pr(t.legalSettlement,  d.legal.settlementRisk)}
-          ${prAny(t.legalNotify,   d.legal.costNotify)}
-          ${prAny(d.hasPHI ? t.legalPHICredit : t.legalCredit, d.legal.costCredit)}
-        </div>
-      </div>
-
-      <div class="pr-cost-card biz">
-        <div class="pr-cost-card-header">
-          <span>${t.bizHeader}</span>
-          <span class="pr-cost-card-header-total">${fmt(d.biz.total)}</span>
-        </div>
-        <div class="pr-cost-rows">
-          ${prAny(t.bizOps,         d.biz.costOps)}
-          ${prAny(t.bizRemediation, d.biz.costRemediation)}
-          ${pr(t.bizExtortion,      d.biz.ransom)}
-        </div>
-      </div>
-
-      <div class="pr-cost-card brand">
-        <div class="pr-cost-card-header">
-          <span>${t.brandHeader}</span>
-          <span class="pr-cost-card-header-total">Variable X</span>
-        </div>
-        <div class="pr-brand-text">${t.unquantifiable} — ${t.churnText}</div>
-      </div>
-
-    </div>
-
-    <!-- Grand total summary -->
-    <div class="pr-grand-total">
-      <span class="pr-grand-label">${totalLabel}</span>
-      <span class="pr-grand-val">${fmt(d.netTotal)}</span>
-    </div>
-
-    <!-- Disclaimer -->
-    <div class="pr-disclaimer">
-      <div>${t.disclaimer}</div>
-      <div class="pr-disclaimer-sources">
-        ${t.sources.map(s => `<span class="pr-source-chip">${s}</span>`).join('')}
-      </div>
-    </div>
-
-    <div class="pr-repo-ref">https://github.com/IronBranded/CAD-Breach-Cost-Simulator/</div>
-
-  </div>`;
-
-  // Give the browser two frames to paint the report before opening the print dialog
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      setTimeout(() => { window.print(); }, 120);
-    });
-  });
+  const win = window.open('', '_blank');
+  if (!win) { alert('Please allow popups to print the report.'); return; }
+  win.document.open();
+  win.document.write(html);
+  win.document.close();
 }
 
 function softReset() {
