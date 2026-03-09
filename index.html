@@ -2047,8 +2047,8 @@ function printReport() {
   const fmtN = n => {
     const r = Math.round(n);
     return lang === 'fr'
-      ? r.toLocaleString('fr-CA') + '\u00a0$ CAD'
-      : '$' + r.toLocaleString('en-CA') + '\u00a0CAD';
+      ? r.toLocaleString('fr-CA') + ' $ CAD'
+      : '$' + r.toLocaleString('en-CA') + ' CAD';
   };
 
   const insLimitVal = hasIns ? fmtN(Number(el('insLimit').value  || 0)) : '—';
@@ -2303,12 +2303,10 @@ tr:last-child .ctl,tr:last-child .ctr{border-bottom:none;}
 /* ── COVER PAGE ──────────────────────── */
 .cover{
   width:210mm;min-height:297mm;
-  margin:0 -13mm;
-  padding:0;
+  margin:0 -13mm;padding:0;
   page-break-after:always;
   display:flex;flex-direction:column;
   background:#fff;
-  position:relative;
 }
 .cover-topbar{
   height:6pt;
@@ -2316,112 +2314,70 @@ tr:last-child .ctl,tr:last-child .ctr{border-bottom:none;}
   print-color-adjust:exact;-webkit-print-color-adjust:exact;
 }
 .cover-hero{
-  flex:0 0 auto;
-  padding:18mm 16mm 16mm;
+  flex:0 0 auto;padding:12mm 16mm 10mm;
   border-bottom:1pt solid #e0e0e0;
 }
 .cover-eyebrow{
-  font-family:'IBM Plex Mono',monospace;font-size:6pt;
-  letter-spacing:0.3em;color:#2563eb;text-transform:uppercase;
-  margin-bottom:10pt;
+  font-family:'IBM Plex Mono',monospace;font-size:5.5pt;
+  letter-spacing:0.3em;color:#2563eb;text-transform:uppercase;margin-bottom:7pt;
   print-color-adjust:exact;-webkit-print-color-adjust:exact;
 }
 .cover-title{
-  font-size:28pt;font-weight:700;line-height:1.05;
-  letter-spacing:-0.03em;color:#0f0f0f;margin-bottom:4pt;
+  font-size:26pt;font-weight:700;line-height:1.05;
+  letter-spacing:-0.03em;color:#0f0f0f;
 }
 .cover-title-light{font-weight:300;color:#888;}
 .cover-tagline{
-  font-size:9pt;color:#555;line-height:1.6;
-  max-width:320pt;margin-top:8pt;
+  font-size:8pt;color:#555;line-height:1.65;
+  max-width:300pt;margin-top:7pt;
 }
-.cover-meta-row{
-  display:flex;gap:6pt;flex-wrap:wrap;margin-top:14pt;
-}
+.cover-meta-row{display:flex;gap:5pt;flex-wrap:wrap;margin-top:10pt;}
 .cover-badge{
-  font-family:'IBM Plex Mono',monospace;font-size:5.5pt;
-  border:1pt solid #e0e0e0;padding:3pt 8pt;color:#888;
-  letter-spacing:0.06em;
-}
-.cover-badge-blue{border-color:#2563eb;color:#2563eb;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
-
-.cover-body{
-  flex:1;padding:14mm 16mm;
-  display:flex;flex-direction:column;gap:12pt;
-}
-
-.cover-section-lbl{
   font-family:'IBM Plex Mono',monospace;font-size:5pt;
-  letter-spacing:0.3em;text-transform:uppercase;color:#2563eb;
-  margin-bottom:7pt;
+  border:1pt solid #e0e0e0;padding:2.5pt 7pt;color:#888;letter-spacing:0.06em;
+}
+.cover-badge-blue{
+  border-color:#2563eb;color:#2563eb;
   print-color-adjust:exact;-webkit-print-color-adjust:exact;
 }
-
-/* Executive summary box */
+.cover-body{
+  flex:1;padding:9mm 16mm 0;
+  display:flex;flex-direction:column;gap:9pt;
+}
+.cover-section-lbl{
+  font-family:'IBM Plex Mono',monospace;font-size:4.5pt;
+  letter-spacing:0.3em;text-transform:uppercase;color:#2563eb;margin-bottom:5pt;
+  print-color-adjust:exact;-webkit-print-color-adjust:exact;
+}
 .exec-box{
-  border:1pt solid #e0e0e0;
-  border-left:4pt solid #2563eb;
-  padding:10pt 13pt;
+  border:1pt solid #e0e0e0;border-left:4pt solid #2563eb;padding:8pt 12pt;
   print-color-adjust:exact;-webkit-print-color-adjust:exact;
 }
-.exec-box p{
-  font-size:8pt;color:#333;line-height:1.75;margin-bottom:6pt;
-}
+.exec-box p{font-size:7.5pt;color:#333;line-height:1.75;margin-bottom:5pt;}
 .exec-box p:last-child{margin-bottom:0;}
-
-/* Three pillars */
-.pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:8pt;}
-.pillar{border:1pt solid #e0e0e0;padding:9pt 10pt;}
+.pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:6pt;}
+.pillar{border:1pt solid #e0e0e0;padding:8pt 9pt;}
 .pillar-icon{
-  font-family:'IBM Plex Mono',monospace;font-size:7pt;font-weight:700;
-  color:#2563eb;margin-bottom:5pt;letter-spacing:0.02em;
+  font-family:'IBM Plex Mono',monospace;font-size:6.5pt;font-weight:700;
+  color:#2563eb;margin-bottom:4pt;
   print-color-adjust:exact;-webkit-print-color-adjust:exact;
 }
-.pillar-title{font-size:7.5pt;font-weight:700;color:#0f0f0f;margin-bottom:4pt;}
-.pillar-body{font-size:6.5pt;color:#666;line-height:1.65;}
-
-/* Scope & limitations */
-.scope-grid{display:grid;grid-template-columns:1fr 1fr;gap:8pt;}
-.scope-col{}
-.scope-head{
-  font-family:'IBM Plex Mono',monospace;font-size:5.5pt;
-  font-weight:700;letter-spacing:0.1em;text-transform:uppercase;
-  margin-bottom:6pt;padding-bottom:4pt;border-bottom:1pt solid #e0e0e0;
-}
-.scope-head-in{color:#15803d;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
-.scope-head-out{color:#dc2626;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
-.scope-list{list-style:none;padding:0;}
-.scope-list li{
-  font-size:6.5pt;color:#555;padding:2pt 0 2pt 10pt;
-  border-bottom:0.5pt solid #f5f5f5;line-height:1.4;
-  position:relative;
-}
-.scope-list li::before{
-  content:'';position:absolute;left:0;top:7pt;
-  width:4pt;height:4pt;border-radius:50%;
-  print-color-adjust:exact;-webkit-print-color-adjust:exact;
-}
-.scope-in  li::before{background:#15803d;}
-.scope-out li::before{background:#dc2626;}
-
-/* Legal disclaimer box */
+.pillar-title{font-size:7pt;font-weight:700;color:#0f0f0f;margin-bottom:3pt;}
+.pillar-body{font-size:6pt;color:#666;line-height:1.65;}
 .legal-box{
-  background:#fafafa;border:1pt solid #e0e0e0;
-  border-left:3pt solid #ea580c;
-  padding:9pt 12pt;
+  background:#fafafa;border:1pt solid #e0e0e0;border-left:3pt solid #ea580c;
+  padding:8pt 11pt;
   print-color-adjust:exact;-webkit-print-color-adjust:exact;
 }
 .legal-box-title{
-  font-family:'IBM Plex Mono',monospace;font-size:5.5pt;
-  font-weight:700;letter-spacing:0.12em;text-transform:uppercase;
-  color:#ea580c;margin-bottom:5pt;
+  font-family:'IBM Plex Mono',monospace;font-size:5pt;font-weight:700;
+  letter-spacing:0.12em;text-transform:uppercase;color:#ea580c;margin-bottom:5pt;
   print-color-adjust:exact;-webkit-print-color-adjust:exact;
 }
 .legal-box p{font-size:6.5pt;color:#555;line-height:1.7;margin-bottom:4pt;}
 .legal-box p:last-child{margin-bottom:0;}
-
 .cover-footer{
-  padding:8mm 16mm;border-top:0.75pt solid #e0e0e0;
+  padding:6mm 16mm;border-top:0.75pt solid #e0e0e0;
   display:flex;justify-content:space-between;align-items:center;
 }
 .cover-footer-left{font-family:'IBM Plex Mono',monospace;font-size:5pt;color:#bbb;letter-spacing:0.06em;}
@@ -2500,37 +2456,6 @@ tr:last-child .ctl,tr:last-child .ctr{border-bottom:none;}
             ? `Les multiplicateurs d'industrie, la taille de l'organisation, le type d'incident, le volume de données impactées et la cause profonde sont combinés pour produire une estimation adaptée au profil de risque spécifique de l'organisation.`
             : `Industry multipliers, organization size, incident type, impacted data volume, and root cause are combined to produce an estimate tailored to the organization's specific risk profile.`}
           </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Scope in / out -->
-    <div>
-      <div class="cover-section-lbl">${lang==='fr'?'Périmètre':'Scope'}</div>
-      <div class="scope-grid">
-        <div class="scope-col">
-          <div class="scope-head scope-head-in">${lang==='fr'?'✓  Inclus dans l\'estimation':'✓  Included in the Estimate'}</div>
-          <ul class="scope-list scope-in">
-            <li>${lang==='fr'?'Réponse aux incidents et investigation numérique':'Incident response &amp; digital forensics'}</li>
-            <li>${lang==='fr'?'Honoraires juridiques et dépôts auprès des commissaires':'Legal counsel &amp; commissioner filings'}</li>
-            <li>${lang==='fr'?'Amendes réglementaires (probabilistes)':'Regulatory fines (probabilistic)'}</li>
-            <li>${lang==='fr'?'Réserve pour recours collectifs':'Class action settlement reserve'}</li>
-            <li>${lang==='fr'?'Notification aux personnes touchées':'Notification to affected individuals'}</li>
-            <li>${lang==='fr'?'Surveillance du crédit et de l\'identité':'Credit &amp; identity monitoring'}</li>
-            <li>${lang==='fr'?'Pertes d\'exploitation et remédiation':'Operations downtime &amp; remediation'}</li>
-            <li>${lang==='fr'?'Extorsion / perte par vol (si applicable)':'Extortion / theft loss (where applicable)'}</li>
-          </ul>
-        </div>
-        <div class="scope-col">
-          <div class="scope-head scope-head-out">${lang==='fr'?'✗  Non inclus dans l\'estimation':'✗  Not Included in the Estimate'}</div>
-          <ul class="scope-list scope-out">
-            <li>${lang==='fr'?'Perte de revenus future liée à l\'attrition client':'Future revenue loss from customer attrition'}</li>
-            <li>${lang==='fr'?'Dépréciation de la marque à long terme':'Long-term brand depreciation'}</li>
-            <li>${lang==='fr'?'Coûts de litige en dehors du Canada':'Litigation costs outside Canada'}</li>
-            <li>${lang==='fr'?'Dommages-intérêts punitifs':'Punitive damages'}</li>
-            <li>${lang==='fr'?'Coûts de transformation post-incident':'Post-incident transformation costs'}</li>
-            <li>${lang==='fr'?'Perte de parts de marché':'Market share loss'}</li>
-          </ul>
         </div>
       </div>
     </div>
