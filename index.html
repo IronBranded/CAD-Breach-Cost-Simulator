@@ -2299,10 +2299,273 @@ tr:last-child .ctl,tr:last-child .ctr{border-bottom:none;}
   font-family:'IBM Plex Mono',monospace;font-size:5pt;
   color:#ccc;text-align:center;letter-spacing:0.08em;
 }
+
+/* ── COVER PAGE ──────────────────────── */
+.cover{
+  width:210mm;min-height:297mm;
+  margin:0 -13mm;
+  padding:0;
+  page-break-after:always;
+  display:flex;flex-direction:column;
+  background:#fff;
+  position:relative;
+}
+.cover-topbar{
+  height:6pt;
+  background:linear-gradient(90deg,#2563eb 0%,#7c3aed 48%,#e11d48 100%);
+  print-color-adjust:exact;-webkit-print-color-adjust:exact;
+}
+.cover-hero{
+  flex:0 0 auto;
+  padding:18mm 16mm 16mm;
+  border-bottom:1pt solid #e0e0e0;
+}
+.cover-eyebrow{
+  font-family:'IBM Plex Mono',monospace;font-size:6pt;
+  letter-spacing:0.3em;color:#2563eb;text-transform:uppercase;
+  margin-bottom:10pt;
+  print-color-adjust:exact;-webkit-print-color-adjust:exact;
+}
+.cover-title{
+  font-size:28pt;font-weight:700;line-height:1.05;
+  letter-spacing:-0.03em;color:#0f0f0f;margin-bottom:4pt;
+}
+.cover-title-light{font-weight:300;color:#888;}
+.cover-tagline{
+  font-size:9pt;color:#555;line-height:1.6;
+  max-width:320pt;margin-top:8pt;
+}
+.cover-meta-row{
+  display:flex;gap:6pt;flex-wrap:wrap;margin-top:14pt;
+}
+.cover-badge{
+  font-family:'IBM Plex Mono',monospace;font-size:5.5pt;
+  border:1pt solid #e0e0e0;padding:3pt 8pt;color:#888;
+  letter-spacing:0.06em;
+}
+.cover-badge-blue{border-color:#2563eb;color:#2563eb;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
+
+.cover-body{
+  flex:1;padding:14mm 16mm;
+  display:flex;flex-direction:column;gap:12pt;
+}
+
+.cover-section-lbl{
+  font-family:'IBM Plex Mono',monospace;font-size:5pt;
+  letter-spacing:0.3em;text-transform:uppercase;color:#2563eb;
+  margin-bottom:7pt;
+  print-color-adjust:exact;-webkit-print-color-adjust:exact;
+}
+
+/* Executive summary box */
+.exec-box{
+  border:1pt solid #e0e0e0;
+  border-left:4pt solid #2563eb;
+  padding:10pt 13pt;
+  print-color-adjust:exact;-webkit-print-color-adjust:exact;
+}
+.exec-box p{
+  font-size:8pt;color:#333;line-height:1.75;margin-bottom:6pt;
+}
+.exec-box p:last-child{margin-bottom:0;}
+
+/* Three pillars */
+.pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:8pt;}
+.pillar{border:1pt solid #e0e0e0;padding:9pt 10pt;}
+.pillar-icon{
+  font-family:'IBM Plex Mono',monospace;font-size:7pt;font-weight:700;
+  color:#2563eb;margin-bottom:5pt;letter-spacing:0.02em;
+  print-color-adjust:exact;-webkit-print-color-adjust:exact;
+}
+.pillar-title{font-size:7.5pt;font-weight:700;color:#0f0f0f;margin-bottom:4pt;}
+.pillar-body{font-size:6.5pt;color:#666;line-height:1.65;}
+
+/* Scope & limitations */
+.scope-grid{display:grid;grid-template-columns:1fr 1fr;gap:8pt;}
+.scope-col{}
+.scope-head{
+  font-family:'IBM Plex Mono',monospace;font-size:5.5pt;
+  font-weight:700;letter-spacing:0.1em;text-transform:uppercase;
+  margin-bottom:6pt;padding-bottom:4pt;border-bottom:1pt solid #e0e0e0;
+}
+.scope-head-in{color:#15803d;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
+.scope-head-out{color:#dc2626;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
+.scope-list{list-style:none;padding:0;}
+.scope-list li{
+  font-size:6.5pt;color:#555;padding:2pt 0 2pt 10pt;
+  border-bottom:0.5pt solid #f5f5f5;line-height:1.4;
+  position:relative;
+}
+.scope-list li::before{
+  content:'';position:absolute;left:0;top:7pt;
+  width:4pt;height:4pt;border-radius:50%;
+  print-color-adjust:exact;-webkit-print-color-adjust:exact;
+}
+.scope-in  li::before{background:#15803d;}
+.scope-out li::before{background:#dc2626;}
+
+/* Legal disclaimer box */
+.legal-box{
+  background:#fafafa;border:1pt solid #e0e0e0;
+  border-left:3pt solid #ea580c;
+  padding:9pt 12pt;
+  print-color-adjust:exact;-webkit-print-color-adjust:exact;
+}
+.legal-box-title{
+  font-family:'IBM Plex Mono',monospace;font-size:5.5pt;
+  font-weight:700;letter-spacing:0.12em;text-transform:uppercase;
+  color:#ea580c;margin-bottom:5pt;
+  print-color-adjust:exact;-webkit-print-color-adjust:exact;
+}
+.legal-box p{font-size:6.5pt;color:#555;line-height:1.7;margin-bottom:4pt;}
+.legal-box p:last-child{margin-bottom:0;}
+
+.cover-footer{
+  padding:8mm 16mm;border-top:0.75pt solid #e0e0e0;
+  display:flex;justify-content:space-between;align-items:center;
+}
+.cover-footer-left{font-family:'IBM Plex Mono',monospace;font-size:5pt;color:#bbb;letter-spacing:0.06em;}
+.cover-footer-right{font-family:'IBM Plex Mono',monospace;font-size:5pt;color:#bbb;letter-spacing:0.04em;}
 </style>
 </head>
 <body>
 
+<!-- ════════════════════════════════════════
+     COVER PAGE
+════════════════════════════════════════ -->
+<div class="cover">
+  <div class="cover-topbar"></div>
+
+  <div class="cover-hero">
+    <div class="cover-eyebrow">${t.eyebrow}</div>
+    <div class="cover-title">
+      ${lang==='fr'
+        ? `Simulateur de Co&ucirc;ts<br><span class="cover-title-light">de Cyber Incident</span>`
+        : `Cyber Incident<br><span class="cover-title-light">Cost Simulator</span>`}
+    </div>
+    <div class="cover-tagline">
+      ${lang==='fr'
+        ? `Un outil d'estimation de l'exposition financière et opérationnelle aux cyberincidents — ancré dans les cadres réglementaires provinciaux canadiens, les données publiées sur les coûts de violation et les précédents juridiques.`
+        : `A financial and operational exposure estimation tool for cyber incidents — grounded in Canadian provincial regulatory frameworks, published breach cost data, and legal precedent.`}
+    </div>
+    <div class="cover-meta-row">
+      <span class="cover-badge cover-badge-blue">${lang==='fr'?'CA-2026':'CA-2026'}</span>
+      <span class="cover-badge">${lang==='fr'?'Cadre réglementaire canadien':'Canadian Regulatory Framework'}</span>
+      <span class="cover-badge">${lang==='fr'?'Généré le '+date:'Generated '+date}</span>
+      <span class="cover-badge">${lang==='fr'?'CONFIDENTIEL':'CONFIDENTIAL'}</span>
+    </div>
+  </div>
+
+  <div class="cover-body">
+
+    <!-- Executive Summary -->
+    <div>
+      <div class="cover-section-lbl">${lang==='fr'?'Sommaire exécutif':'Executive Summary'}</div>
+      <div class="exec-box">
+        <p>${lang==='fr'
+          ? `Ce simulateur a été développé pour aider les dirigeants, les équipes de sécurité et les conseillers en risque à comprendre l'ordre de grandeur des coûts associés à un cyberincident au Canada. Face à un paysage de menaces en constante évolution — marqué par la prolifération des rançongiciels, la fraude par courriel d'affaires et les violations de données massives — les organisations canadiennes doivent pouvoir quantifier rapidement leur exposition potentielle pour prendre des décisions éclairées en matière de gouvernance, d'assurance et d'investissement en cybersécurité.`
+          : `This simulator was developed to help executives, security teams, and risk advisors understand the order of magnitude of costs associated with a cyber incident in Canada. Against a backdrop of escalating ransomware, business email compromise, and large-scale data breaches, Canadian organizations need a rapid, credible way to quantify potential financial exposure — enabling informed decisions around governance, insurance, and cybersecurity investment.`}
+        </p>
+        <p>${lang==='fr'
+          ? `Les estimations produites s'appuient sur les moyennes sectorielles canadiennes, les règlements publiés (Desjardins, LifeLabs), les barèmes réglementaires provinciaux (Loi 25, LPRPDE, PIPA, LPRPS) et les données de recherche indépendantes d'IBM et du Centre canadien pour la cybersécurité (CCCS). Chaque sortie est une fourchette probabiliste présentée comme une estimation ponctuelle à des fins de clarté opérationnelle.`
+          : `Estimates are grounded in Canadian industry averages, published settlements (Desjardins, LifeLabs), provincial regulatory schedules (Loi 25, PIPEDA, PIPA, PHIPA), and independent research from IBM and the Canadian Centre for Cyber Security (CCCS). Each output is a probabilistic range presented as a point estimate for operational clarity.`}
+        </p>
+      </div>
+    </div>
+
+    <!-- Three pillars -->
+    <div>
+      <div class="cover-section-lbl">${lang==='fr'?'Méthodologie':'Methodology'}</div>
+      <div class="pillars">
+        <div class="pillar">
+          <div class="pillar-icon">01 /</div>
+          <div class="pillar-title">${lang==='fr'?'Modélisation des coûts':'Cost Modelling'}</div>
+          <div class="pillar-body">${lang==='fr'
+            ? `Les coûts sont répartis en quatre catégories : réponse technique, juridique &amp; réglementaire, impact opérationnel, et réputation (variable). Les taux sont étalonnés sur les données de règlement canadiennes et les tarifs du marché 2024–2026.`
+            : `Costs are modelled across four categories: technical response, legal &amp; regulatory, business impact, and reputation (variable). Rates are calibrated against Canadian settlement data and 2024–2026 market rates.`}
+          </div>
+        </div>
+        <div class="pillar">
+          <div class="pillar-icon">02 /</div>
+          <div class="pillar-title">${lang==='fr'?'Cadre réglementaire':'Regulatory Framework'}</div>
+          <div class="pillar-body">${lang==='fr'
+            ? `Chaque résultat reflète le régime réglementaire applicable à la province ou au secteur sélectionné : Loi 25 (QC), LPRPDE + LPRPS (ON), PIPA (AB/CB), PIPEDA fédéral, ou BSIF B-13 pour les entités financières réglementées.`
+            : `Each output reflects the applicable regulatory regime for the selected province or sector: Loi 25 (QC), PIPEDA + PHIPA (ON), PIPA (AB/BC), federal PIPEDA, or OSFI B-13 for federally regulated financial entities.`}
+          </div>
+        </div>
+        <div class="pillar">
+          <div class="pillar-icon">03 /</div>
+          <div class="pillar-title">${lang==='fr'?'Ajustements contextuels':'Contextual Adjustments'}</div>
+          <div class="pillar-body">${lang==='fr'
+            ? `Les multiplicateurs d'industrie, la taille de l'organisation, le type d'incident, le volume de données impactées et la cause profonde sont combinés pour produire une estimation adaptée au profil de risque spécifique de l'organisation.`
+            : `Industry multipliers, organization size, incident type, impacted data volume, and root cause are combined to produce an estimate tailored to the organization's specific risk profile.`}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scope in / out -->
+    <div>
+      <div class="cover-section-lbl">${lang==='fr'?'Périmètre':'Scope'}</div>
+      <div class="scope-grid">
+        <div class="scope-col">
+          <div class="scope-head scope-head-in">${lang==='fr'?'✓  Inclus dans l\'estimation':'✓  Included in the Estimate'}</div>
+          <ul class="scope-list scope-in">
+            <li>${lang==='fr'?'Réponse aux incidents et investigation numérique':'Incident response &amp; digital forensics'}</li>
+            <li>${lang==='fr'?'Honoraires juridiques et dépôts auprès des commissaires':'Legal counsel &amp; commissioner filings'}</li>
+            <li>${lang==='fr'?'Amendes réglementaires (probabilistes)':'Regulatory fines (probabilistic)'}</li>
+            <li>${lang==='fr'?'Réserve pour recours collectifs':'Class action settlement reserve'}</li>
+            <li>${lang==='fr'?'Notification aux personnes touchées':'Notification to affected individuals'}</li>
+            <li>${lang==='fr'?'Surveillance du crédit et de l\'identité':'Credit &amp; identity monitoring'}</li>
+            <li>${lang==='fr'?'Pertes d\'exploitation et remédiation':'Operations downtime &amp; remediation'}</li>
+            <li>${lang==='fr'?'Extorsion / perte par vol (si applicable)':'Extortion / theft loss (where applicable)'}</li>
+          </ul>
+        </div>
+        <div class="scope-col">
+          <div class="scope-head scope-head-out">${lang==='fr'?'✗  Non inclus dans l\'estimation':'✗  Not Included in the Estimate'}</div>
+          <ul class="scope-list scope-out">
+            <li>${lang==='fr'?'Perte de revenus future liée à l\'attrition client':'Future revenue loss from customer attrition'}</li>
+            <li>${lang==='fr'?'Dépréciation de la marque à long terme':'Long-term brand depreciation'}</li>
+            <li>${lang==='fr'?'Coûts de litige en dehors du Canada':'Litigation costs outside Canada'}</li>
+            <li>${lang==='fr'?'Dommages-intérêts punitifs':'Punitive damages'}</li>
+            <li>${lang==='fr'?'Coûts de transformation post-incident':'Post-incident transformation costs'}</li>
+            <li>${lang==='fr'?'Perte de parts de marché':'Market share loss'}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Legal disclaimer -->
+    <div>
+      <div class="cover-section-lbl">${lang==='fr'?'Avertissement légal':'Legal Disclaimer'}</div>
+      <div class="legal-box">
+        <div class="legal-box-title">${lang==='fr'?'⚠  À lire avant utilisation':'⚠  Important — Please Read Before Use'}</div>
+        <p>${lang==='fr'
+          ? `Ce simulateur produit des <strong>estimations illustratives</strong> à des fins d'aide à la décision. Les chiffres présentés sont des fourchettes probabilistes converties en estimations ponctuelles pour la lisibilité opérationnelle. Ils ne constituent pas une évaluation actuarielle, un avis juridique ou une opinion financière.`
+          : `This simulator produces <strong>illustrative estimates</strong> intended as a decision-support tool. Figures are probabilistic ranges expressed as point estimates for operational readability. They do not constitute an actuarial valuation, legal opinion, or financial advice.`}
+        </p>
+        <p>${lang==='fr'
+          ? `Les résultats dépendent des données saisies par l'utilisateur et des hypothèses de modélisation intégrées. Les coûts réels varient en fonction des circonstances spécifiques de l'incident, de la réactivité de l'organisation, de la couverture d'assurance et des décisions judiciaires. <strong>Consultez un conseiller qualifié</strong> avant de prendre toute décision de gestion des risques, de souscription d'assurance ou d'investissement en cybersécurité.`
+          : `Results depend on user-provided inputs and built-in modelling assumptions. Actual costs vary based on the specific circumstances of the incident, organizational response capability, insurance coverage, and judicial outcomes. <strong>Consult qualified counsel</strong> before making any risk management, insurance, or cybersecurity investment decision.`}
+        </p>
+        <p>${lang==='fr'
+          ? `Sources de référence : IBM Cost of a Data Breach 2023 · CCCS ECNC 2025–26 · Règlement Desjardins 2023 · Règlement LifeLabs 2024 · Ligne directrice BSIF B-13 · Rapports de brèche CPVP`
+          : `Reference sources: IBM Cost of a Data Breach 2023 · CCCS NCTA 2025–26 · Desjardins Settlement 2023 · LifeLabs Settlement 2024 · OSFI B-13 Guideline · OPC Breach Reports`}
+        </p>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="cover-footer">
+    <div class="cover-footer-left">${repoUrl}</div>
+    <div class="cover-footer-right">${lang==='fr'?'Page 1 sur 2':'Page 1 of 2'}</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     REPORT PAGE
+════════════════════════════════════════ -->
 <div class="topbar"></div>
 
 <!-- HEADER -->
