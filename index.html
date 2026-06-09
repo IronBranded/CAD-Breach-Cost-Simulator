@@ -163,16 +163,16 @@ input[type="checkbox"]:checked+.checkmark::after{opacity:1}
 .severity-band{margin-top:12px}
 .severity-track{height:5px;border-radius:3px;background:rgba(255,255,255,0.06);overflow:hidden;position:relative;margin-bottom:5px}
 .severity-fill{height:100%;border-radius:3px;transition:width 0.8s cubic-bezier(.4,0,.2,1) 0.3s}
-.severity-labels{display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:0.58rem;color:var(--muted);letter-spacing:0.06em}
-.severity-pill{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:4px;font-family:var(--font-mono);font-size:0.62rem;font-weight:600;letter-spacing:0.1em;margin-top:10px;text-transform:uppercase}
+.severity-labels{display:flex;justify-content:space-between;align-items:center;font-family:var(--font-mono);font-size:0.58rem;color:var(--muted);letter-spacing:0.06em}
+.severity-pill{display:inline-flex;align-items:center;gap:5px;padding:2px 8px;border-radius:4px;font-family:var(--font-mono);font-size:0.58rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase}
 .severity-pill.low{background:rgba(25,224,122,0.12);color:var(--green);border:1px solid rgba(25,224,122,0.25)}
 .severity-pill.medium{background:rgba(255,181,71,0.12);color:var(--amber);border:1px solid rgba(255,181,71,0.25)}
 .severity-pill.high{background:rgba(255,68,85,0.12);color:var(--red);border:1px solid rgba(255,68,85,0.25)}
 .severity-pill.critical{background:rgba(176,107,255,0.12);color:var(--purple);border:1px solid rgba(176,107,255,0.25)}
-.stats-grid{display:grid;grid-template-columns:minmax(200px,260px) 1fr;gap:20px;margin-bottom:20px;}
+.stats-grid{display:grid;grid-template-columns:minmax(220px,280px) 1fr;gap:20px;margin-bottom:20px;}
 .chart-card{background:var(--bg1);border:1px solid var(--border);border-radius:14px;padding:28px 24px;display:flex;flex-direction:column;align-items:center;}
 .chart-title{font-family:var(--font-mono);font-size:0.6rem;letter-spacing:0.14em;color:var(--muted);text-transform:uppercase;margin-bottom:20px;align-self:flex-start;}
-.donut-wrap{position:relative;width:100%;max-width:180px;aspect-ratio:1;margin:0 auto 24px}
+.donut-wrap{position:relative;width:100%;max-width:160px;aspect-ratio:1;margin:0 auto 20px}
 .donut-wrap svg{width:100%;height:100%;transform:rotate(-90deg);overflow:visible;display:block}
 .donut-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;}
 /* FIX 5: donut centre new elements */
@@ -206,12 +206,12 @@ input[type="checkbox"]:checked+.checkmark::after{opacity:1}
 .cost-row-inner{display:flex;flex-direction:column;flex:1;padding-right:12px}
 .cost-micro-bar{height:2px;border-radius:1px;margin-top:4px;opacity:0.5;transition:width 0.6s cubic-bezier(.4,0,.2,1) 0.2s}
 .tech .cost-micro-bar{background:var(--blue)}.legal .cost-micro-bar{background:var(--purple)}.biz .cost-micro-bar{background:var(--red)}
-.cost-row.phi-row .cost-label{color:#ffd080}.cost-row.phi-row .cost-val{color:#ffb547}
-.cost-row.phi-row{background:rgba(255,181,71,0.05);padding:8px 10px;border-radius:6px;margin:2px 0;border:none;border-left:2px solid var(--amber)}
-.cost-row.class-row .cost-label{color:#c8a6ff}.cost-row.class-row .cost-val{color:var(--purple)}
-.cost-row.class-row{background:rgba(176,107,255,0.05);padding:8px 10px;border-radius:6px;margin:2px 0;border:none;border-left:2px solid var(--purple)}
-.cost-row.premium-row .cost-label{color:#7ec8ff}.cost-row.premium-row .cost-val{color:var(--blue)}
-.cost-row.premium-row{background:rgba(59,158,255,0.05);padding:8px 10px;border-radius:6px;margin:2px 0;border:none;border-left:2px solid var(--blue)}
+.cost-row.phi-row .cost-label{color:var(--muted2)}.cost-row.phi-row .cost-val{color:var(--text)}
+.cost-row.phi-row .cost-row-tag{display:inline-block;font-size:0.55rem;padding:1px 5px;border-radius:3px;background:rgba(255,181,71,0.15);color:#ffb547;letter-spacing:0.06em;font-family:var(--font-mono);margin-left:6px;font-weight:600}
+.cost-row.class-row .cost-label{color:var(--muted2)}.cost-row.class-row .cost-val{color:var(--text)}
+.cost-row.class-row .cost-row-tag{display:inline-block;font-size:0.55rem;padding:1px 5px;border-radius:3px;background:rgba(176,107,255,0.15);color:#c8a6ff;letter-spacing:0.06em;font-family:var(--font-mono);margin-left:6px;font-weight:600}
+.cost-row.premium-row .cost-label{color:var(--muted2)}.cost-row.premium-row .cost-val{color:var(--text)}
+.cost-row.premium-row .cost-row-tag{display:inline-block;font-size:0.55rem;padding:1px 5px;border-radius:3px;background:rgba(59,158,255,0.12);color:#7ec8ff;letter-spacing:0.06em;font-family:var(--font-mono);margin-left:6px;font-weight:600}
 .reg-notice{background:rgba(176,107,255,0.07);border:1px solid rgba(176,107,255,0.2);border-radius:8px;padding:12px 14px;margin-bottom:14px;font-size:0.76rem;color:#c8a6ff;line-height:1.6;}
 .reg-notice strong{color:#d8b8ff}
 .brand-impact{background:rgba(255,123,44,0.06);border:1px solid rgba(255,123,44,0.15);border-radius:8px;padding:14px 16px;}
@@ -246,6 +246,24 @@ input[type="checkbox"]:checked+.checkmark::after{opacity:1}
 }
 .fade-in{opacity:0;transform:translateY(16px);animation:enterUp 0.45s ease forwards;}
 .fade-in:nth-child(2){animation-delay:0.08s}.fade-in:nth-child(3){animation-delay:0.16s}.fade-in:nth-child(4){animation-delay:0.24s}
+
+/* Brand donut second chart card */
+.chart-card-brand{background:var(--bg1);border:none;border-radius:14px;padding:0;display:flex;flex-direction:column;align-items:center;margin-top:0;}
+.chart-card-brand .chart-title{font-family:var(--font-mono);font-size:0.6rem;letter-spacing:0.14em;color:var(--muted);text-transform:uppercase;margin-bottom:4px;align-self:flex-start;}
+.chart-card-brand .chart-subtitle{font-family:var(--font-mono);font-size:0.55rem;letter-spacing:0.1em;color:var(--orange);text-transform:uppercase;margin-bottom:16px;align-self:flex-start;}
+.brand-donut-wrap{position:relative;width:100%;max-width:160px;aspect-ratio:1;margin:0 auto 20px}
+.brand-donut-wrap svg{width:100%;height:100%;transform:rotate(-90deg);overflow:visible;display:block}
+.brand-donut-wrap .donut-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;}
+.brand-donut-label-wrap{font-family:var(--font-mono);font-size:0.5rem;color:var(--orange);letter-spacing:0.08em;text-transform:uppercase;margin-top:2px;line-height:1.3;text-align:center;}
+.brand-legend-list{width:100%;display:flex;flex-direction:column;gap:8px}
+.brand-legend-item{display:flex;align-items:center;gap:10px;font-size:0.78rem;}
+.brand-legend-swatch{width:10px;height:10px;border-radius:2px;flex-shrink:0;}
+.brand-legend-name{color:var(--muted2);flex:1;font-size:0.75rem;line-height:1.35}
+.brand-legend-pct{font-family:var(--font-mono);font-size:0.7rem;color:var(--text);font-weight:600;}
+
+.brand-donut-divider{height:1px;background:var(--border);margin:20px 0;width:100%}
+.chart-card-brand-inline{width:100%}
+.chart-card-brand-inline .chart-title{margin-bottom:2px}
 </style>
 </head>
 <body>
@@ -401,12 +419,32 @@ input[type="checkbox"]:checked+.checkmark::after{opacity:1}
             <div class="legend-item" role="listitem"><div class="legend-swatch" style="background:var(--red)"></div><span class="legend-name" id="legendLabelBiz">Business Impact</span><span class="legend-pct" id="legendPctBiz">0%</span></div>
           </div>
           <div class="sr-only" id="donutAriaDesc" aria-live="polite"></div>
+          <div class="brand-donut-divider"></div>
+          <div class="chart-card-brand chart-card-brand-inline" id="brandDonutCard">
+            <div class="chart-title" id="brandChartTitle">Variable X Breakdown</div>
+            <div class="chart-subtitle" id="brandChartSubtitle">Estimated relative weight</div>
+            <div class="brand-donut-wrap" role="img" aria-label="Brand impact breakdown">
+              <svg viewBox="0 0 160 160" width="160" height="160" aria-hidden="true">
+                <circle cx="80" cy="80" r="60" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="20"/>
+                <circle id="brandDonutChurn"   class="donut-segment" cx="80" cy="80" r="60" fill="none" stroke="#ff7b2c" stroke-width="20" stroke-dasharray="0 377" stroke-linecap="butt" style="transition:stroke-dasharray 0.8s cubic-bezier(.4,0,.2,1),stroke-width 0.18s ease"/>
+                <circle id="brandDonutRevenue" class="donut-segment" cx="80" cy="80" r="60" fill="none" stroke="#ffb547" stroke-width="20" stroke-dasharray="0 377" stroke-linecap="butt" style="transition:stroke-dasharray 0.8s cubic-bezier(.4,0,.2,1) 0.1s,stroke-width 0.18s ease"/>
+                <circle id="brandDonutRecruitment" class="donut-segment" cx="80" cy="80" r="60" fill="none" stroke="#ff4455" stroke-width="20" stroke-dasharray="0 377" stroke-linecap="butt" style="transition:stroke-dasharray 0.8s cubic-bezier(.4,0,.2,1) 0.15s,stroke-width 0.18s ease"/>
+                <circle id="brandDonutPartner"  class="donut-segment" cx="80" cy="80" r="60" fill="none" stroke="#c8a6ff" stroke-width="20" stroke-dasharray="0 377" stroke-linecap="butt" style="transition:stroke-dasharray 0.8s cubic-bezier(.4,0,.2,1) 0.2s,stroke-width 0.18s ease"/>
+              </svg>
+              <div class="donut-center" aria-hidden="true">
+                <span class="donut-center-amount" id="brandDonutCenterAmt" style="font-size:0.65rem;color:var(--orange)">Variable</span>
+                <div class="brand-donut-label-wrap" id="brandDonutCenterLbl">X</div>
+              </div>
+            </div>
+            <div class="brand-legend-list" role="list" id="brandDonutLegend"></div>
+          </div>
         </div>
         <div class="detail-col">
           <div class="detail-card tech"><div class="card-header"><div class="card-header-icon"></div><span class="card-title" id="techHeaderLabel">Technical Response</span></div><div id="techRows"></div></div>
           <div class="detail-card legal"><div class="card-header"><div class="card-header-icon"></div><span class="card-title" id="legalHeaderLabel">Legal, Regulatory &amp; Settlements</span></div><div id="legalRows"></div></div>
           <div class="detail-card biz"><div class="card-header"><div class="card-header-icon"></div><span class="card-title" id="bizHeaderLabel">Business Impact</span></div><div id="bizRows"></div></div>
-          <div class="detail-card brand"><div class="card-header"><div class="card-header-icon"></div><span class="card-title" id="brandHeaderLabel">Brand &amp; Reputation</span></div><div id="brandRows"></div></div>
+          <div class="detail-card brand"><div class="card-header"><div class="card-header-icon"></div><span class="card-title" id="brandHeaderLabel">Brand &amp; Reputation</span></div><div id="brandRows"></div>
+        </div>
         </div>
       </div>
       <div class="ncta-card" id="nctaBlock"></div>
@@ -530,7 +568,7 @@ en:{
   exposureLabelNet:'NET FINANCIAL EXPOSURE (POST-INSURANCE)',
   exposureLabelGross:'TOTAL ESTIMATED FINANCIAL EXPOSURE',
   lblTopDriver:'Top Driver',variableX:'+ Variable X: Brand & Reputation',
-  unquantifiable:'Unquantifiable Impact',
+  unquantifiable:'Unquantifiable Impact',brandChartTitle:'Variable X Breakdown',brandChartSubtitle:'Estimated relative weight',brandLegendChurn:'Customer Churn',brandLegendRevenue:'Revenue Contraction',brandLegendRecruitment:'Talent & Recruitment',brandLegendPartner:'Partner Attrition',
   churnText:'Customer churn varies by industry and public perception. For Canadian SMBs, a significant breach often correlates with 15–20% revenue contraction in the following fiscal year. Reputational damage to enterprise organizations can persist 3–5 years.',
   techHeader:'Technical Response',legalHeader:'Legal, Regulatory & Settlements',
   bizHeader:'Business Impact',brandHeader:'Brand & Reputation (Variable X)',
@@ -605,7 +643,7 @@ fr:{
   exposureLabelNet:'EXPOSITION FINANCIÈRE NETTE (APRÈS ASSURANCE)',
   exposureLabelGross:'EXPOSITION FINANCIÈRE TOTALE ESTIMÉE',
   lblTopDriver:'Facteur majeur',variableX:'+ Variable X : Marque & Réputation',
-  unquantifiable:'Impact inquantifiable',
+  unquantifiable:'Impact inquantifiable',brandChartTitle:'Décomposition Variable X',brandChartSubtitle:'Poids relatif estimé',brandLegendChurn:'Perte de clients',brandLegendRevenue:'Contraction des revenus',brandLegendRecruitment:'Talent & Recrutement',brandLegendPartner:'Attrition partenaires',
   churnText:'La perte de confiance client varie selon le secteur. Pour les PME canadiennes, une brèche majeure est souvent corrélée à une contraction de 15 à 20 % des revenus l\'année suivante.',
   techHeader:'Réponse Technique',legalHeader:'Juridique, Réglementaire & Litiges',
   bizHeader:'Impact Opérationnel',brandHeader:'Marque et Réputation (Variable X)',
@@ -811,13 +849,16 @@ function renderDashboard(d){
   el('legalRows').innerHTML=regHtml+costRows([[t.legalCounsel,d.legal.costCounsel],[t.legalFines,d.legal.fineExposure]])+classRow+costRows([[t.legalNotify,d.legal.costNotify]])+costRow(creditLabel,d.legal.costCredit,creditClass)+premRow;
   el('bizRows').innerHTML=costRows([[t.bizOps,d.biz.costOps],[t.bizRemediation,d.biz.costRemediation],[t.bizExtortion,d.biz.ransom]]);
   el('brandRows').innerHTML=`<div class="brand-impact"><div class="brand-impact-title">${t.unquantifiable}</div><div class="brand-impact-body">${t.churnText}</div></div>`;
+  renderBrandDonut(d,t);
   renderNCTA();renderDisclaimer();
 }
 
 /* FIX 3: micro bars — proportional bar under each cost label */
 function costRow(label,value,extraClass='',barPct=0){
   const barHtml=barPct>0?`<div class="cost-micro-bar" style="width:${barPct}%"></div>`:'';
-  return`<div class="cost-row ${extraClass}"><span class="cost-row-inner"><span class="cost-label">${label}</span>${barHtml}</span><span class="cost-val">${fmt(value)}</span></div>`;
+  const tagMap={'phi-row':'PHI','class-row':'RISK','premium-row':'INS'};
+  const tag=tagMap[extraClass]?`<span class="cost-row-tag">${tagMap[extraClass]}</span>`:'';
+  return`<div class="cost-row ${extraClass}"><span class="cost-row-inner"><span class="cost-label">${label}${tag}</span>${barHtml}</span><span class="cost-val">${fmt(value)}</span></div>`;
 }
 function costRows(pairs){
   const vals=pairs.map(([,v])=>v);
@@ -853,14 +894,15 @@ function renderSeverityBand(d){
   const container=el('severityBand');
   if(!container) return;
   container.innerHTML=`
-    <div class="severity-pill ${tier}">${tierLabel}</div>
     <div class="severity-band">
       <div class="severity-track">
         <div class="severity-fill" id="sevFill" style="width:0%;background:${fillColor}"></div>
         <div style="position:absolute;top:0;bottom:0;left:${avgPct}%;width:1px;background:rgba(255,255,255,0.25)"></div>
       </div>
       <div class="severity-labels">
-        <span>$0</span><span>Cdn avg $6.98M</span><span>${fmt(maxScale)}</span>
+        <span>$0</span>
+        <span>Cdn avg $6.98M</span>
+        <span class="severity-pill ${tier}">${tierLabel}</span>
       </div>
     </div>`;
   requestAnimationFrame(()=>requestAnimationFrame(()=>{
@@ -906,6 +948,79 @@ function renderDonut(tech,legal,biz,total,t){
   });
 }
 
+
+function renderBrandDonut(d,t){
+  // Relative weights by scenario and industry — based on IBM/Edelman breach reputation studies
+  // Customer churn is heaviest for B2C; partner attrition heavier for B2B/finance
+  const scenarioWeights={
+    Ransomware:   {churn:0.40,revenue:0.30,recruitment:0.15,partner:0.15},
+    DataBreach:   {churn:0.45,revenue:0.28,recruitment:0.12,partner:0.15},
+    BEC:          {churn:0.25,revenue:0.35,recruitment:0.10,partner:0.30},
+    Insider:      {churn:0.30,revenue:0.25,recruitment:0.30,partner:0.15},
+    DoS:          {churn:0.35,revenue:0.40,recruitment:0.10,partner:0.15},
+  };
+  const industryShift={
+    finance:{partner:0.08,churn:-0.05},
+    health: {churn:0.08,partner:-0.05},
+    retail: {churn:0.10,revenue:-0.05,partner:-0.05},
+    gov:    {recruitment:0.10,churn:-0.05,partner:-0.05},
+  };
+  const base=scenarioWeights[d._type]||scenarioWeights.DataBreach;
+  let w={...base};
+  const shift=industryShift[el('industryType').value]||{};
+  for(const[k,v] of Object.entries(shift)){w[k]=(w[k]||0)+v;}
+  // Normalise to sum=1
+  const sum=Object.values(w).reduce((a,b)=>a+b,0);
+  for(const k in w) w[k]=w[k]/sum;
+
+  const C=2*Math.PI*60;
+  const segs=[
+    {id:'brandDonutChurn',      key:'churn',       color:'#ff7b2c'},
+    {id:'brandDonutRevenue',    key:'revenue',      color:'#ffb547'},
+    {id:'brandDonutRecruitment',key:'recruitment',  color:'#ff4455'},
+    {id:'brandDonutPartner',    key:'partner',      color:'#c8a6ff'},
+  ];
+  const labels={
+    churn:t.brandLegendChurn,revenue:t.brandLegendRevenue,
+    recruitment:t.brandLegendRecruitment,partner:t.brandLegendPartner,
+  };
+  let offset=0;
+  segs.forEach(({id,key,color})=>{
+    const seg=el(id);if(!seg) return;
+    const arc=w[key]*C;
+    seg.setAttribute('stroke-dasharray',`${arc} ${C-arc}`);
+    seg.setAttribute('stroke-dashoffset',-offset);
+    offset+=arc;
+  });
+
+  // Legend
+  const legend=el('brandDonutLegend');
+  if(legend){
+    legend.innerHTML=segs.map(({key,color})=>`
+      <div class="brand-legend-item" role="listitem">
+        <div class="brand-legend-swatch" style="background:${color}"></div>
+        <span class="brand-legend-name">${labels[key]}</span>
+        <span class="brand-legend-pct">${Math.round(w[key]*100)}%</span>
+      </div>`).join('');
+  }
+
+  // Hover on segments — show label in centre
+  const amtEl=el('brandDonutCenterAmt'),lblEl=el('brandDonutCenterLbl');
+  segs.forEach(({id,key,color})=>{
+    const seg=el(id);if(!seg) return;
+    seg.onmouseenter=()=>{
+      seg.setAttribute('stroke-width',27);
+      if(amtEl){amtEl.textContent=Math.round(w[key]*100)+'%';amtEl.style.color=color;}
+      if(lblEl) lblEl.textContent=labels[key];
+    };
+    seg.onmouseleave=()=>{
+      seg.setAttribute('stroke-width',20);
+      if(amtEl){amtEl.textContent='Variable';amtEl.style.color='var(--orange)';}
+      if(lblEl) lblEl.textContent='X';
+    };
+  });
+}
+
 function renderNCTA(){
   const t=T[lang];
   const tr=t.trends.map((x,i)=>`<div class="trend-item"><span class="trend-num">T${i+1}</span><span class="trend-text"><strong>${x.label}:</strong> ${x.body}</span></div>`).join('');
@@ -940,6 +1055,8 @@ function applyDOMTranslations(l){
     loadingText:t.loadingText,lblTopDriver:t.lblTopDriver,
     legendLabelTech:t.legendTech,legendLabelLegal:t.legendLegal,legendLabelBiz:t.legendBiz,
     chartTitle:t.chartTitle,
+    brandChartTitle:t.brandChartTitle,
+    brandChartSubtitle:t.brandChartSubtitle,
   };
   for(const[id,val] of Object.entries(map)){const n=el(id);if(n)n.textContent=val;}
   const ti=el('mainTitle');if(ti)ti.innerHTML=t.mainTitleHTML;
@@ -1027,7 +1144,25 @@ function printReport(){
   const pct=(a,b)=>b>0?Math.round(a/b*100)+'%':'0%';
   const date=new Date().toLocaleDateString(lang==='fr'?'fr-CA':'en-CA',{year:'numeric',month:'long',day:'numeric'});
   const premRow=(hasIns&&d.premiumHike>0)?`<div class="crow"><span class="crow-lbl">${t.insPremiumHike}</span><span class="crow-amt">${fmtN(d.premiumHike)}</span></div>`:'';
-  const html=`<!DOCTYPE html><html lang="${lang}"><head><meta charset="UTF-8"><title>Report</title><link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=IBM+Plex+Sans:wght@300;400;600&display=swap" rel="stylesheet"><style>*{box-sizing:border-box;margin:0;padding:0}@page{margin:0;size:A4 portrait}html,body{width:210mm;background:#fff}body{font-family:'IBM Plex Sans',Arial,sans-serif;font-size:8pt;color:#1a1a1a;padding:0 13mm 8mm}.tb{height:5pt;margin:0 -13mm 9mm;background:linear-gradient(90deg,#2563eb,#7c3aed 48%,#e11d48);print-color-adjust:exact;-webkit-print-color-adjust:exact}.hd{display:flex;justify-content:space-between;align-items:stretch;gap:12pt;margin-bottom:8pt}.hl{flex:1;display:flex;flex-direction:column;justify-content:center}.ey{font-family:'IBM Plex Mono',monospace;font-size:5.5pt;letter-spacing:0.25em;color:#2563eb;text-transform:uppercase;margin-bottom:4pt;print-color-adjust:exact;-webkit-print-color-adjust:exact}.ti{font-size:18pt;font-weight:700;line-height:1.1;color:#111}.ti-l{font-weight:300;color:#888}.hm{display:flex;flex-direction:column;border:1pt solid #e0e0e0;border-left:3pt solid #2563eb;min-width:152pt;print-color-adjust:exact;-webkit-print-color-adjust:exact}.mr{display:flex;justify-content:space-between;align-items:center;padding:4pt 9pt;border-bottom:1pt solid #f0f0f0;gap:10pt;flex:1}.mr:last-child{border-bottom:none}.ml{font-family:'IBM Plex Mono',monospace;font-size:4.5pt;letter-spacing:0.14em;text-transform:uppercase;color:#bbb;white-space:nowrap}.mv{font-size:7pt;font-weight:600;color:#1a1a1a;text-align:right}.mv-r{color:#dc2626;font-size:6pt;print-color-adjust:exact;-webkit-print-color-adjust:exact}.mv-b{font-family:'IBM Plex Mono',monospace;font-size:6.5pt;font-weight:700;color:#2563eb;print-color-adjust:exact;-webkit-print-color-adjust:exact}.rule{height:0.75pt;background:#e0e0e0;margin-bottom:8pt}.sl{font-family:'IBM Plex Mono',monospace;font-size:4.5pt;letter-spacing:0.3em;text-transform:uppercase;color:#2563eb;margin-bottom:5pt;print-color-adjust:exact;-webkit-print-color-adjust:exact}.params{display:grid;grid-template-columns:repeat(3,1fr);border:1pt solid #e0e0e0}.p{padding:5pt 9pt;border-right:1pt solid #e0e0e0;border-bottom:1pt solid #e0e0e0}.params .p:nth-child(3n){border-right:none}.pl{font-family:'IBM Plex Mono',monospace;font-size:4pt;color:#bbb;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:2pt}.pv{font-size:7.5pt;font-weight:600;color:#1a1a1a;line-height:1.25}.es{display:flex;border:1pt solid #e0e0e0;border-left:4pt solid #2563eb;margin-top:8pt;print-color-adjust:exact;-webkit-print-color-adjust:exact}.em{flex:1;padding:10pt 14pt;border-right:1pt solid #e0e0e0;background:#f8faff;print-color-adjust:exact;-webkit-print-color-adjust:exact}.ee{font-family:'IBM Plex Mono',monospace;font-size:4pt;letter-spacing:0.2em;color:#aaa;text-transform:uppercase;margin-bottom:3pt}.en{font-size:24pt;font-weight:700;letter-spacing:-0.045em;line-height:1;color:#111}.ed{font-family:'IBM Plex Mono',monospace;font-size:5.5pt;color:#999;margin-top:5pt;line-height:1.8}.elc{width:115pt;padding:8pt 10pt;border-right:1pt solid #e0e0e0}.ec{width:115pt;padding:8pt 10pt}.bl{font-family:'IBM Plex Mono',monospace;font-size:4pt;letter-spacing:0.18em;text-transform:uppercase;color:#bbb;margin-bottom:5pt}.bv{font-size:7pt;font-weight:600;color:#1a1a1a;line-height:1.5}.sr{display:flex;align-items:center;gap:5pt;padding:2.5pt 0}.dot{width:5pt;height:5pt;border-radius:50%;flex-shrink:0;print-color-adjust:exact;-webkit-print-color-adjust:exact}.dt{background:#2563eb}.dl{background:#7c3aed}.db{background:#e11d48}.sn{flex:1;font-size:6pt;color:#555}.sp{font-family:'IBM Plex Mono',monospace;font-size:7pt;font-weight:700;color:#111}.cg{display:flex;flex-direction:column;gap:5pt;margin-top:8pt}.card{border:1pt solid #e0e0e0;display:flex;align-items:stretch;page-break-inside:avoid}.ac{width:3.5pt;flex-shrink:0;print-color-adjust:exact;-webkit-print-color-adjust:exact}.ct .ac{background:#2563eb}.cl .ac{background:#7c3aed}.cb .ac{background:#e11d48}.cx .ac{background:#ea580c}.ch{width:150pt;flex-shrink:0;padding:8pt 10pt 8pt 12pt;border-right:1pt solid #ebebeb;display:flex;flex-direction:column;justify-content:space-between;background:#fafafa;print-color-adjust:exact;-webkit-print-color-adjust:exact}.clb{font-family:'IBM Plex Mono',monospace;font-size:6pt;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#555;line-height:1.35}.ct2{font-family:'IBM Plex Mono',monospace;font-size:13pt;font-weight:700;color:#111;letter-spacing:-0.025em;margin-top:5pt;line-height:1}.cv{font-size:9pt;font-weight:600;color:#ea580c;print-color-adjust:exact;-webkit-print-color-adjust:exact}.cr{flex:1;display:flex;flex-direction:column;justify-content:center}.crow{display:flex;justify-content:space-between;align-items:baseline;padding:4pt 13pt 4pt 12pt;border-bottom:0.5pt solid #f0f0f0}.crow:last-child{border-bottom:none}.crow-lbl{font-size:7pt;color:#555;line-height:1.3;flex:1;padding-right:8pt}.crow-amt{font-family:'IBM Plex Mono',monospace;font-size:8pt;font-weight:700;color:#111;white-space:nowrap}.bb{flex:1;padding:8pt 12pt 8pt 11pt;display:flex;flex-direction:column;justify-content:center}.bt{font-size:7.5pt;font-weight:600;color:#1a1a1a;margin-bottom:3pt}.bx{font-size:6.5pt;color:#888;line-height:1.65;font-style:italic}.tbar{display:flex;justify-content:space-between;align-items:center;margin-top:7pt;padding:7pt 12pt;background:#111;print-color-adjust:exact;-webkit-print-color-adjust:exact}.tlbl{font-family:'IBM Plex Mono',monospace;font-size:6pt;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:#fff;print-color-adjust:exact;-webkit-print-color-adjust:exact}.tval{font-family:'IBM Plex Mono',monospace;font-size:14pt;font-weight:700;color:#fff;letter-spacing:-0.02em;print-color-adjust:exact;-webkit-print-color-adjust:exact}.ft{display:flex;gap:6pt;align-items:flex-start;margin-top:7pt;border-top:0.75pt solid #e0e0e0;padding-top:5pt}.fi{font-size:8pt;color:#ccc;flex-shrink:0;margin-top:1pt}.dt2{font-size:5pt;color:#aaa;line-height:1.65;margin-bottom:4pt}.ds{display:flex;flex-wrap:wrap;gap:2.5pt}.chip{font-family:'IBM Plex Mono',monospace;font-size:4.5pt;border:0.5pt solid #ddd;padding:1.5pt 4pt;color:#bbb}</style></head><body>
+  const html=`<!DOCTYPE html><html lang="${lang}"><head><meta charset="UTF-8"><title>Report</title><link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=IBM+Plex+Sans:wght@300;400;600&display=swap" rel="stylesheet"><style>*{box-sizing:border-box;margin:0;padding:0}@page{margin:0;size:A4 portrait}html,body{width:210mm;background:#fff}body{font-family:'IBM Plex Sans',Arial,sans-serif;font-size:8pt;color:#1a1a1a;padding:0 13mm 8mm}.tb{height:5pt;margin:0 -13mm 9mm;background:linear-gradient(90deg,#2563eb,#7c3aed 48%,#e11d48);print-color-adjust:exact;-webkit-print-color-adjust:exact}.hd{display:flex;justify-content:space-between;align-items:stretch;gap:12pt;margin-bottom:8pt}.hl{flex:1;display:flex;flex-direction:column;justify-content:center}.ey{font-family:'IBM Plex Mono',monospace;font-size:5.5pt;letter-spacing:0.25em;color:#2563eb;text-transform:uppercase;margin-bottom:4pt;print-color-adjust:exact;-webkit-print-color-adjust:exact}.ti{font-size:18pt;font-weight:700;line-height:1.1;color:#111}.ti-l{font-weight:300;color:#888}.hm{display:flex;flex-direction:column;border:1pt solid #e0e0e0;border-left:3pt solid #2563eb;min-width:152pt;print-color-adjust:exact;-webkit-print-color-adjust:exact}.mr{display:flex;justify-content:space-between;align-items:center;padding:4pt 9pt;border-bottom:1pt solid #f0f0f0;gap:10pt;flex:1}.mr:last-child{border-bottom:none}.ml{font-family:'IBM Plex Mono',monospace;font-size:4.5pt;letter-spacing:0.14em;text-transform:uppercase;color:#bbb;white-space:nowrap}.mv{font-size:7pt;font-weight:600;color:#1a1a1a;text-align:right}.mv-r{color:#dc2626;font-size:6pt;print-color-adjust:exact;-webkit-print-color-adjust:exact}.mv-b{font-family:'IBM Plex Mono',monospace;font-size:6.5pt;font-weight:700;color:#2563eb;print-color-adjust:exact;-webkit-print-color-adjust:exact}.rule{height:0.75pt;background:#e0e0e0;margin-bottom:8pt}.sl{font-family:'IBM Plex Mono',monospace;font-size:4.5pt;letter-spacing:0.3em;text-transform:uppercase;color:#2563eb;margin-bottom:5pt;print-color-adjust:exact;-webkit-print-color-adjust:exact}.params{display:grid;grid-template-columns:repeat(3,1fr);border:1pt solid #e0e0e0}.p{padding:5pt 9pt;border-right:1pt solid #e0e0e0;border-bottom:1pt solid #e0e0e0}.params .p:nth-child(3n){border-right:none}.pl{font-family:'IBM Plex Mono',monospace;font-size:4pt;color:#bbb;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:2pt}.pv{font-size:7.5pt;font-weight:600;color:#1a1a1a;line-height:1.25}.es{display:flex;border:1pt solid #e0e0e0;border-left:4pt solid #2563eb;margin-top:8pt;print-color-adjust:exact;-webkit-print-color-adjust:exact}.em{flex:1;padding:10pt 14pt;border-right:1pt solid #e0e0e0;background:#f8faff;print-color-adjust:exact;-webkit-print-color-adjust:exact}.ee{font-family:'IBM Plex Mono',monospace;font-size:4pt;letter-spacing:0.2em;color:#aaa;text-transform:uppercase;margin-bottom:3pt}.en{font-size:24pt;font-weight:700;letter-spacing:-0.045em;line-height:1;color:#111}.ed{font-family:'IBM Plex Mono',monospace;font-size:5.5pt;color:#999;margin-top:5pt;line-height:1.8}.elc{width:115pt;padding:8pt 10pt;border-right:1pt solid #e0e0e0}.ec{width:115pt;padding:8pt 10pt}.bl{font-family:'IBM Plex Mono',monospace;font-size:4pt;letter-spacing:0.18em;text-transform:uppercase;color:#bbb;margin-bottom:5pt}.bv{font-size:7pt;font-weight:600;color:#1a1a1a;line-height:1.5}.sr{display:flex;align-items:center;gap:5pt;padding:2.5pt 0}.dot{width:5pt;height:5pt;border-radius:50%;flex-shrink:0;print-color-adjust:exact;-webkit-print-color-adjust:exact}.dt{background:#2563eb}.dl{background:#7c3aed}.db{background:#e11d48}.sn{flex:1;font-size:6pt;color:#555}.sp{font-family:'IBM Plex Mono',monospace;font-size:7pt;font-weight:700;color:#111}.cg{display:flex;flex-direction:column;gap:5pt;margin-top:8pt}.card{border:1pt solid #e0e0e0;display:flex;align-items:stretch;page-break-inside:avoid}.ac{width:3.5pt;flex-shrink:0;print-color-adjust:exact;-webkit-print-color-adjust:exact}.ct .ac{background:#2563eb}.cl .ac{background:#7c3aed}.cb .ac{background:#e11d48}.cx .ac{background:#ea580c}.ch{width:150pt;flex-shrink:0;padding:8pt 10pt 8pt 12pt;border-right:1pt solid #ebebeb;display:flex;flex-direction:column;justify-content:space-between;background:#fafafa;print-color-adjust:exact;-webkit-print-color-adjust:exact}.clb{font-family:'IBM Plex Mono',monospace;font-size:6pt;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#555;line-height:1.35}.ct2{font-family:'IBM Plex Mono',monospace;font-size:13pt;font-weight:700;color:#111;letter-spacing:-0.025em;margin-top:5pt;line-height:1}.cv{font-size:9pt;font-weight:600;color:#ea580c;print-color-adjust:exact;-webkit-print-color-adjust:exact}.cr{flex:1;display:flex;flex-direction:column;justify-content:center}.crow{display:flex;justify-content:space-between;align-items:baseline;padding:4pt 13pt 4pt 12pt;border-bottom:0.5pt solid #f0f0f0}.crow:last-child{border-bottom:none}.crow-lbl{font-size:7pt;color:#555;line-height:1.3;flex:1;padding-right:8pt}.crow-amt{font-family:'IBM Plex Mono',monospace;font-size:8pt;font-weight:700;color:#111;white-space:nowrap}.bb{flex:1;padding:8pt 12pt 8pt 11pt;display:flex;flex-direction:column;justify-content:center}.bt{font-size:7.5pt;font-weight:600;color:#1a1a1a;margin-bottom:3pt}.bx{font-size:6.5pt;color:#888;line-height:1.65;font-style:italic}.tbar{display:flex;justify-content:space-between;align-items:center;margin-top:7pt;padding:7pt 12pt;background:#111;print-color-adjust:exact;-webkit-print-color-adjust:exact}.tlbl{font-family:'IBM Plex Mono',monospace;font-size:6pt;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:#fff;print-color-adjust:exact;-webkit-print-color-adjust:exact}.tval{font-family:'IBM Plex Mono',monospace;font-size:14pt;font-weight:700;color:#fff;letter-spacing:-0.02em;print-color-adjust:exact;-webkit-print-color-adjust:exact}.ft{display:flex;gap:6pt;align-items:flex-start;margin-top:7pt;border-top:0.75pt solid #e0e0e0;padding-top:5pt}.fi{font-size:8pt;color:#ccc;flex-shrink:0;margin-top:1pt}.dt2{font-size:5pt;color:#aaa;line-height:1.65;margin-bottom:4pt}.ds{display:flex;flex-wrap:wrap;gap:2.5pt}.chip{font-family:'IBM Plex Mono',monospace;font-size:4.5pt;border:0.5pt solid #ddd;padding:1.5pt 4pt;color:#bbb}
+/* Brand donut second chart card */
+.chart-card-brand{background:var(--bg1);border:none;border-radius:14px;padding:0;display:flex;flex-direction:column;align-items:center;margin-top:0;}
+.chart-card-brand .chart-title{font-family:var(--font-mono);font-size:0.6rem;letter-spacing:0.14em;color:var(--muted);text-transform:uppercase;margin-bottom:4px;align-self:flex-start;}
+.chart-card-brand .chart-subtitle{font-family:var(--font-mono);font-size:0.55rem;letter-spacing:0.1em;color:var(--orange);text-transform:uppercase;margin-bottom:16px;align-self:flex-start;}
+.brand-donut-wrap{position:relative;width:100%;max-width:160px;aspect-ratio:1;margin:0 auto 20px}
+.brand-donut-wrap svg{width:100%;height:100%;transform:rotate(-90deg);overflow:visible;display:block}
+.brand-donut-wrap .donut-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;}
+.brand-donut-label-wrap{font-family:var(--font-mono);font-size:0.5rem;color:var(--orange);letter-spacing:0.08em;text-transform:uppercase;margin-top:2px;line-height:1.3;text-align:center;}
+.brand-legend-list{width:100%;display:flex;flex-direction:column;gap:8px}
+.brand-legend-item{display:flex;align-items:center;gap:10px;font-size:0.78rem;}
+.brand-legend-swatch{width:10px;height:10px;border-radius:2px;flex-shrink:0;}
+.brand-legend-name{color:var(--muted2);flex:1;font-size:0.75rem;line-height:1.35}
+.brand-legend-pct{font-family:var(--font-mono);font-size:0.7rem;color:var(--text);font-weight:600;}
+
+.brand-donut-divider{height:1px;background:var(--border);margin:20px 0;width:100%}
+.chart-card-brand-inline{width:100%}
+.chart-card-brand-inline .chart-title{margin-bottom:2px}
+</style></head><body>
 <div class="tb"></div>
 <div class="hd"><div class="hl"><div class="ey">${t.eyebrow}</div><div class="ti">Cyber Incident <span class="ti-l">Cost Simulator</span></div></div>
 <div class="hm"><div class="mr"><span class="ml">${t.printGeneratedOn}</span><span class="mv">${date}</span></div><div class="mr"><span class="ml">Classification</span><span class="mv mv-r">${t.printConfidential}</span></div><div class="mr"><span class="ml">${t.regimeLabelPrefix}</span><span class="mv mv-b">${regimeLabel}</span></div>${hasPHI?`<div class="mr"><span class="ml">PHI</span><span class="mv">${t.phiTagLabel}</span></div>`:''}</div></div>
