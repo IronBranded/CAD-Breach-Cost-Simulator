@@ -15,11 +15,11 @@
   --border:rgba(255,255,255,0.07);
   --border2:rgba(255,255,255,0.12);
   --blue:#3b9eff;--blue-dim:rgba(59,158,255,0.12);
-  --red:#ff4455;--red-dim:rgba(255,68,85,0.12);
+  --red:#ff5a6b;--red-dim:rgba(255,68,85,0.12);
   --purple:#b06bff;--purple-dim:rgba(176,107,255,0.12);
   --green:#19e07a;--green-dim:rgba(25,224,122,0.10);
   --amber:#ffb547;--amber-dim:rgba(255,181,71,0.10);
-  --orange:#ff7b2c;--text:#e8edf5;--muted:#5a6a82;--muted2:#8a9ab5;
+  --orange:#ff7b2c;--text:#e8edf5;--muted:#7585a0;--muted2:#8a9ab5;
   --font-head:'Syne',sans-serif;--font-mono:'IBM Plex Mono',monospace;
   --font-body:'IBM Plex Sans',sans-serif;--radius:10px;
   --glow-blue:0 0 30px rgba(59,158,255,0.15);--glow-red:0 0 30px rgba(255,68,85,0.2);
@@ -170,6 +170,40 @@ input[type="checkbox"]:checked+.checkmark::after{opacity:1}
 .severity-pill.high{background:rgba(255,68,85,0.12);color:var(--red);border:1px solid rgba(255,68,85,0.25)}
 .severity-pill.critical{background:rgba(176,107,255,0.12);color:var(--purple);border:1px solid rgba(176,107,255,0.25)}
 .stats-grid{display:grid;grid-template-columns:minmax(220px,280px) 1fr;gap:20px;margin-bottom:20px;}
+
+/* Cost Timeline Visualization — cumulative line chart */
+.timeline-card{background:var(--bg1);border:1px solid var(--border);border-radius:14px;padding:24px 26px;margin-bottom:20px;}
+.timeline-card .chart-title{margin-bottom:4px}
+.timeline-card .chart-subtitle{font-family:var(--font-mono);font-size:0.55rem;letter-spacing:0.1em;color:var(--muted);text-transform:uppercase;margin-bottom:20px;}
+.timeline-chart-wrap{position:relative;width:100%;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;padding-bottom:12px;}
+.timeline-chart-wrap svg{width:100%;height:auto;min-width:600px;display:block;overflow:visible;}
+.timeline-line-path{fill:none;stroke:url(#timelineLineGrad);stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:600;stroke-dashoffset:600;transition:stroke-dashoffset 1s cubic-bezier(.4,0,.2,1);}
+.timeline-area-path{fill:url(#timelineAreaGrad);opacity:0;transition:opacity 0.6s ease 0.4s;}
+.timeline-area-path.show{opacity:1}
+.timeline-point{fill:var(--bg1);stroke-width:2.5;r:4;opacity:0;transform-origin:center;transition:opacity 0.3s ease,r 0.15s ease;}
+.timeline-point.show{opacity:1}
+.timeline-point.point-y1{stroke:var(--blue)}
+.timeline-point.point-y2{stroke:var(--red)}
+.timeline-varx-path{fill:url(#timelineVarXGrad);opacity:0;transition:opacity 0.6s ease 0.7s;}
+.timeline-varx-path.show{opacity:1}
+.timeline-varx-line{fill:none;stroke:var(--orange);stroke-width:2;stroke-linecap:round;stroke-dasharray:4 5;opacity:0;transition:opacity 0.5s ease 0.7s;}
+.timeline-varx-line.show{opacity:1}
+.timeline-varx-label{font-family:var(--font-mono);font-size:10px;font-weight:700;fill:var(--orange);text-anchor:middle;opacity:0;transition:opacity 0.5s ease 0.9s;}
+.timeline-varx-label.show{opacity:1}
+.timeline-gridline{stroke:var(--border);stroke-width:1;}
+.timeline-axis-label{font-family:var(--font-mono);font-size:9px;fill:var(--muted);letter-spacing:0.05em;}
+.timeline-value-label{font-family:var(--font-mono);font-size:11px;font-weight:700;fill:var(--text);}
+.timeline-value-label.tl-y1{fill:var(--blue)}
+.timeline-value-label.tl-y2{fill:var(--red)}
+.timeline-legend{display:flex;gap:24px;margin-top:18px;flex-wrap:wrap;}
+.timeline-legend-item{display:flex;align-items:center;gap:8px;font-size:0.78rem;color:var(--muted2);}
+.timeline-legend-swatch{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.timeline-legend-swatch.ly1{background:var(--blue)}
+.timeline-legend-swatch.ly2{background:var(--red)}
+.timeline-legend-swatch.lyx{background:none;border:2px dashed var(--orange);}
+.timeline-legend-text strong{color:var(--text);font-weight:600}
+
+
 .chart-card{background:var(--bg1);border:1px solid var(--border);border-radius:14px;padding:28px 24px;display:flex;flex-direction:column;align-items:center;}
 .chart-title{font-family:var(--font-mono);font-size:0.6rem;letter-spacing:0.14em;color:var(--muted);text-transform:uppercase;margin-bottom:20px;align-self:flex-start;}
 .donut-wrap{position:relative;width:100%;max-width:160px;aspect-ratio:1;margin:0 auto 20px}
@@ -237,6 +271,12 @@ input[type="checkbox"]:checked+.checkmark::after{opacity:1}
 #printReport{display:none;visibility:hidden;position:absolute;left:-9999px;}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0;}
 :focus-visible{outline:2px solid var(--blue);outline-offset:3px;border-radius:4px;}
+@media(max-width:1024px){
+  .stats-grid{grid-template-columns:1fr}
+  .hero-body{grid-template-columns:1fr;gap:24px}.hero-right{text-align:left}
+  .ins-grid{grid-template-columns:repeat(2,1fr)}
+  .timeline-card{padding:20px 18px}
+}
 @media(max-width:700px){
   .form-card{padding:24px 18px}.grid-form{grid-template-columns:1fr}.full-width,.toggle-card{grid-column:span 1}.ins-grid,.stats-grid{grid-template-columns:1fr}
   .hero-body{grid-template-columns:1fr;gap:20px}.hero-right{text-align:left}.lifecycle-box{min-width:unset}
@@ -264,6 +304,76 @@ input[type="checkbox"]:checked+.checkmark::after{opacity:1}
 .brand-donut-divider{height:1px;background:var(--border);margin:20px 0;width:100%}
 .chart-card-brand-inline{width:100%}
 .chart-card-brand-inline .chart-title{margin-bottom:2px}
+
+.cost-bar-track{display:block;height:3px;border-radius:2px;background:rgba(255,255,255,0.04);border:1px solid var(--border);margin-top:4px;overflow:hidden;}
+.cost-bar-track .cost-micro-bar{margin-top:0;height:100%;opacity:0.7;}
+
+.exfil-toggle{display:none;margin-top:12px;padding:12px 16px;background:rgba(255,68,85,0.06);border:1px solid rgba(255,68,85,0.2);border-radius:var(--radius);animation:fadeSlide 0.2s ease-out;}
+.exfil-toggle.visible{display:block}
+.exfil-label{display:flex;align-items:center;gap:10px;cursor:pointer;font-size:0.85rem;color:var(--text);}
+.exfil-label input[type=checkbox]{display:none}
+.exfil-check{width:18px;height:18px;flex-shrink:0;border-radius:4px;border:1.5px solid rgba(255,68,85,0.5);background:var(--bg);position:relative;transition:all 0.15s;}
+input[type=checkbox]:checked+.exfil-check{background:var(--red);border-color:var(--red);}
+.exfil-check::after{content:'\2713';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:0.65rem;color:#fff;font-weight:700;opacity:0;transition:opacity 0.12s;}
+input[type=checkbox]:checked+.exfil-check::after{opacity:1}
+.exfil-tag{font-size:0.68rem;padding:2px 7px;background:rgba(255,68,85,0.15);color:var(--red);border-radius:4px;font-family:var(--font-mono);letter-spacing:0.06em;font-weight:600;margin-left:4px;}
+
+/* ── PRINT PAGE BREAKS ────────────────────────────────── */
+@media print {
+  .page-break {
+    break-before: page;
+    page-break-before: always;
+  }
+  .keep-together {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+}
+
+/* ── COMPREHENSIVE MOBILE POLISH ────────────────────── */
+@media (max-width: 700px) {
+  .top-bar {
+    position: static;
+    justify-content: flex-end;
+    padding: 15px 20px 0;
+    margin-bottom: -20px;
+  }
+  .site-header {
+    padding-top: 30px;
+  }
+  #btnPrintText, #btnRestartText {
+    display: none;
+  }
+  .top-action-btn {
+    padding: 8px 12px;
+  }
+  .lang-picker-btns {
+    display: flex;
+    flex-direction: column;
+  }
+  .lang-pick-sep {
+    width: 100%;
+    height: 1px;
+  }
+  select, input[type="number"], .run-btn {
+    min-height: 44px;
+    font-size: 16px;
+  }
+  .cost-row {
+    align-items: flex-start;
+  }
+  .cost-row-inner {
+    padding-right: 8px;
+  }
+  .cost-row .cost-val {
+    margin-top: 1px;
+  }
+}
+
+body {
+  overflow-x: hidden;
+  width: 100%;
+}
 </style>
 </head>
 <body>
@@ -277,13 +387,13 @@ input[type="checkbox"]:checked+.checkmark::after{opacity:1}
       <span class="lang-picker-fr">Choisissez votre langue</span>
     </div>
     <div class="lang-picker-btns">
-      <button class="lang-pick-btn" onclick="pickLang('en')" aria-label="Continue in English">
+      <button class="lang-pick-btn" id="langPickEn" onclick="pickLang('en')" aria-label="Continue in English">
         <span class="lang-pick-flag">🇨🇦</span>
         <span class="lang-pick-name">English</span>
         <span class="lang-pick-sub">Continue in English</span>
       </button>
       <div class="lang-pick-sep"></div>
-      <button class="lang-pick-btn" onclick="pickLang('fr')" aria-label="Continuer en français">
+      <button class="lang-pick-btn" id="langPickFr" onclick="pickLang('fr')" aria-label="Continuer en français">
         <span class="lang-pick-flag">🇨🇦</span>
         <span class="lang-pick-name">Français</span>
         <span class="lang-pick-sub">Continuer en français</span>
@@ -324,8 +434,8 @@ input[type="checkbox"]:checked+.checkmark::after{opacity:1}
   </div>
   <div class="top-bar">
     <div class="dash-actions" id="dashActions">
-      <button class="top-action-btn" onclick="printReport()"><span id="btnPrintText">Print Report</span></button>
-      <button class="top-action-btn restart" onclick="softReset()">← <span id="btnRestartText">Restart</span></button>
+      <button class="top-action-btn" id="btnPrint" onclick="printReport()"><span id="btnPrintText">Print Report</span></button>
+      <button class="top-action-btn restart" id="btnRestart" onclick="softReset()">← <span id="btnRestartText">Restart</span></button>
     </div>
     <div class="lang-switcher" role="navigation" aria-label="Language selection">
       <button class="lang-btn active" id="btnEn" onclick="setLang('en')" aria-pressed="true">EN</button>
@@ -350,14 +460,22 @@ input[type="checkbox"]:checked+.checkmark::after{opacity:1}
           <div class="form-section-label" id="sectionLabelScenario">Incident Parameters</div>
           <div class="grid-form">
             <div class="full-width form-sub-label" id="subLabelIncident">Incident Profile</div>
-            <div class="field-group full-width"><label for="incidentType" id="lblScenario">Incident Scenario</label><select id="incidentType" aria-required="true"></select><span class="error-msg" id="err-incidentType" role="alert"></span></div>
-            <div class="field-group"><label for="industryType" id="lblIndustry">Industry</label><select id="industryType" aria-required="true"></select><span class="error-msg" id="err-industryType" role="alert"></span></div>
-            <div class="field-group"><label for="recordCount" id="lblRecords">PII Leak Volume</label><select id="recordCount" aria-required="true"></select><span class="error-msg" id="err-recordCount" role="alert"></span></div>
+            <div class="field-group full-width"><label for="incidentType" id="lblScenario">Incident Scenario</label><select id="incidentType" aria-describedby="err-incidentType" aria-required="true" onchange="onIncidentChange()"></select><span class="error-msg" id="err-incidentType" role="alert"></span></div>
+            <div class="exfil-toggle full-width" id="exfilToggle">
+              <label class="exfil-label" for="hasExfil">
+                <input type="checkbox" id="hasExfil">
+                <span class="exfil-check"></span>
+                <span id="lblExfil">Data exfiltration also occurred?</span>
+                <span class="exfil-tag" id="exfilTag">DOUBLE EXTORTION</span>
+              </label>
+            </div>
+            <div class="field-group"><label for="industryType" id="lblIndustry">Industry</label><select id="industryType" aria-describedby="err-industryType" aria-required="true"></select><span class="error-msg" id="err-industryType" role="alert"></span></div>
+            <div class="field-group"><label for="recordCount" id="lblRecords">PII Leak Volume</label><select id="recordCount" aria-describedby="err-recordCount" aria-required="true"></select><span class="error-msg" id="err-recordCount" role="alert"></span></div>
             <div class="full-width form-sub-label" id="subLabelOrg">Organisation Profile</div>
-            <div class="field-group full-width"><label for="revenueBracket" id="lblRevenue">Annual Revenue (CAD)</label><select id="revenueBracket" aria-required="true"></select><span class="error-msg" id="err-revenueBracket" role="alert"></span></div>
-            <div class="field-group full-width"><label for="rootCause" id="lblRootCause">Root Cause</label><select id="rootCause" aria-required="true"></select><span class="error-msg" id="err-rootCause" role="alert"></span></div>
+            <div class="field-group full-width"><label for="revenueBracket" id="lblRevenue">Annual Revenue (CAD)</label><select id="revenueBracket" aria-describedby="err-revenueBracket" aria-required="true"></select><span class="error-msg" id="err-revenueBracket" role="alert"></span></div>
+            <div class="field-group full-width"><label for="rootCause" id="lblRootCause">Root Cause</label><select id="rootCause" aria-describedby="err-rootCause" aria-required="true"></select><span class="error-msg" id="err-rootCause" role="alert"></span></div>
             <div class="full-width form-sub-label" id="subLabelJurisdiction">Jurisdiction</div>
-            <div class="field-group full-width"><label for="provinceSelect" id="lblProvince">Province / Jurisdiction</label><select id="provinceSelect" aria-required="true"></select><span class="error-msg" id="err-provinceSelect" role="alert"></span></div>
+            <div class="field-group full-width"><label for="provinceSelect" id="lblProvince">Province / Jurisdiction</label><select id="provinceSelect" aria-describedby="err-provinceSelect" aria-required="true"></select><span class="error-msg" id="err-provinceSelect" role="alert"></span></div>
             <div class="toggle-card phi-card">
               <label class="toggle-label" for="hasPHI"><input type="checkbox" id="hasPHI" onchange="togglePHI()"><span class="checkmark"></span><span class="toggle-text" id="lblPHIToggle">Organization holds Protected Health Information (PHI)?</span></label>
               <div class="toggle-sub" id="phiSub"><div class="phi-info-box" id="phiInfoBox"></div></div>
@@ -373,7 +491,7 @@ input[type="checkbox"]:checked+.checkmark::after{opacity:1}
               </div>
             </div>
           </div>
-          <button class="run-btn" onclick="runSimulation()"><span id="btnRunText">Run Simulation</span></button>
+          <button class="run-btn" id="btnRun" onclick="runSimulation()"><span id="btnRunText">Run Simulation</span></button>
         </div>
       </main>
     </div>
@@ -410,7 +528,7 @@ input[type="checkbox"]:checked+.checkmark::after{opacity:1}
             </svg>
             <div class="donut-center" aria-hidden="true">
               <span class="donut-center-amount" id="donutCenterAmount">—</span>
-              <span class="donut-center-label" id="donutCenterLabel"> </span>
+              <span class="donut-center-label" id="donutCenterLabel"> </span>
             </div>
           </div>
           <div class="legend-list" role="list">
@@ -447,6 +565,50 @@ input[type="checkbox"]:checked+.checkmark::after{opacity:1}
         </div>
         </div>
       </div>
+      <div class="timeline-card fade-in page-break keep-together" id="timelineCard">
+        <div class="chart-title" id="timelineTitle">Cost Timeline</div>
+        <div class="chart-subtitle" id="timelineSubtitle">When breach costs actually land</div>
+        <div class="timeline-chart-wrap" role="img" aria-label="Cumulative cost timeline" id="timelineBarsAria">
+          <svg viewBox="0 0 960 320" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+            <defs>
+              <linearGradient id="timelineLineGrad" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="var(--blue)"/>
+                <stop offset="55%" stop-color="var(--purple)"/>
+                <stop offset="100%" stop-color="var(--red)"/>
+              </linearGradient>
+              <linearGradient id="timelineAreaGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="var(--purple)" stop-opacity="0.18"/>
+                <stop offset="100%" stop-color="var(--purple)" stop-opacity="0"/>
+              </linearGradient>
+              <linearGradient id="timelineVarXGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="var(--orange)" stop-opacity="0.22"/>
+                <stop offset="100%" stop-color="var(--orange)" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+            <line class="timeline-gridline" x1="40" y1="20" x2="40" y2="270"/>
+            <line class="timeline-gridline" x1="40" y1="270" x2="890" y2="270"/>
+            <path class="timeline-varx-path" id="timelineVarXPath" d=""/>
+            <g id="timelineVarXGroup"></g>
+            <path class="timeline-area-path" id="timelineAreaPath" d=""/>
+            <path class="timeline-line-path" id="timelineLinePath" d=""/>
+            <circle class="timeline-point point-y1" id="timelinePointY1" cx="0" cy="0"/>
+            <circle class="timeline-point point-y2" id="timelinePointY2" cx="0" cy="0"/>
+            <text class="timeline-value-label tl-y1" id="timelineLabelY1" x="0" y="0" text-anchor="middle">—</text>
+            <text class="timeline-value-label tl-y2" id="timelineLabelY2" x="0" y="0" text-anchor="middle">—</text>
+            <text class="timeline-varx-label" id="timelineVarXLabel" x="0" y="0" text-anchor="middle">+ Variable X</text>
+            <text class="timeline-axis-label" x="40" y="295" text-anchor="start" id="timelineAxisDay0">Day 0</text>
+            <text class="timeline-axis-label" x="230" y="295" text-anchor="middle" id="timelineAxisDay30">Day 30</text>
+            <text class="timeline-axis-label" x="420" y="295" text-anchor="middle" id="timelineAxisMonth12">Month 12</text>
+            <text class="timeline-axis-label" x="610" y="295" text-anchor="middle" id="timelineAxisMonth36">Month 36</text>
+            <text class="timeline-axis-label" x="800" y="295" text-anchor="middle" id="timelineAxisYear5">Years 3–5+</text>
+          </svg>
+          <div class="timeline-legend">
+            <div class="timeline-legend-item"><div class="timeline-legend-swatch ly1"></div><span class="timeline-legend-text"><strong id="timelineYear1Amount">—</strong> <span id="timelineYear1Label">Year 1 (Days 1–30 onward)</span> <span id="timelineYear1Desc">— incident response, forensics, IT restoration, breach counsel, notification &amp; credit monitoring, operational losses, ransom, and insurance premium impact.</span></span></div>
+            <div class="timeline-legend-item"><div class="timeline-legend-swatch ly2"></div><span class="timeline-legend-text"><strong id="timelineYear2Amount">—</strong> <span id="timelineYear2Label">Year 2+ (12–36 months)</span> <span id="timelineYear2Desc">— regulatory fines, commissioner penalties, and class-action settlements, which typically resolve well after the initial incident.</span></span></div>
+            <div class="timeline-legend-item"><div class="timeline-legend-swatch lyx"></div><span class="timeline-legend-text"><strong id="timelineVarXAmount">Variable X</strong> <span id="timelineVarXLegendLabel">(Brand &amp; Reputation)</span> <span id="timelineVarXDesc">— unquantifiable, open-ended: customer churn, revenue contraction, and reputational damage that can compound for 3–5 years.</span></span></div>
+          </div>
+        </div>
+      </div>
       <div class="ncta-card" id="nctaBlock"></div>
       <footer class="disclaimer-footer" role="contentinfo">
         <div class="disclaimer-inner"><span class="disclaimer-icon">⚠</span><p id="disclaimerText"></p></div>
@@ -456,8 +618,11 @@ input[type="checkbox"]:checked+.checkmark::after{opacity:1}
   </div>
 </div>
 <div id="printReport" aria-hidden="true"></div>
+
+
 <script>
 'use strict';
+window._lastCalcData=null;
 
 
 const SPLASH_T={
@@ -480,12 +645,14 @@ const PROGRESS_PCTS=[8,22,40,58,72,88,100];
 const PROGRESS_DELAYS=[300,900,1500,2200,2900,3400,3900];
 let splashLang='en';
 
-window.pickLang=function(l){
-  splashLang=l;lang=l;
+window.pickLang=function pickLang(l){
+  // Assign both vars inside the callback so lang is always in sync with DOM updates
+  splashLang=l;
   const st=SPLASH_T[l];
   const picker=document.getElementById('langPicker');
   picker.style.transition='opacity 0.35s ease';picker.style.opacity='0';
   setTimeout(()=>{
+    lang=l; // set here so no code reads a stale lang during the 350ms fade
     picker.style.display='none';
     const splash=document.getElementById('splashScreen');
     splash.style.display='flex';
@@ -516,13 +683,14 @@ function runSplash(){
   });
 }
 
-window.launchSimulator=function(){
+window.launchSimulator=function launchSimulator(){
   const splash=document.getElementById('splashScreen'),app=document.getElementById('appWrapper');
   splash.classList.add('hiding');
   setTimeout(()=>{
     splash.style.display='none';
-    app.style.display='block';
+    // Apply translations before making the wrapper visible to prevent a flash of untranslated content
     applyDOMTranslations(lang);
+    app.style.display='block';
     requestAnimationFrame(()=>requestAnimationFrame(()=>app.classList.add('shown')));
   },600);
 };
@@ -568,7 +736,7 @@ en:{
   exposureLabelNet:'NET FINANCIAL EXPOSURE (POST-INSURANCE)',
   exposureLabelGross:'TOTAL ESTIMATED FINANCIAL EXPOSURE',
   lblTopDriver:'Top Driver',variableX:'+ Variable X: Brand & Reputation',
-  unquantifiable:'Unquantifiable Impact',brandChartTitle:'Variable X Breakdown',brandChartSubtitle:'Estimated relative weight',brandLegendChurn:'Customer Churn',brandLegendRevenue:'Revenue Contraction',brandLegendRecruitment:'Talent & Recruitment',brandLegendPartner:'Partner Attrition',
+  unquantifiable:'Unquantifiable Impact',lblExfil:'Data exfiltration also occurred? (Double Extortion)',exfilTag:'DOUBLE EXTORTION',brandChartTitle:'Variable X Breakdown',brandChartSubtitle:'Estimated relative weight',brandLegendChurn:'Customer Churn',brandLegendRevenue:'Revenue Contraction',brandLegendRecruitment:'Talent & Recruitment',brandLegendPartner:'Partner Attrition',
   churnText:'Customer churn varies by industry and public perception. For Canadian SMBs, a significant breach often correlates with 15–20% revenue contraction in the following fiscal year. Reputational damage to enterprise organizations can persist 3–5 years.',
   techHeader:'Technical Response',legalHeader:'Legal, Regulatory & Settlements',
   bizHeader:'Business Impact',brandHeader:'Brand & Reputation (Variable X)',
@@ -583,6 +751,13 @@ en:{
   driverNames:{tech:'Technical',legal:'Legal',biz:'Business'},
   fieldRequired:'Required.',phiTagLabel:'PHI Exposure',regimeLabelPrefix:'Regime:',
   insuranceBadgeLabel:'Insurance Covered',chartTitle:'Cost Distribution',
+  timelineTitle:'Cost Timeline',timelineSubtitle:'When breach costs actually land',
+  timelineYear1Label:'Year 1 (Days 1\u201330 onward)',timelineYear2Label:'Year 2+ (12\u201336 months)',
+  timelineYear1Desc:'Incident response, forensics, IT restoration, breach counsel, notification & credit monitoring, operational losses, ransom, and insurance premium impact.',
+  timelineYear2Desc:'Regulatory fines, commissioner penalties, and class-action settlements \u2014 these typically resolve well after the initial incident.',
+  timelineAxisDay0:'Day 0',timelineAxisDay30:'Day 30',timelineAxisMonth12:'Month 12',timelineAxisMonth36:'Month 36',timelineAxisYear5:'Year 3\u20135+',
+  timelineVarXShort:'+ Variable X',timelineVarXLegendLabel:'(Brand & Reputation)',
+  timelineVarXDesc:'\u2014 unquantifiable, open-ended: customer churn, revenue contraction, and reputational damage that can compound for 3\u20135 years.',
   lblLifecycle:'Incident & Recovery Lifecycle',
   disclaimer:'This simulator produces illustrative estimates based on Canadian industry averages, published breach cost research, and legal precedent. Figures are probabilistic ranges presented as point estimates for clarity. This tool does not constitute legal, actuarial, or financial advice. Consult qualified counsel before making risk management or insurance decisions.',
   sources:['IBM Cost of a Data Breach 2025 (CA$6.98M avg)','CCCS NCTA 2025–26','Desjardins Settlement 2023','LifeLabs Settlement 2024','OSFI B-13 Guideline','OPC Breach Reports','CAFC Fraud Report 2024'],
@@ -643,7 +818,7 @@ fr:{
   exposureLabelNet:'EXPOSITION FINANCIÈRE NETTE (APRÈS ASSURANCE)',
   exposureLabelGross:'EXPOSITION FINANCIÈRE TOTALE ESTIMÉE',
   lblTopDriver:'Facteur majeur',variableX:'+ Variable X : Marque & Réputation',
-  unquantifiable:'Impact inquantifiable',brandChartTitle:'Décomposition Variable X',brandChartSubtitle:'Poids relatif estimé',brandLegendChurn:'Perte de clients',brandLegendRevenue:'Contraction des revenus',brandLegendRecruitment:'Talent & Recrutement',brandLegendPartner:'Attrition partenaires',
+  unquantifiable:'Impact inquantifiable',lblExfil:'Exfiltration de données également survenue ? (Double extorsion)',exfilTag:'DOUBLE EXTORSION',brandChartTitle:'Décomposition Variable X',brandChartSubtitle:'Poids relatif estimé',brandLegendChurn:'Perte de clients',brandLegendRevenue:'Contraction des revenus',brandLegendRecruitment:'Talent & Recrutement',brandLegendPartner:'Attrition partenaires',
   churnText:'La perte de confiance client varie selon le secteur. Pour les PME canadiennes, une brèche majeure est souvent corrélée à une contraction de 15 à 20 % des revenus l\'année suivante.',
   techHeader:'Réponse Technique',legalHeader:'Juridique, Réglementaire & Litiges',
   bizHeader:'Impact Opérationnel',brandHeader:'Marque et Réputation (Variable X)',
@@ -658,18 +833,25 @@ fr:{
   driverNames:{tech:'Technique',legal:'Juridique',biz:'Opérationnel'},
   fieldRequired:'Obligatoire.',phiTagLabel:'Exposition RPS',regimeLabelPrefix:'Régime :',
   insuranceBadgeLabel:'Couvert par assurance',chartTitle:'Répartition des coûts',
+  timelineTitle:'Chronologie des coûts',timelineSubtitle:'Quand les coûts surviennent réellement',
+  timelineYear1Label:'Année 1 (Jours 1\u201330 et plus)',timelineYear2Label:'Année 2+ (12\u201336 mois)',
+  timelineYear1Desc:'Réponse à l\u2019incident, juricomptabilité, restauration informatique, conseil juridique, notification et surveillance du crédit, pertes opérationnelles, rançon, et impact sur la prime d\u2019assurance.',
+  timelineYear2Desc:'Amendes réglementaires, pénalités du commissaire et règlements de recours collectifs \u2014 ceux-ci se résolvent généralement bien après l\u2019incident initial.',
+  timelineAxisDay0:'Jour 0',timelineAxisDay30:'Jour 30',timelineAxisMonth12:'Mois 12',timelineAxisMonth36:'Mois 36',timelineAxisYear5:'Ann\u00e9es 3\u20135+',
+  timelineVarXShort:'+ Variable X',timelineVarXLegendLabel:'(Marque et r\u00e9putation)',
+  timelineVarXDesc:'\u2014 inquantifiable et ouvert\u00a0: perte de clients, contraction des revenus et atteinte \u00e0 la r\u00e9putation pouvant s\u2019accumuler pendant 3 \u00e0 5\u00a0ans.',
   lblLifecycle:'Cycle de vie : incident et rétablissement',
   disclaimer:'Ce simulateur produit des estimations illustratives basées sur les moyennes sectorielles canadiennes, la recherche publiée sur les coûts de brèche et les précédents juridiques. Les chiffres sont des plages probabilistes présentées comme des estimations ponctuelles. Cet outil ne constitue pas un avis juridique, actuariel ou financier.',
   sources:['IBM Cost of a Data Breach 2025 (6,98 M$ CA)','CCCS ECNC 2025–26','Règlement Desjardins 2023','Règlement LifeLabs 2024','Ligne directrice BSIF B-13','Rapports de brèche CPVP','Rapport CAFC 2024'],
   durations:{Ransomware:'Moy. 24 jours d\'arrêt',BEC:'Moy. 2–5 semaines de résolution',DataBreach:'Cycle moy. de 241 jours',Insider:'1–7 jours directs / mois pour détecter',DoS:'Moy. 6–72 heures de perturbation'},
   regNotices:{
-    QC:'<strong>AVIS RÉGLEMENTAIRE — Loi 25 (QC) :</strong> Pénalités sévères. Jusqu\'à <strong>25 M$ ou 4 % du chiffre d\'affaires mondial</strong> (le plus élevé). Notification immédiate à la CAI obligatoire.',
+    QC:'<strong>AVIS RÉGLEMENTAIRE — Loi 25 (QC) :</strong> Pénalités sévères. Jusqu\'à <strong>25 M$ ou 4 % du chiffre d\'affaires mondial</strong> (le plus élevé). Notification immédiate à la CAI obligatoire.',
     ON:'<strong>AVIS RÉGLEMENTAIRE — LPRPDE + LPRPS (ON) :</strong> Si des RPS sont impliqués, la LPRPS s\'active (max 500 k$). Le risque de recours collectifs est le principal facteur de coût.',
     AB:'<strong>AVIS RÉGLEMENTAIRE — PIPA (AB) :</strong> Notification obligatoire en cas de risque réel de préjudice grave. Les amendes sont basses ; l\'accent est mis sur la remédiation.',
     BC:'<strong>AVIS RÉGLEMENTAIRE — PIPA (CB) :</strong> Similaire à l\'Alberta. La jurisprudence récente renforce les recours pour « intrusion dans l\'intimité ».',
     OTHER:'<strong>AVIS RÉGLEMENTAIRE — LPRPDE (Fédérale) :</strong> Déclaration obligatoire au CPVP requise en cas de risque réel de préjudice grave (RRPG).',
     FED:'<strong>AVIS RÉGLEMENTAIRE — LPRPDE (Fédérale) :</strong> Déclaration obligatoire au CPVP requise en cas de risque réel de préjudice grave (RRPG).',
-    FIN:'<strong>AVIS RÉGLEMENTAIRE — LPRPDE + BSIF B-13 :</strong> Les institutions financières fédérales doivent se conformer à la ligne directrice B-13 du BSIF.',
+    FIN:'<strong>AVIS RÉGLEMENTAIRE — LPRPDE + BSIF B-13 :</strong> Les institutions financières fédérales doivent se conformer à la ligne directrice B-13 du BSIF. Les manquements déclenchent une intervention prudentielle et des exigences de capital accrues.',
   },
   printParamsTitle:'Paramètres de l\'incident',printTotalLabel:'EXPOSITION FINANCIÈRE TOTALE ESTIMÉE',
   printTotalLabelNet:'EXPOSITION NETTE (POST-ASSURANCE)',printInsNote:'Couvert par l\'assurance',
@@ -782,11 +964,17 @@ function runCalc(){
   const userCount={Low:800,Medium:8_000,High:45_000,Critical:150_000}[records]??800;
   const tech=calcTechCosts({irHours,rootCause,techCauseMult,forensicCauseMult});
   const legal=calcLegalExposure({province,industryId,industryMult,revenueVal:rev.val,records,hasPHI});
-  const notifyRate=RATES.NOTIFY[records]??12;
+  const exfilEl=el('hasExfil');
+  const hasExfil=!!(exfilEl&&exfilEl.checked&&type==='Ransomware');
+  // Base notify rate: elevated for double-extortion scenarios, minimal otherwise
+  const notifyRate=RATES.NOTIFY[hasExfil?records:'Low']??12;
   const costCounsel=legalHours*RATES.LEGAL;
   const costNotify=userCount*notifyRate;
   const costCredit=userCount*(hasPHI?RATES.CREDIT_PHI:RATES.CREDIT_STANDARD);
-  const totalLegal=costCounsel+legal.fineExposure+legal.settlementRisk+costNotify+costCredit;
+  // Double extortion: add a forensic surcharge (separate from notification) to model
+  // the incremental breach-counsel and commissioner filing burden of a confirmed exfiltration
+  const exfilNotifyAddon=hasExfil?(userCount*(RATES.NOTIFY[records]??12)*0.5):0;
+  const totalLegal=costCounsel+legal.fineExposure+legal.settlementRisk+costNotify+exfilNotifyAddon+costCredit;
   const biz=calcBizCosts({downtime:ip.downtime,baseOpsLoss:rev.opsLoss,industryMult,revenue,ransom:ip.ransom});
   const grossTotal=tech.total+totalLegal+biz.total;
   let netTotal=grossTotal,insuranceCovered=0,premiumHike=0;
@@ -813,9 +1001,15 @@ function runCalc(){
   const provinceObj=T[lang].options.provinces.find(p=>p.v===province);
   const provinceLabel=provinceObj?provinceObj.t.split(' (')[0]:province;
   const duration=T[lang].durations[type]||'\u2014';
+  // Timeline split: immediate (Days 1-30 / Year 1) vs deferred (Year 2+)
+  // Year 1: IR/forensics/IT, breach counsel, notification, credit monitoring, ops loss, remediation, ransom, premium hike
+  // Year 2+: regulatory fines and class-action settlements typically resolve 12-36mo post-incident
+  const year1Total=tech.total+costCounsel+costNotify+exfilNotifyAddon+costCredit+biz.total+premiumHike;
+  const year2PlusTotal=legal.fineExposure+legal.settlementRisk;
   return{tech,biz,legal:{...legal,costCounsel,costNotify,costCredit,total:totalLegal},
     grossTotal,netTotal,insuranceCovered,premiumHike,hasIns,
     incidentLabel,provinceLabel,duration,hasPHI,regimeKey:legal.regimeKey,
+    year1Total,year2PlusTotal,revenueVal:rev.val,revenueBracket:revenue,
     _type:type,_province:province};
 }
 
@@ -850,7 +1044,127 @@ function renderDashboard(d){
   el('bizRows').innerHTML=costRows([[t.bizOps,d.biz.costOps],[t.bizRemediation,d.biz.costRemediation],[t.bizExtortion,d.biz.ransom]]);
   el('brandRows').innerHTML=`<div class="brand-impact"><div class="brand-impact-title">${t.unquantifiable}</div><div class="brand-impact-body">${t.churnText}</div></div>`;
   renderBrandDonut(d,t);
+  renderTimeline(d,t);
   renderNCTA();renderDisclaimer();
+}
+
+/* Cost Timeline: cumulative line chart — Day0 → Day30 (Year1) → Month12 (plateau) → Month36 (Year1+Year2+) → Variable X uncertainty zone */
+function renderTimeline(d,t){
+  const y1=d.year1Total,y2=d.year2PlusTotal;
+  const total=y1+y2;
+  // Variable X: tiered annual revenue impact rate — Canadian reality:
+  // Micro/Small businesses face opportunistic attackers who know their revenue is limited;
+  // reputational tail is shorter and customer base is more resilient/local.
+  // Mid/Large face media exposure, enterprise churn, and sustained regulatory scrutiny.
+  const VARX_RATE={Micro:0.03,Small:0.07,Mid:0.15,Large:0.20};
+  const varXRate=VARX_RATE[d.revenueBracket]??0.10;
+  const annualImpact=d.revenueVal*varXRate;
+  const varXY3=total+annualImpact;
+  const varXY4=total+annualImpact*2;
+  const varXY5=total+annualImpact*3;
+  const max=Math.max(varXY5,total>0?total:1);
+  // Chart geometry: x3=Month36 (last known), x5/x6/x7=Year3/4/5 projection zone
+  const x0=40,x1=230,x2=420,x3=610;
+  const x5=710,x6=800,x7=890;
+  const yTop=20,yBase=270;
+  const yFor=(val)=>yBase-(val/max)*(yBase-yTop);
+  const yY1=yFor(y1),yY2=yFor(total);
+  const yY3=yFor(varXY3),yY4=yFor(varXY4),yY5=yFor(varXY5);
+  // Main cumulative line
+  const linePath=`M${x0},${yBase} L${x1},${yY1} L${x2},${yY1} L${x3},${yY2}`;
+  const areaPath=`${linePath} L${x3},${yBase} L${x0},${yBase} Z`;
+  el('timelineLinePath').setAttribute('d',linePath);
+  el('timelineAreaPath').setAttribute('d',areaPath);
+  el('timelinePointY1').setAttribute('cx',x1);el('timelinePointY1').setAttribute('cy',yY1);
+  el('timelinePointY2').setAttribute('cx',x3);el('timelinePointY2').setAttribute('cy',yY2);
+  const lblY1=el('timelineLabelY1'),lblY2=el('timelineLabelY2');
+  lblY1.setAttribute('x',x1);lblY1.setAttribute('y',Math.max(yTop+4,yY1-12));lblY1.textContent=fmt(y1);
+  lblY2.setAttribute('x',x3-30);lblY2.setAttribute('y',Math.max(yTop+4,yY2-12));lblY2.textContent=fmt(total);
+  // Variable X: 3 dashed annual reference lines — no dollar labels, just "Yr 3/4/5"
+  const svgNS='http://www.w3.org/2000/svg';
+  const grp=el('timelineVarXGroup');
+  grp.innerHTML='';
+  // Shaded projection band
+  const band=document.createElementNS(svgNS,'path');
+  band.setAttribute('d',`M${x3},${yY2} L${x7},${yY5} L${x7},${yY2} Z`);
+  band.setAttribute('fill','rgba(234,88,12,0.07)');
+  grp.appendChild(band);
+  // Dashed separator at Month36 → projection zone
+  const sep=document.createElementNS(svgNS,'line');
+  sep.setAttribute('x1',x3);sep.setAttribute('y1',yTop);
+  sep.setAttribute('x2',x3);sep.setAttribute('y2',yBase);
+  sep.setAttribute('stroke','rgba(234,88,12,0.2)');sep.setAttribute('stroke-width','1');
+  sep.setAttribute('stroke-dasharray','3 3');
+  grp.appendChild(sep);
+  // Three annual lines with increasing opacity, circle data points at each year end
+  [{x:x5,y:yY3,lbl:t.timelineVarXY3||'Yr 3',op:0.45},
+   {x:x6,y:yY4,lbl:t.timelineVarXY4||'Yr 4',op:0.70},
+   {x:x7,y:yY5,lbl:t.timelineVarXY5||'Yr 5',op:1.0}
+  ].forEach(({x,y,lbl,op})=>{
+    const ln=document.createElementNS(svgNS,'line');
+    ln.setAttribute('x1',x3);ln.setAttribute('y1',yY2);
+    ln.setAttribute('x2',x);ln.setAttribute('y2',y);
+    ln.setAttribute('stroke',`rgba(234,88,12,${op})`);
+    ln.setAttribute('stroke-width','1.5');ln.setAttribute('stroke-dasharray','5 3');
+    grp.appendChild(ln);
+    // Circle data point
+    const dot=document.createElementNS(svgNS,'circle');
+    dot.setAttribute('cx',x);dot.setAttribute('cy',y);dot.setAttribute('r','4');
+    dot.setAttribute('fill','var(--bg,#0f1117)');
+    dot.setAttribute('stroke',`rgba(234,88,12,${op})`);dot.setAttribute('stroke-width','2');
+    grp.appendChild(dot);
+    const lbl2=document.createElementNS(svgNS,'text');
+    lbl2.setAttribute('x',x);lbl2.setAttribute('y',y-10);
+    lbl2.setAttribute('text-anchor','middle');
+    lbl2.setAttribute('font-family','var(--font-mono)');
+    lbl2.setAttribute('font-size','9');
+    lbl2.setAttribute('fill',`rgba(234,88,12,${op})`);
+    lbl2.textContent=lbl;
+    grp.appendChild(lbl2);
+  });
+  // "Variable X" label centred in projection zone
+  const lblVarX=el('timelineVarXLabel');
+  lblVarX.setAttribute('x',x3+((x7-x3)/2));
+  lblVarX.setAttribute('text-anchor','middle');
+  lblVarX.setAttribute('y',Math.max(yTop+10,yY5-14));
+  lblVarX.textContent=t.timelineVarXShort||'+ Variable X';
+  // Legend: restore "Variable X" label — no dollar amount
+  el('timelineVarXAmount').textContent='Variable X';
+  // Animate: stroke-dashoffset for draw-in effect, then reveal area + points
+  const linePathEl=el('timelineLinePath');
+  linePathEl.style.strokeDasharray='none';
+  const len=linePathEl.getTotalLength?linePathEl.getTotalLength():600;
+  linePathEl.style.strokeDasharray=len;
+  linePathEl.style.strokeDashoffset=len;
+  requestAnimationFrame(()=>{
+    requestAnimationFrame(()=>{
+      linePathEl.style.transition='stroke-dashoffset 1s cubic-bezier(.4,0,.2,1)';
+      linePathEl.style.strokeDashoffset='0';
+      el('timelineAreaPath').classList.add('show');
+      el('timelinePointY1').classList.add('show');
+      el('timelinePointY2').classList.add('show');
+      el('timelineVarXPath').classList.add('show');
+      el('timelineVarXLinePath').classList.add('show');
+      el('timelineVarXLabel').classList.add('show');
+    });
+  });
+  el('timelineTitle').textContent=t.timelineTitle;
+  el('timelineSubtitle').textContent=t.timelineSubtitle;
+  el('timelineYear1Label').textContent=t.timelineYear1Label;
+  el('timelineYear2Label').textContent=t.timelineYear2Label;
+  el('timelineYear1Amount').textContent=fmt(y1);
+  el('timelineYear2Amount').textContent=fmt(y2);
+  el('timelineYear1Desc').textContent=t.timelineYear1Desc;
+  el('timelineYear2Desc').textContent=t.timelineYear2Desc;
+  el('timelineVarXLegendLabel').textContent=t.timelineVarXLegendLabel;
+  el('timelineVarXDesc').textContent=t.timelineVarXDesc;
+  el('timelineAxisDay0').textContent=t.timelineAxisDay0;
+  el('timelineAxisDay30').textContent=t.timelineAxisDay30;
+  el('timelineAxisMonth12').textContent=t.timelineAxisMonth12;
+  el('timelineAxisMonth36').textContent=t.timelineAxisMonth36;
+  el('timelineAxisYear5').textContent=t.timelineAxisYear5;
+  const aria=el('timelineBarsAria');
+  if(aria) aria.setAttribute('aria-label',`${t.timelineTitle}: ${t.timelineYear1Label} ${fmt(y1)}, ${t.timelineYear2Label} ${fmt(y2)}, ${t.timelineAxisMonth36} ${fmt(total)}, + ${t.timelineVarXLegendLabel}: ${t.timelineVarXDesc}`);
 }
 
 /* FIX 3: micro bars — proportional bar under each cost label */
@@ -1010,12 +1324,12 @@ function renderBrandDonut(d,t){
     const seg=el(id);if(!seg) return;
     seg.onmouseenter=()=>{
       seg.setAttribute('stroke-width',27);
-      if(amtEl){amtEl.textContent=Math.round(w[key]*100)+'%';amtEl.style.color=color;}
+      if(amtEl){amtEl.textContent=Math.round(w[key]*100)+'%';amtEl.setAttribute('fill',color);}
       if(lblEl) lblEl.textContent=labels[key];
     };
     seg.onmouseleave=()=>{
       seg.setAttribute('stroke-width',20);
-      if(amtEl){amtEl.textContent='Variable';amtEl.style.color='var(--orange)';}
+      if(amtEl){amtEl.textContent='Variable';amtEl.setAttribute('fill','#ff7b2c');}
       if(lblEl) lblEl.textContent='X';
     };
   });
@@ -1056,6 +1370,7 @@ function applyDOMTranslations(l){
     legendLabelTech:t.legendTech,legendLabelLegal:t.legendLegal,legendLabelBiz:t.legendBiz,
     chartTitle:t.chartTitle,
     brandChartTitle:t.brandChartTitle,
+    lblExfil:t.lblExfil,exfilTag:t.exfilTag,
     brandChartSubtitle:t.brandChartSubtitle,
   };
   for(const[id,val] of Object.entries(map)){const n=el(id);if(n)n.textContent=val;}
@@ -1101,6 +1416,21 @@ function validateInsurance(){
 }
 
 /* ── TOGGLES ────────────────────────────────────────────── */
+
+function onIncidentChange(){
+  const type=document.getElementById('incidentType').value;
+  const tog=document.getElementById('exfilToggle');
+  if(tog) tog.classList.toggle('visible', type==='Ransomware');
+  // Clear exfil if switching away from Ransomware
+  if(type!=='Ransomware'){
+    const cb=document.getElementById('hasExfil');
+    if(cb) cb.checked=false;
+  }
+  // Clear validation error
+  const f=document.getElementById('incidentType');
+  if(f&&f.value){f.classList.remove('field-error');const e=document.getElementById('err-incidentType');if(e)e.classList.remove('visible');}
+}
+
 function togglePHI(){el('phiSub').classList.toggle('open',el('hasPHI').checked);}
 function toggleInsurance(){
   const open=el('hasInsurance').checked;
@@ -1144,7 +1474,19 @@ function printReport(){
   const pct=(a,b)=>b>0?Math.round(a/b*100)+'%':'0%';
   const date=new Date().toLocaleDateString(lang==='fr'?'fr-CA':'en-CA',{year:'numeric',month:'long',day:'numeric'});
   const premRow=(hasIns&&d.premiumHike>0)?`<div class="crow"><span class="crow-lbl">${t.insPremiumHike}</span><span class="crow-amt">${fmtN(d.premiumHike)}</span></div>`:'';
-  const html=`<!DOCTYPE html><html lang="${lang}"><head><meta charset="UTF-8"><title>Report</title><link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=IBM+Plex+Sans:wght@300;400;600&display=swap" rel="stylesheet"><style>*{box-sizing:border-box;margin:0;padding:0}@page{margin:0;size:A4 portrait}html,body{width:210mm;background:#fff}body{font-family:'IBM Plex Sans',Arial,sans-serif;font-size:8pt;color:#1a1a1a;padding:0 13mm 8mm}.tb{height:5pt;margin:0 -13mm 9mm;background:linear-gradient(90deg,#2563eb,#7c3aed 48%,#e11d48);print-color-adjust:exact;-webkit-print-color-adjust:exact}.hd{display:flex;justify-content:space-between;align-items:stretch;gap:12pt;margin-bottom:8pt}.hl{flex:1;display:flex;flex-direction:column;justify-content:center}.ey{font-family:'IBM Plex Mono',monospace;font-size:5.5pt;letter-spacing:0.25em;color:#2563eb;text-transform:uppercase;margin-bottom:4pt;print-color-adjust:exact;-webkit-print-color-adjust:exact}.ti{font-size:18pt;font-weight:700;line-height:1.1;color:#111}.ti-l{font-weight:300;color:#888}.hm{display:flex;flex-direction:column;border:1pt solid #e0e0e0;border-left:3pt solid #2563eb;min-width:152pt;print-color-adjust:exact;-webkit-print-color-adjust:exact}.mr{display:flex;justify-content:space-between;align-items:center;padding:4pt 9pt;border-bottom:1pt solid #f0f0f0;gap:10pt;flex:1}.mr:last-child{border-bottom:none}.ml{font-family:'IBM Plex Mono',monospace;font-size:4.5pt;letter-spacing:0.14em;text-transform:uppercase;color:#bbb;white-space:nowrap}.mv{font-size:7pt;font-weight:600;color:#1a1a1a;text-align:right}.mv-r{color:#dc2626;font-size:6pt;print-color-adjust:exact;-webkit-print-color-adjust:exact}.mv-b{font-family:'IBM Plex Mono',monospace;font-size:6.5pt;font-weight:700;color:#2563eb;print-color-adjust:exact;-webkit-print-color-adjust:exact}.rule{height:0.75pt;background:#e0e0e0;margin-bottom:8pt}.sl{font-family:'IBM Plex Mono',monospace;font-size:4.5pt;letter-spacing:0.3em;text-transform:uppercase;color:#2563eb;margin-bottom:5pt;print-color-adjust:exact;-webkit-print-color-adjust:exact}.params{display:grid;grid-template-columns:repeat(3,1fr);border:1pt solid #e0e0e0}.p{padding:5pt 9pt;border-right:1pt solid #e0e0e0;border-bottom:1pt solid #e0e0e0}.params .p:nth-child(3n){border-right:none}.pl{font-family:'IBM Plex Mono',monospace;font-size:4pt;color:#bbb;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:2pt}.pv{font-size:7.5pt;font-weight:600;color:#1a1a1a;line-height:1.25}.es{display:flex;border:1pt solid #e0e0e0;border-left:4pt solid #2563eb;margin-top:8pt;print-color-adjust:exact;-webkit-print-color-adjust:exact}.em{flex:1;padding:10pt 14pt;border-right:1pt solid #e0e0e0;background:#f8faff;print-color-adjust:exact;-webkit-print-color-adjust:exact}.ee{font-family:'IBM Plex Mono',monospace;font-size:4pt;letter-spacing:0.2em;color:#aaa;text-transform:uppercase;margin-bottom:3pt}.en{font-size:24pt;font-weight:700;letter-spacing:-0.045em;line-height:1;color:#111}.ed{font-family:'IBM Plex Mono',monospace;font-size:5.5pt;color:#999;margin-top:5pt;line-height:1.8}.elc{width:115pt;padding:8pt 10pt;border-right:1pt solid #e0e0e0}.ec{width:115pt;padding:8pt 10pt}.bl{font-family:'IBM Plex Mono',monospace;font-size:4pt;letter-spacing:0.18em;text-transform:uppercase;color:#bbb;margin-bottom:5pt}.bv{font-size:7pt;font-weight:600;color:#1a1a1a;line-height:1.5}.sr{display:flex;align-items:center;gap:5pt;padding:2.5pt 0}.dot{width:5pt;height:5pt;border-radius:50%;flex-shrink:0;print-color-adjust:exact;-webkit-print-color-adjust:exact}.dt{background:#2563eb}.dl{background:#7c3aed}.db{background:#e11d48}.sn{flex:1;font-size:6pt;color:#555}.sp{font-family:'IBM Plex Mono',monospace;font-size:7pt;font-weight:700;color:#111}.cg{display:flex;flex-direction:column;gap:5pt;margin-top:8pt}.card{border:1pt solid #e0e0e0;display:flex;align-items:stretch;page-break-inside:avoid}.ac{width:3.5pt;flex-shrink:0;print-color-adjust:exact;-webkit-print-color-adjust:exact}.ct .ac{background:#2563eb}.cl .ac{background:#7c3aed}.cb .ac{background:#e11d48}.cx .ac{background:#ea580c}.ch{width:150pt;flex-shrink:0;padding:8pt 10pt 8pt 12pt;border-right:1pt solid #ebebeb;display:flex;flex-direction:column;justify-content:space-between;background:#fafafa;print-color-adjust:exact;-webkit-print-color-adjust:exact}.clb{font-family:'IBM Plex Mono',monospace;font-size:6pt;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#555;line-height:1.35}.ct2{font-family:'IBM Plex Mono',monospace;font-size:13pt;font-weight:700;color:#111;letter-spacing:-0.025em;margin-top:5pt;line-height:1}.cv{font-size:9pt;font-weight:600;color:#ea580c;print-color-adjust:exact;-webkit-print-color-adjust:exact}.cr{flex:1;display:flex;flex-direction:column;justify-content:center}.crow{display:flex;justify-content:space-between;align-items:baseline;padding:4pt 13pt 4pt 12pt;border-bottom:0.5pt solid #f0f0f0}.crow:last-child{border-bottom:none}.crow-lbl{font-size:7pt;color:#555;line-height:1.3;flex:1;padding-right:8pt}.crow-amt{font-family:'IBM Plex Mono',monospace;font-size:8pt;font-weight:700;color:#111;white-space:nowrap}.bb{flex:1;padding:8pt 12pt 8pt 11pt;display:flex;flex-direction:column;justify-content:center}.bt{font-size:7.5pt;font-weight:600;color:#1a1a1a;margin-bottom:3pt}.bx{font-size:6.5pt;color:#888;line-height:1.65;font-style:italic}.tbar{display:flex;justify-content:space-between;align-items:center;margin-top:7pt;padding:7pt 12pt;background:#111;print-color-adjust:exact;-webkit-print-color-adjust:exact}.tlbl{font-family:'IBM Plex Mono',monospace;font-size:6pt;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:#fff;print-color-adjust:exact;-webkit-print-color-adjust:exact}.tval{font-family:'IBM Plex Mono',monospace;font-size:14pt;font-weight:700;color:#fff;letter-spacing:-0.02em;print-color-adjust:exact;-webkit-print-color-adjust:exact}.ft{display:flex;gap:6pt;align-items:flex-start;margin-top:7pt;border-top:0.75pt solid #e0e0e0;padding-top:5pt}.fi{font-size:8pt;color:#ccc;flex-shrink:0;margin-top:1pt}.dt2{font-size:5pt;color:#aaa;line-height:1.65;margin-bottom:4pt}.ds{display:flex;flex-wrap:wrap;gap:2.5pt}.chip{font-family:'IBM Plex Mono',monospace;font-size:4.5pt;border:0.5pt solid #ddd;padding:1.5pt 4pt;color:#bbb}
+  const html=`<!DOCTYPE html><html lang="${lang}"><head><meta charset="UTF-8"><title>Report</title><link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=IBM+Plex+Sans:wght@300;400;600&display=swap" rel="stylesheet"><style>*{box-sizing:border-box;margin:0;padding:0}@page{margin:0;size:A4 portrait}html,body{width:210mm;background:#fff}body{font-family:'IBM Plex Sans',Arial,sans-serif;font-size:8pt;color:#1a1a1a;padding:0 13mm 8mm}.tb{height:5pt;margin:0 -13mm 9mm;background:linear-gradient(90deg,#2563eb,#7c3aed 48%,#e11d48);print-color-adjust:exact;-webkit-print-color-adjust:exact}.hd{display:flex;justify-content:space-between;align-items:stretch;gap:12pt;margin-bottom:8pt}.hl{flex:1;display:flex;flex-direction:column;justify-content:center}.ey{font-family:'IBM Plex Mono',monospace;font-size:5.5pt;letter-spacing:0.25em;color:#2563eb;text-transform:uppercase;margin-bottom:4pt;print-color-adjust:exact;-webkit-print-color-adjust:exact}.ti{font-size:18pt;font-weight:700;line-height:1.1;color:#111}.ti-l{font-weight:300;color:#888}.hm{display:flex;flex-direction:column;border:1pt solid #e0e0e0;border-left:3pt solid #2563eb;min-width:152pt;print-color-adjust:exact;-webkit-print-color-adjust:exact}.mr{display:flex;justify-content:space-between;align-items:center;padding:4pt 9pt;border-bottom:1pt solid #f0f0f0;gap:10pt;flex:1}.mr:last-child{border-bottom:none}.ml{font-family:'IBM Plex Mono',monospace;font-size:4.5pt;letter-spacing:0.14em;text-transform:uppercase;color:#bbb;white-space:nowrap}.mv{font-size:7pt;font-weight:600;color:#1a1a1a;text-align:right}.mv-r{color:#dc2626;font-size:6pt;print-color-adjust:exact;-webkit-print-color-adjust:exact}.mv-b{font-family:'IBM Plex Mono',monospace;font-size:6.5pt;font-weight:700;color:#2563eb;print-color-adjust:exact;-webkit-print-color-adjust:exact}.rule{height:0.75pt;background:#e0e0e0;margin-bottom:8pt}.sl{font-family:'IBM Plex Mono',monospace;font-size:4.5pt;letter-spacing:0.3em;text-transform:uppercase;color:#2563eb;margin-bottom:5pt;print-color-adjust:exact;-webkit-print-color-adjust:exact}.params{display:grid;grid-template-columns:repeat(3,1fr);border:1pt solid #e0e0e0}.p{padding:5pt 9pt;border-right:1pt solid #e0e0e0;border-bottom:1pt solid #e0e0e0}.params .p:nth-child(3n){border-right:none}.pl{font-family:'IBM Plex Mono',monospace;font-size:4pt;color:#bbb;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:2pt}.pv{font-size:7.5pt;font-weight:600;color:#1a1a1a;line-height:1.25}.es{display:flex;border:1pt solid #e0e0e0;border-left:4pt solid #2563eb;margin-top:8pt;print-color-adjust:exact;-webkit-print-color-adjust:exact}.em{flex:1;padding:10pt 14pt;border-right:1pt solid #e0e0e0;background:#f8faff;print-color-adjust:exact;-webkit-print-color-adjust:exact}.ee{font-family:'IBM Plex Mono',monospace;font-size:4pt;letter-spacing:0.2em;color:#aaa;text-transform:uppercase;margin-bottom:3pt}.en{font-size:24pt;font-weight:700;letter-spacing:-0.045em;line-height:1;color:#111}.ed{font-family:'IBM Plex Mono',monospace;font-size:5.5pt;color:#999;margin-top:5pt;line-height:1.8}.elc{width:115pt;padding:8pt 10pt;border-right:1pt solid #e0e0e0}.ec{width:115pt;padding:8pt 10pt}.bl{font-family:'IBM Plex Mono',monospace;font-size:4pt;letter-spacing:0.18em;text-transform:uppercase;color:#bbb;margin-bottom:5pt}.bv{font-size:7pt;font-weight:600;color:#1a1a1a;line-height:1.5}.sr{display:flex;align-items:center;gap:5pt;padding:2.5pt 0}.dot{width:5pt;height:5pt;border-radius:50%;flex-shrink:0;print-color-adjust:exact;-webkit-print-color-adjust:exact}.dt{background:#2563eb}.dl{background:#7c3aed}.db{background:#e11d48}.sn{flex:1;font-size:6pt;color:#555}.sp{font-family:'IBM Plex Mono',monospace;font-size:7pt;font-weight:700;color:#111}.cg{display:flex;flex-direction:column;gap:5pt;margin-top:8pt}.card{border:1pt solid #e0e0e0;display:flex;align-items:stretch;page-break-inside:avoid}.ac{width:3.5pt;flex-shrink:0;print-color-adjust:exact;-webkit-print-color-adjust:exact}.ct .ac{background:#2563eb}.cl .ac{background:#7c3aed}.cb .ac{background:#e11d48}.cx .ac{background:#ea580c}.ch{width:150pt;flex-shrink:0;padding:8pt 10pt 8pt 12pt;border-right:1pt solid #ebebeb;display:flex;flex-direction:column;justify-content:space-between;background:#fafafa;print-color-adjust:exact;-webkit-print-color-adjust:exact}.clb{font-family:'IBM Plex Mono',monospace;font-size:6pt;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#555;line-height:1.35}.ct2{font-family:'IBM Plex Mono',monospace;font-size:13pt;font-weight:700;color:#111;letter-spacing:-0.025em;margin-top:5pt;line-height:1}.cv{font-size:9pt;font-weight:600;color:#ea580c;print-color-adjust:exact;-webkit-print-color-adjust:exact}.cr{flex:1;display:flex;flex-direction:column;justify-content:center}.crow{display:flex;justify-content:space-between;align-items:baseline;padding:4pt 13pt 4pt 12pt;border-bottom:0.5pt solid #f0f0f0}.crow:last-child{border-bottom:none}.crow-lbl{font-size:7pt;color:#555;line-height:1.3;flex:1;padding-right:8pt}.crow-amt{font-family:'IBM Plex Mono',monospace;font-size:8pt;font-weight:700;color:#111;white-space:nowrap}.bb{flex:1;padding:8pt 12pt 8pt 11pt;display:flex;flex-direction:column;justify-content:center}.bt{font-size:7.5pt;font-weight:600;color:#1a1a1a;margin-bottom:3pt}.bx{font-size:6.5pt;color:#888;line-height:1.65;font-style:italic}.tbar{display:flex;justify-content:space-between;align-items:center;margin-top:7pt;padding:7pt 12pt;background:#111;print-color-adjust:exact;-webkit-print-color-adjust:exact}@media print{body{background:#fff!important;color:#111!important}.tbar{background:#1a1a1a!important}.tlbl,.tval{color:#fff!important}}.tlbl{font-family:'IBM Plex Mono',monospace;font-size:6pt;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:#fff;print-color-adjust:exact;-webkit-print-color-adjust:exact}.tval{font-family:'IBM Plex Mono',monospace;font-size:14pt;font-weight:700;color:#fff;letter-spacing:-0.02em;print-color-adjust:exact;-webkit-print-color-adjust:exact}.ft{display:flex;gap:6pt;align-items:flex-start;margin-top:7pt;border-top:0.75pt solid #e0e0e0;padding-top:5pt}.fi{font-size:8pt;color:#ccc;flex-shrink:0;margin-top:1pt}.dt2{font-size:5pt;color:#aaa;line-height:1.65;margin-bottom:4pt}.ds{display:flex;flex-wrap:wrap;gap:2.5pt}.chip{font-family:'IBM Plex Mono',monospace;font-size:4.5pt;border:0.5pt solid #ddd;padding:1.5pt 4pt;color:#bbb}
+.pg2{break-before:page;page-break-before:always;padding-top:0;}
+.pg2 .tb{height:5pt;margin:0 -13mm 9mm;background:linear-gradient(90deg,#2563eb,#7c3aed 48%,#e11d48);print-color-adjust:exact;-webkit-print-color-adjust:exact}
+.pg2-ey{font-family:'IBM Plex Mono',monospace;font-size:5.5pt;letter-spacing:0.25em;color:#2563eb;text-transform:uppercase;margin-bottom:3pt;print-color-adjust:exact;-webkit-print-color-adjust:exact}
+.pg2-title{font-size:14pt;font-weight:700;color:#111;margin-bottom:2pt}
+.pg2-sub{font-family:'IBM Plex Mono',monospace;font-size:6pt;letter-spacing:0.12em;text-transform:uppercase;color:#aaa;margin-bottom:12pt}
+.pg2-chart{width:100%;border:0.75pt solid #e0e0e0;border-radius:4pt;padding:14pt 10pt 6pt;background:#fafafa;print-color-adjust:exact;-webkit-print-color-adjust:exact}
+.pg2-legend{margin-top:10pt;display:flex;flex-direction:column;gap:7pt}
+.pg2-li{display:flex;align-items:flex-start;gap:7pt;font-size:6.5pt;line-height:1.55;color:#333}
+.pg2-dot{width:7pt;height:7pt;border-radius:50%;flex-shrink:0;margin-top:1pt;print-color-adjust:exact;-webkit-print-color-adjust:exact}
+.pg2-dot-x{width:7pt;height:7pt;flex-shrink:0;margin-top:1pt;border-top:1.5pt dashed #ea580c;print-color-adjust:exact;-webkit-print-color-adjust:exact}
+.pg2-lamt{font-family:'IBM Plex Mono',monospace;font-size:7pt;font-weight:700;white-space:nowrap;print-color-adjust:exact;-webkit-print-color-adjust:exact}
+.pg2-ltxt{color:#555}
 /* Brand donut second chart card */
 .chart-card-brand{background:var(--bg1);border:none;border-radius:14px;padding:0;display:flex;flex-direction:column;align-items:center;margin-top:0;}
 .chart-card-brand .chart-title{font-family:var(--font-mono);font-size:0.6rem;letter-spacing:0.14em;color:var(--muted);text-transform:uppercase;margin-bottom:4px;align-self:flex-start;}
@@ -1162,6 +1504,19 @@ function printReport(){
 .brand-donut-divider{height:1px;background:var(--border);margin:20px 0;width:100%}
 .chart-card-brand-inline{width:100%}
 .chart-card-brand-inline .chart-title{margin-bottom:2px}
+
+.cost-bar-track{display:block;height:3px;border-radius:2px;background:rgba(255,255,255,0.04);border:1px solid var(--border);margin-top:4px;overflow:hidden;}
+.cost-bar-track .cost-micro-bar{margin-top:0;height:100%;opacity:0.7;}
+
+.exfil-toggle{display:none;margin-top:12px;padding:12px 16px;background:rgba(255,68,85,0.06);border:1px solid rgba(255,68,85,0.2);border-radius:var(--radius);animation:fadeSlide 0.2s ease-out;}
+.exfil-toggle.visible{display:block}
+.exfil-label{display:flex;align-items:center;gap:10px;cursor:pointer;font-size:0.85rem;color:var(--text);}
+.exfil-label input[type=checkbox]{display:none}
+.exfil-check{width:18px;height:18px;flex-shrink:0;border-radius:4px;border:1.5px solid rgba(255,68,85,0.5);background:var(--bg);position:relative;transition:all 0.15s;}
+input[type=checkbox]:checked+.exfil-check{background:var(--red);border-color:var(--red);}
+.exfil-check::after{content:'\\2713';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:0.65rem;color:#fff;font-weight:700;opacity:0;transition:opacity 0.12s;}
+input[type=checkbox]:checked+.exfil-check::after{opacity:1}
+.exfil-tag{font-size:0.68rem;padding:2px 7px;background:rgba(255,68,85,0.15);color:var(--red);border-radius:4px;font-family:var(--font-mono);letter-spacing:0.06em;font-weight:600;margin-left:4px;}
 </style></head><body>
 <div class="tb"></div>
 <div class="hd"><div class="hl"><div class="ey">${t.eyebrow}</div><div class="ti">Cyber Incident <span class="ti-l">Cost Simulator</span></div></div>
@@ -1179,6 +1534,61 @@ function printReport(){
 </div>
 <div class="tbar"><div class="tlbl">${totalLabel}</div><span class="tval">${fmtN(d.netTotal)}</span></div>
 <div class="ft"><span class="fi">\u26a0</span><div style="flex:1"><div class="dt2">${t.disclaimer}</div><div class="ds">${t.sources.map(s=>`<span class="chip">${s}</span>`).join('')}</div></div></div>
+<div class="pg2">
+<div class="tb"></div>
+<div class="pg2-ey">${t.eyebrow}</div>
+<div class="pg2-title">${t.timelineTitle||'Cost Timeline'}</div>
+<div class="pg2-sub">${t.timelineSubtitle||'When breach costs actually land'}</div>
+<div class="pg2-chart">
+${(()=>{
+  const y1=d.year1Total,y2=d.year2PlusTotal,total=y1+y2;
+  const VARX_RATE={Micro:0.03,Small:0.07,Mid:0.15,Large:0.20};
+  const varXRate=VARX_RATE[d.revenueBracket]??0.10;
+  const annualImpact=d.revenueVal*varXRate;
+  const varXY3=total+annualImpact,varXY4=total+annualImpact*2,varXY5=total+annualImpact*3;
+  const max=Math.max(varXY5,total>0?total:1);
+  const x0=40,x1=230,x2=420,x3=610,x5=695,x6=770,x7=845;
+  const yTop=30,yBase=280;
+  const yFor=v=>yBase-(v/max)*(yBase-yTop);
+  const yY1=yFor(y1),yY2=yFor(total);
+  const yY3=yFor(varXY3),yY4=yFor(varXY4),yY5=yFor(varXY5);
+  const fmtN2=n=>{const r=Math.round(n);return lang==='fr'?r.toLocaleString('fr-CA')+'\u00a0$ CAD':'$'+r.toLocaleString('en-CA')+' CAD';};
+  const years=[{x:x5,y:yY3,lbl:'Yr 3',op:0.45},{x:x6,y:yY4,lbl:'Yr 4',op:0.70},{x:x7,y:yY5,lbl:'Yr 5',op:1.0}];
+  const annualLines=years.map(({x,y,lbl,op})=>`
+  <line x1="${x3}" y1="${yY2}" x2="${x}" y2="${y}" stroke="rgba(234,88,12,${op})" stroke-width="1.5" stroke-dasharray="5 3" style="print-color-adjust:exact;-webkit-print-color-adjust:exact"/>
+  <circle cx="${x}" cy="${y}" r="4" fill="#fff" stroke="rgba(234,88,12,${op})" stroke-width="2" style="print-color-adjust:exact;-webkit-print-color-adjust:exact"/>
+  <text x="${x}" y="${y-10}" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="7" font-weight="700" fill="rgba(234,88,12,${op})" style="print-color-adjust:exact;-webkit-print-color-adjust:exact">${lbl}</text>`).join('');
+  return `<svg viewBox="0 0 900 330" width="100%" style="display:block;overflow:visible;" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="pg2LineGrad" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#2563eb"/><stop offset="55%" stop-color="#7c3aed"/><stop offset="100%" stop-color="#e11d48"/></linearGradient>
+    <linearGradient id="pg2AreaGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#7c3aed" stop-opacity="0.15"/><stop offset="100%" stop-color="#7c3aed" stop-opacity="0"/></linearGradient>
+  </defs>
+  <line x1="${x0}" y1="${yTop}" x2="${x0}" y2="${yBase}" stroke="#e0e0e0" stroke-width="1"/>
+  <line x1="${x0}" y1="${yBase}" x2="${x7}" y2="${yBase}" stroke="#e0e0e0" stroke-width="1"/>
+  <path d="M${x3},${yY2} L${x7},${yY5} L${x7},${yY2} Z" fill="rgba(234,88,12,0.07)" style="print-color-adjust:exact;-webkit-print-color-adjust:exact"/>
+  <line x1="${x3}" y1="${yTop}" x2="${x3}" y2="${yBase}" stroke="rgba(234,88,12,0.2)" stroke-width="1" stroke-dasharray="3 3" style="print-color-adjust:exact;-webkit-print-color-adjust:exact"/>
+  <path d="M${x0},${yBase} L${x1},${yY1} L${x2},${yY1} L${x3},${yY2} L${x3},${yBase} L${x0},${yBase} Z" fill="url(#pg2AreaGrad)"/>
+  ${annualLines}
+  <path d="M${x0},${yBase} L${x1},${yY1} L${x2},${yY1} L${x3},${yY2}" fill="none" stroke="url(#pg2LineGrad)" stroke-width="2"/>
+  <circle cx="${x1}" cy="${yY1}" r="4" fill="#fff" stroke="#2563eb" stroke-width="2" style="print-color-adjust:exact;-webkit-print-color-adjust:exact"/>
+  <circle cx="${x3}" cy="${yY2}" r="4" fill="#fff" stroke="#e11d48" stroke-width="2" style="print-color-adjust:exact;-webkit-print-color-adjust:exact"/>
+  <text x="${x1}" y="${Math.max(yTop+10,yY1-10)}" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="9" font-weight="700" fill="#2563eb" style="print-color-adjust:exact;-webkit-print-color-adjust:exact">${fmtN2(y1)}</text>
+  <text x="${x3-20}" y="${Math.max(yTop+10,yY2-10)}" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="9" font-weight="700" fill="#e11d48" style="print-color-adjust:exact;-webkit-print-color-adjust:exact">${fmtN2(total)}</text>
+  <text x="${x3+((x7-x3)/2)}" y="${Math.max(yTop+10,yY5-12)}" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="8" font-weight="700" fill="rgba(234,88,12,0.8)" style="print-color-adjust:exact;-webkit-print-color-adjust:exact">+ Variable X</text>
+  <text x="${x0}" y="${yBase+14}" text-anchor="start" font-family="IBM Plex Mono,monospace" font-size="8" fill="#999">Day 0</text>
+  <text x="${x1}" y="${yBase+14}" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="8" fill="#999">Day 30</text>
+  <text x="${x2}" y="${yBase+14}" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="8" fill="#999">Month 12</text>
+  <text x="${x3}" y="${yBase+14}" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="8" fill="#999">Month 36</text>
+  <text x="${(x3+x7)/2}" y="${yBase+14}" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="8" fill="#ea580c" style="print-color-adjust:exact;-webkit-print-color-adjust:exact">Years 3\u20135+</text>
+</svg>`;
+})()}
+</div>
+<div class="pg2-legend">
+  <div class="pg2-li"><span class="pg2-dot" style="background:#2563eb;print-color-adjust:exact;-webkit-print-color-adjust:exact"></span><span class="pg2-lamt" style="color:#2563eb;print-color-adjust:exact;-webkit-print-color-adjust:exact">${fmtN(d.year1Total)}</span> <span class="pg2-ltxt">${t.timelineYear1Label||'Year 1 (Days 1\u201330 onward)'} \u2014 ${t.timelineYear1Desc||'incident response, forensics, IT restoration, breach counsel, notification & credit monitoring, operational losses, ransom, and insurance premium impact.'}</span></div>
+  <div class="pg2-li"><span class="pg2-dot" style="background:#e11d48;print-color-adjust:exact;-webkit-print-color-adjust:exact"></span><span class="pg2-lamt" style="color:#e11d48;print-color-adjust:exact;-webkit-print-color-adjust:exact">${fmtN(d.year2PlusTotal)}</span> <span class="pg2-ltxt">${t.timelineYear2Label||'Year 2+ (12\u201336 months)'} \u2014 ${t.timelineYear2Desc||'regulatory fines, commissioner penalties, and class-action settlements, which typically resolve well after the initial incident.'}</span></div>
+  <div class="pg2-li"><span class="pg2-dot-x"></span><span class="pg2-lamt" style="color:#ea580c;print-color-adjust:exact;-webkit-print-color-adjust:exact">Variable X</span> <span class="pg2-ltxt">${t.timelineVarXLegendLabel||'(Brand & Reputation)'} \u2014 ${t.timelineVarXDesc||'unquantifiable, open-ended: customer churn, revenue contraction, and reputational damage that can compound for 3\u20135 years.'}</span></div>
+</div>
+</div>
 <script>window.onload=function(){window.print();};<\/script></body></html>`;
   const iframe=document.createElement('iframe');
   iframe.style.cssText='position:absolute;left:-9999px;top:-9999px;width:1px;height:1px;';
@@ -1196,6 +1606,21 @@ function printReport(){
 
 function softReset(){
   window._lastCalcData=null;
+  // Reset all required select fields to their blank placeholder
+  REQUIRED_FIELDS.forEach(id=>{const f=el(id);if(f) f.value='';});
+  // Reset checkboxes and their dependent sub-panels
+  const phiCb=el('hasPHI');if(phiCb){phiCb.checked=false;el('phiSub')&&el('phiSub').classList.remove('open');}
+  const insCb=el('hasInsurance');
+  if(insCb){
+    insCb.checked=false;
+    el('insSub')&&el('insSub').classList.remove('open');
+    el('insWarning')&&el('insWarning').classList.remove('visible');
+    const insLimit=el('insLimit'),insDed=el('insDeductible');
+    if(insLimit) insLimit.value='';if(insDed) insDed.value='';
+  }
+  const exfilCb=el('hasExfil');if(exfilCb) exfilCb.checked=false;
+  // Hide the exfil toggle (only shown for Ransomware) and clear incident-driven UI
+  onIncidentChange();
   el('dashboardSection').classList.remove('active');
   el('dashActions').classList.remove('visible');
   el('formSection').style.display='';
@@ -1220,6 +1645,9 @@ document.addEventListener('DOMContentLoaded',()=>{
   });
   ['insLimit','insDeductible'].forEach(id=>{const f=el(id);if(f)f.addEventListener('input',validateInsurance);});
 });
+
+
+
 
 </script>
 </body>
