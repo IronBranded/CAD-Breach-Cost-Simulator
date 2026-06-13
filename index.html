@@ -1249,16 +1249,20 @@ function renderDonut(tech,legal,biz,total,t){
   if(lblEl) lblEl.textContent=nameMap[top.k];
   [{id:'donutTech',key:'tech'},{id:'donutLegal',key:'legal'},{id:'donutBiz',key:'biz'}].forEach(({id,key})=>{
     const seg=el(id);if(!seg) return;
-    seg.onmouseenter=()=>{
+    const showSlice=()=>{
       seg.setAttribute('stroke-width',29);
       if(amtEl){amtEl.textContent=fmt(vals[key]);amtEl.style.color=colorMap[key];}
       if(lblEl) lblEl.textContent=nameMap[key];
     };
-    seg.onmouseleave=()=>{
+    const hideSlice=()=>{
       seg.setAttribute('stroke-width',22);
       if(amtEl){amtEl.textContent=fmt(total);amtEl.style.color=colorMap[top.k];}
       if(lblEl) lblEl.textContent=nameMap[top.k];
     };
+    seg.onmouseenter=showSlice;
+    seg.onmouseleave=hideSlice;
+    seg.addEventListener('touchstart',e=>{e.preventDefault();showSlice();},{passive:false});
+    seg.addEventListener('touchend',e=>{e.preventDefault();setTimeout(hideSlice,1200);},{passive:false});
   });
 }
 
@@ -1318,20 +1322,30 @@ function renderBrandDonut(d,t){
       </div>`).join('');
   }
 
-  // Hover on segments — show label in centre
+  // Hover + touch on segments — show label and % in centre
   const amtEl=el('brandDonutCenterAmt'),lblEl=el('brandDonutCenterLbl');
+  const topKey=segs.reduce((a,b)=>w[b.key]>w[a.key]?b:a).key;
+  const topColor=segs.find(s=>s.key===topKey).color;
+  const showDefault=()=>{
+    if(amtEl){amtEl.textContent=Math.round(w[topKey]*100)+'%';amtEl.setAttribute('fill',topColor);}
+    if(lblEl) lblEl.textContent=labels[topKey];
+  };
+  showDefault();
   segs.forEach(({id,key,color})=>{
     const seg=el(id);if(!seg) return;
-    seg.onmouseenter=()=>{
+    const showSlice=()=>{
       seg.setAttribute('stroke-width',27);
       if(amtEl){amtEl.textContent=Math.round(w[key]*100)+'%';amtEl.setAttribute('fill',color);}
       if(lblEl) lblEl.textContent=labels[key];
     };
-    seg.onmouseleave=()=>{
+    const hideSlice=()=>{
       seg.setAttribute('stroke-width',20);
-      if(amtEl){amtEl.textContent='Variable';amtEl.setAttribute('fill','#ff7b2c');}
-      if(lblEl) lblEl.textContent='X';
+      showDefault();
     };
+    seg.onmouseenter=showSlice;
+    seg.onmouseleave=hideSlice;
+    seg.addEventListener('touchstart',e=>{e.preventDefault();showSlice();},{passive:false});
+    seg.addEventListener('touchend',e=>{e.preventDefault();setTimeout(hideSlice,1200);},{passive:false});
   });
 }
 
