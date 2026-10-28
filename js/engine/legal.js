@@ -25,7 +25,7 @@ export function settlementReserve({ bucket, phi, industry }, model) {
   let perIndividual = s.basePerIndividual;
   if (phi) perIndividual += s.phiPremium;
   if (industry === 'finance') perIndividual += s.financePremium;
-  return bucket.classActionIndividuals * perIndividual * prob;
+  return bucket.individuals * perIndividual * prob;
 }
 
 export function legalCosts({ inputs, incident, revenueBracket, dataExposed, doubleExtortion }, model) {

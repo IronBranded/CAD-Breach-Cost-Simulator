@@ -1,6 +1,6 @@
 {
   "$comment": "Every number the simulator uses. Each entry has v (value), and src (ids from 'sources'); titles for sources live in i18n/*.json under 'sources'. 'author' means an author estimate with no external citation yet.",
-  "version": "2026.10-a",
+  "version": "2026.10-b",
   "currency": "CAD",
 
   "sources": {
@@ -62,12 +62,13 @@
   },
 
   "records": {
+    "$comment": "One representative count of affected individuals per bucket (approximate midpoint; 50k+ assumes 100,000), used for notification, monitoring and settlement alike.",
     "src": ["author"],
     "v": {
-      "Low":      { "individuals": 800,    "classActionIndividuals": 0,      "classActionProb": 0,    "classActionProbSensitive": 0,    "doubleExtortionNotifyRate": 12 },
-      "Medium":   { "individuals": 8000,   "classActionIndividuals": 5000,   "classActionProb": 0,    "classActionProbSensitive": 0.15, "doubleExtortionNotifyRate": 12 },
-      "High":     { "individuals": 45000,  "classActionIndividuals": 30000,  "classActionProb": 0.35, "classActionProbSensitive": 0.35, "doubleExtortionNotifyRate": 18 },
-      "Critical": { "individuals": 150000, "classActionIndividuals": 100000, "classActionProb": 0.70, "classActionProbSensitive": 0.70, "doubleExtortionNotifyRate": 22 }
+      "Low":      { "individuals": 800,    "classActionProb": 0,    "classActionProbSensitive": 0,    "doubleExtortionNotifyRate": 12 },
+      "Medium":   { "individuals": 5000,   "classActionProb": 0,    "classActionProbSensitive": 0.15, "doubleExtortionNotifyRate": 12 },
+      "High":     { "individuals": 30000,  "classActionProb": 0.35, "classActionProbSensitive": 0.35, "doubleExtortionNotifyRate": 18 },
+      "Critical": { "individuals": 100000, "classActionProb": 0.70, "classActionProbSensitive": 0.70, "doubleExtortionNotifyRate": 22 }
     }
   },
 

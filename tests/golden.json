@@ -1,5 +1,5 @@
 {
-  "modelVersion": "2026.10-a",
+  "modelVersion": "2026.10-b",
   "scenarios": {
     "ransomware-qc-health-mid-phi-exfil-insured": {
       "dataExposed": true,
@@ -14,10 +14,10 @@
         "counsel": 210000,
         "fines": 187500,
         "settlement": 472499.99999999994,
-        "notification": 810000,
-        "doubleExtortionSurcharge": 405000,
-        "credit": 2925000,
-        "total": 5010000,
+        "notification": 540000,
+        "doubleExtortionSurcharge": 270000,
+        "credit": 1950000,
+        "total": 3630000,
         "regime": "QC"
       },
       "business": {
@@ -26,25 +26,25 @@
         "extortion": 1200000,
         "total": 7050000
       },
-      "grossTotal": 12831540,
+      "grossTotal": 11451540,
       "insurance": {
         "applied": true,
         "covered": 1950000,
         "premiumIncrease": 72000,
-        "netTotal": 10953540,
+        "netTotal": 9573540,
         "limit": 2000000,
         "deductible": 50000
       },
-      "netTotal": 10953540,
+      "netTotal": 9573540,
       "timeline": {
-        "year1": 12243540,
+        "year1": 10863540,
         "year2Plus": 660000,
-        "total": 12903540,
+        "total": 11523540,
         "variableX": {
           "annualImpact": 7500000,
-          "year3": 20403540,
-          "year4": 27903540,
-          "year5": 35403540
+          "year3": 19023540,
+          "year4": 26523540,
+          "year5": 34023540
         }
       },
       "variableX": {
@@ -55,7 +55,7 @@
       },
       "severity": {
         "tier": "high",
-        "ratio": 1.8383295128939827,
+        "ratio": 1.640621776504298,
         "benchmark": 6980000
       },
       "revenueValue": 50000000
@@ -130,10 +130,10 @@
         "counsel": 525000,
         "fines": 2500,
         "settlement": 1050000,
-        "notification": 3300000,
-        "doubleExtortionSurcharge": 1650000,
-        "credit": 5250000,
-        "total": 11777500,
+        "notification": 2200000,
+        "doubleExtortionSurcharge": 1100000,
+        "credit": 3500000,
+        "total": 8377500,
         "regime": "AB"
       },
       "business": {
@@ -142,25 +142,25 @@
         "extortion": 3500000,
         "total": 16645000
       },
-      "grossTotal": 29900695.25,
+      "grossTotal": 26500695.25,
       "insurance": {
         "applied": true,
         "covered": 4750000,
         "premiumIncrease": 180000,
-        "netTotal": 25330695.25,
+        "netTotal": 21930695.25,
         "limit": 5000000,
         "deductible": 250000
       },
-      "netTotal": 25330695.25,
+      "netTotal": 21930695.25,
       "timeline": {
-        "year1": 29028195.25,
+        "year1": 25628195.25,
         "year2Plus": 1052500,
-        "total": 30080695.25,
+        "total": 26680695.25,
         "variableX": {
           "annualImpact": 100000000,
-          "year3": 130080695.25,
-          "year4": 230080695.25,
-          "year5": 330080695.25
+          "year3": 126680695.25,
+          "year4": 226680695.25,
+          "year5": 326680695.25
         }
       },
       "variableX": {
@@ -171,7 +171,7 @@
       },
       "severity": {
         "tier": "critical",
-        "ratio": 4.283767227793696,
+        "ratio": 3.796661210601719,
         "benchmark": 6980000
       },
       "revenueValue": 500000000
@@ -305,10 +305,10 @@
         "counsel": 31500,
         "fines": 2500,
         "settlement": 0,
-        "notification": 96000,
+        "notification": 60000,
         "doubleExtortionSurcharge": 0,
-        "credit": 280000,
-        "total": 410000,
+        "credit": 175000,
+        "total": 269000,
         "regime": "ON"
       },
       "business": {
@@ -317,23 +317,23 @@
         "extortion": 165000,
         "total": 296000
       },
-      "grossTotal": 772132,
+      "grossTotal": 631132,
       "insurance": {
         "applied": false,
         "covered": 0,
         "premiumIncrease": 0,
-        "netTotal": 772132
+        "netTotal": 631132
       },
-      "netTotal": 772132,
+      "netTotal": 631132,
       "timeline": {
-        "year1": 769632,
+        "year1": 628632,
         "year2Plus": 2500,
-        "total": 772132,
+        "total": 631132,
         "variableX": {
           "annualImpact": 350000.00000000006,
-          "year3": 1122132,
-          "year4": 1472132,
-          "year5": 1822132.0000000002
+          "year3": 981132,
+          "year4": 1331132,
+          "year5": 1681132.0000000002
         }
       },
       "variableX": {
@@ -344,7 +344,7 @@
       },
       "severity": {
         "tier": "low",
-        "ratio": 0.11062063037249284,
+        "ratio": 0.09042005730659025,
         "benchmark": 6980000
       },
       "revenueValue": 5000000
@@ -421,10 +421,10 @@
         "counsel": 1890000,
         "fines": 100000,
         "settlement": 3849999.9999999995,
-        "notification": 1800000,
+        "notification": 1200000,
         "doubleExtortionSurcharge": 0,
-        "credit": 9750000,
-        "total": 17390000,
+        "credit": 6500000,
+        "total": 13540000,
         "regime": "FIN"
       },
       "business": {
@@ -433,23 +433,23 @@
         "extortion": 0,
         "total": 2890000
       },
-      "grossTotal": 21335853.75,
+      "grossTotal": 17485853.75,
       "insurance": {
         "applied": false,
         "covered": 0,
         "premiumIncrease": 0,
-        "netTotal": 21335853.75
+        "netTotal": 17485853.75
       },
-      "netTotal": 21335853.75,
+      "netTotal": 17485853.75,
       "timeline": {
-        "year1": 17385853.75,
+        "year1": 13535853.75,
         "year2Plus": 3949999.9999999995,
-        "total": 21335853.75,
+        "total": 17485853.75,
         "variableX": {
           "annualImpact": 100000000,
-          "year3": 121335853.75,
-          "year4": 221335853.75,
-          "year5": 321335853.75
+          "year3": 117485853.75,
+          "year4": 217485853.75,
+          "year5": 317485853.75
         }
       },
       "variableX": {
@@ -460,7 +460,7 @@
       },
       "severity": {
         "tier": "critical",
-        "ratio": 3.0567125716332377,
+        "ratio": 2.505136640401146,
         "benchmark": 6980000
       },
       "revenueValue": 500000000
@@ -478,10 +478,10 @@
         "counsel": 756000,
         "fines": 2500,
         "settlement": 1050000,
-        "notification": 1800000,
+        "notification": 1200000,
         "doubleExtortionSurcharge": 0,
-        "credit": 5250000,
-        "total": 8858500,
+        "credit": 3500000,
+        "total": 6508500,
         "regime": "BC"
       },
       "business": {
@@ -490,23 +490,23 @@
         "extortion": 0,
         "total": 432000
       },
-      "grossTotal": 9897850,
+      "grossTotal": 7547850,
       "insurance": {
         "applied": false,
         "covered": 0,
         "premiumIncrease": 0,
-        "netTotal": 9897850
+        "netTotal": 7547850
       },
-      "netTotal": 9897850,
+      "netTotal": 7547850,
       "timeline": {
-        "year1": 8845350,
+        "year1": 6495350,
         "year2Plus": 1052500,
-        "total": 9897850,
+        "total": 7547850,
         "variableX": {
           "annualImpact": 7500000,
-          "year3": 17397850,
-          "year4": 24897850,
-          "year5": 32397850
+          "year3": 15047850,
+          "year4": 22547850,
+          "year5": 30047850
         }
       },
       "variableX": {
@@ -516,8 +516,8 @@
         "partner": 0.15
       },
       "severity": {
-        "tier": "high",
-        "ratio": 1.4180300859598853,
+        "tier": "medium",
+        "ratio": 1.0813538681948425,
         "benchmark": 6980000
       },
       "revenueValue": 50000000
@@ -535,10 +535,10 @@
         "counsel": 226800,
         "fines": 2500,
         "settlement": 18750,
-        "notification": 96000,
+        "notification": 60000,
         "doubleExtortionSurcharge": 0,
-        "credit": 280000,
-        "total": 624050,
+        "credit": 175000,
+        "total": 483050,
         "regime": "ON"
       },
       "business": {
@@ -547,23 +547,23 @@
         "extortion": 0,
         "total": 131000
       },
-      "grossTotal": 920380,
+      "grossTotal": 779380,
       "insurance": {
         "applied": false,
         "covered": 0,
         "premiumIncrease": 0,
-        "netTotal": 920380
+        "netTotal": 779380
       },
-      "netTotal": 920380,
+      "netTotal": 779380,
       "timeline": {
-        "year1": 899130,
+        "year1": 758130,
         "year2Plus": 21250,
-        "total": 920380,
+        "total": 779380,
         "variableX": {
           "annualImpact": 350000.00000000006,
-          "year3": 1270380,
-          "year4": 1620380,
-          "year5": 1970380.0000000002
+          "year3": 1129380,
+          "year4": 1479380,
+          "year5": 1829380.0000000002
         }
       },
       "variableX": {
@@ -574,7 +574,7 @@
       },
       "severity": {
         "tier": "low",
-        "ratio": 0.1318595988538682,
+        "ratio": 0.11165902578796562,
         "benchmark": 6980000
       },
       "revenueValue": 5000000
@@ -592,10 +592,10 @@
         "counsel": 1890000,
         "fines": 1875000,
         "settlement": 3150000,
-        "notification": 1800000,
+        "notification": 1200000,
         "doubleExtortionSurcharge": 0,
-        "credit": 9750000,
-        "total": 18465000,
+        "credit": 6500000,
+        "total": 14615000,
         "regime": "QC"
       },
       "business": {
@@ -604,23 +604,23 @@
         "extortion": 0,
         "total": 2750000
       },
-      "grossTotal": 22277862.5,
+      "grossTotal": 18427862.5,
       "insurance": {
         "applied": false,
         "covered": 0,
         "premiumIncrease": 0,
-        "netTotal": 22277862.5
+        "netTotal": 18427862.5
       },
-      "netTotal": 22277862.5,
+      "netTotal": 18427862.5,
       "timeline": {
-        "year1": 17252862.5,
+        "year1": 13402862.5,
         "year2Plus": 5025000,
-        "total": 22277862.5,
+        "total": 18427862.5,
         "variableX": {
           "annualImpact": 100000000,
-          "year3": 122277862.5,
-          "year4": 222277862.5,
-          "year5": 322277862.5
+          "year3": 118427862.5,
+          "year4": 218427862.5,
+          "year5": 318427862.5
         }
       },
       "variableX": {
@@ -631,7 +631,7 @@
       },
       "severity": {
         "tier": "critical",
-        "ratio": 3.1916708452722062,
+        "ratio": 2.6400949140401146,
         "benchmark": 6980000
       },
       "revenueValue": 500000000
@@ -649,10 +649,10 @@
         "counsel": 37800,
         "fines": 2500,
         "settlement": 157500,
-        "notification": 540000,
+        "notification": 360000,
         "doubleExtortionSurcharge": 0,
-        "credit": 1575000,
-        "total": 2312800,
+        "credit": 1050000,
+        "total": 1607800,
         "regime": "AB"
       },
       "business": {
@@ -661,23 +661,23 @@
         "extortion": 0,
         "total": 147500
       },
-      "grossTotal": 2559498,
+      "grossTotal": 1854498,
       "insurance": {
         "applied": false,
         "covered": 0,
         "premiumIncrease": 0,
-        "netTotal": 2559498
+        "netTotal": 1854498
       },
-      "netTotal": 2559498,
+      "netTotal": 1854498,
       "timeline": {
-        "year1": 2399498,
+        "year1": 1694498,
         "year2Plus": 160000,
-        "total": 2559498,
+        "total": 1854498,
         "variableX": {
           "annualImpact": 350000.00000000006,
-          "year3": 2909498,
-          "year4": 3259498,
-          "year5": 3609498
+          "year3": 2204498,
+          "year4": 2554498,
+          "year5": 2904498
         }
       },
       "variableX": {
@@ -688,7 +688,7 @@
       },
       "severity": {
         "tier": "low",
-        "ratio": 0.36669025787965615,
+        "ratio": 0.2656873925501433,
         "benchmark": 6980000
       },
       "revenueValue": 5000000
