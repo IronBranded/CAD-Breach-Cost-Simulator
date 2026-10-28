@@ -28,13 +28,18 @@ export function settlementReserve({ bucket, phi, industry }, model) {
   return bucket.classActionIndividuals * perIndividual * prob;
 }
 
-export function legalCosts({ inputs, incident, revenueBracket, doubleExtortion }, model) {
+export function legalCosts({ inputs, incident, revenueBracket, dataExposed, doubleExtortion }, model) {
   const rev = model.revenue.v[revenueBracket];
-  const bucket = model.records.v[inputs.records];
   const n = model.notification;
   const regime = resolveRegime(inputs.province, inputs.industry, model);
 
   const counsel = incident.counselHours * rev.effortMult * model.rates.breachCounsel.v;
+  if (!dataExposed) {
+    // No personal information exposed: no notification, monitoring, privacy fine or class action.
+    return { counsel, fines: 0, settlement: 0, notification: 0, doubleExtortionSurcharge: 0, credit: 0, total: counsel, regime };
+  }
+
+  const bucket = model.records.v[inputs.records];
   const fines = expectedFine({ regime, phi: inputs.phi, revenueValue: rev.representative }, model);
   const settlement = settlementReserve({ bucket, phi: inputs.phi, industry: inputs.industry }, model);
 

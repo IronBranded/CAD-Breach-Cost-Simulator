@@ -10,12 +10,13 @@ import { costTimeline, variableXWeights, severity } from './projection.js';
  * @param {object} inputs
  * @param {string} inputs.incident   Ransomware | BEC | DataBreach | Insider | DoS
  * @param {string} inputs.industry   key of model.industries
- * @param {string} inputs.records    Low | Medium | High | Critical
+ * @param {string|null} inputs.records  Low | Medium | High | Critical (ignored when no data is exposed)
  * @param {string} inputs.revenue    Micro | Small | Mid | Large
  * @param {string} inputs.cause      phishing | vuln | thirdParty
  * @param {string} inputs.province   QC | ON | AB | BC | OTHER | FED
  * @param {boolean} inputs.phi
- * @param {boolean} inputs.exfil     ransomware only: data was also exfiltrated
+ * @param {boolean} inputs.dataExposed  for incidents whose dataExposure is 'optional':
+ *                                      personal information was exfiltrated / accessed
  * @param {{limit:number, deductible:number}|null} inputs.insurance
  * @param {object} model             data/model.json
  */
@@ -24,21 +25,25 @@ export function calculate(inputs, model) {
   const rev = model.revenue.v[inputs.revenue];
   const cause = model.causes.v[inputs.cause];
   const industryMult = model.industries.v[inputs.industry];
-  if (!incident || !rev || !cause || industryMult === undefined || !model.records.v[inputs.records]) {
+  if (!incident || !rev || !cause || industryMult === undefined) {
     throw new Error('calculate: invalid inputs ' + JSON.stringify(inputs));
   }
-
-  const doubleExtortion = inputs.incident === 'Ransomware' && !!inputs.exfil;
+  const dataExposed = isDataExposed(incident, inputs);
+  if (dataExposed && !model.records.v[inputs.records]) {
+    throw new Error('calculate: records bucket required when personal information is exposed');
+  }
+  const doubleExtortion = dataExposed && !!incident.exposureIsDoubleExtortion;
   const irHours = incident.irHours * rev.effortMult * rev.irScaleCap;
 
   const tech = technicalCosts({ irHours, cause }, model);
-  const legal = legalCosts({ inputs, incident, revenueBracket: inputs.revenue, doubleExtortion }, model);
+  const legal = legalCosts({ inputs, incident, revenueBracket: inputs.revenue, dataExposed, doubleExtortion }, model);
   const business = businessCosts({ incident, revenueBracket: inputs.revenue, industryMult }, model);
   const grossTotal = tech.total + legal.total + business.total;
   const insurance = applyInsurance(grossTotal, inputs.insurance, model);
 
   return {
     inputs,
+    dataExposed,
     doubleExtortion,
     tech, legal, business,
     grossTotal,
@@ -49,4 +54,8 @@ export function calculate(inputs, model) {
     severity: severity(grossTotal, model),
     revenueValue: rev.representative,
   };
+}
+
+export function isDataExposed(incident, inputs) {
+  return incident.dataExposure === 'always' || (incident.dataExposure === 'optional' && !!inputs.dataExposed);
 }

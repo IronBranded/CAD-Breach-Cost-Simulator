@@ -1,6 +1,6 @@
 {
   "$comment": "Every number the simulator uses. Each entry has v (value), and src (ids from 'sources'); titles for sources live in i18n/*.json under 'sources'. 'author' means an author estimate with no external citation yet.",
-  "version": "2026.10-legacy",
+  "version": "2026.10-a",
   "currency": "CAD",
 
   "sources": {
@@ -40,13 +40,14 @@
   },
 
   "incidents": {
+    "$comment": "dataExposure: always | optional (user confirms) | never. Notification, credit monitoring, fines and class-action reserve only apply when personal information was exposed.",
     "src": ["author"],
     "v": {
-      "Ransomware": { "downtimeDays": 21,  "irHours": 140, "counselHours": 50,  "extortion": { "Micro": 45000, "Small": 300000, "Mid": 1200000, "Large": 3500000 } },
-      "BEC":        { "downtimeDays": 4,   "irHours": 40,  "counselHours": 25,  "extortion": { "Micro": 55000, "Small": 165000, "Mid": 420000,  "Large": 1100000 } },
-      "DataBreach": { "downtimeDays": 2,   "irHours": 100, "counselHours": 180, "extortion": null },
-      "Insider":    { "downtimeDays": 5,   "irHours": 60,  "counselHours": 30,  "extortion": null },
-      "DoS":        { "downtimeDays": 0.5, "irHours": 30,  "counselHours": 15,  "extortion": null }
+      "Ransomware": { "downtimeDays": 21,  "irHours": 140, "counselHours": 50,  "dataExposure": "optional", "exposureIsDoubleExtortion": true, "extortion": { "Micro": 45000, "Small": 300000, "Mid": 1200000, "Large": 3500000 } },
+      "BEC":        { "downtimeDays": 4,   "irHours": 40,  "counselHours": 25,  "dataExposure": "optional", "extortion": { "Micro": 55000, "Small": 165000, "Mid": 420000,  "Large": 1100000 } },
+      "DataBreach": { "downtimeDays": 2,   "irHours": 100, "counselHours": 180, "dataExposure": "always", "extortion": null },
+      "Insider":    { "downtimeDays": 5,   "irHours": 60,  "counselHours": 30,  "dataExposure": "always", "extortion": null },
+      "DoS":        { "downtimeDays": 0.5, "irHours": 30,  "counselHours": 15,  "dataExposure": "never", "extortion": null }
     }
   },
 
