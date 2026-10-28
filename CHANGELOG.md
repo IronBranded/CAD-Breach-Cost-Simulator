@@ -1,5 +1,48 @@
 # Changelog
 
+## Model v2026.11 — calibration, ranges and decision features
+
+Numbers change in this version; shared links made with v2026.10 still open, are migrated, and show a notice that the model has changed.
+
+### Model fixes
+
+- **Severity is relative to the organisation.** It is now the net exposure as a share of annual revenue, with the Canadian average breach cost shown as a secondary reference. A micro business losing several times its revenue was previously rated "Medium".
+- **Downtime losses are tied to revenue.** Operations loss = revenue ÷ 365 × days of disruption × share of operations affected × industry revenue at risk × 1.25. It used to be a fixed amount per day per bracket that reached 1.8–4.7× the revenue a micro business would earn during the outage.
+- **Public bodies use public-sector law.** New "Organisation type" input (pre-filled from the industry). Public bodies resolve to Quebec's public-sector act, Ontario FIPPA / MFIPPA, Alberta POPA, BC FIPPA or the federal Privacy Act, with notices describing their breach duties; no monetary penalty is modelled for them. Government and Education previously got PIPEDA.
+- **Exact revenue and optional headcount** replace the four revenue brackets. Effort, counsel, remediation and ransom amounts are interpolated between size anchors, so an $11M and a $99M company no longer produce identical results.
+- **Variable X is no longer plotted in dollars.** The old projection (revenue × 3–20% per year) dwarfed the known costs by up to 200× while the page called it unquantifiable. The timeline now shows an open-ended zone without a scale, and the brand card gives the value of 1% of revenue for scale.
+- **Consistency:** one notification rate for every exposure scenario (the old $12–22 table applied only to double extortion); class-action **defence costs** added; Healthcare switches PHI on; the lifecycle box shows the modelled disruption next to the cited benchmark.
+
+### Calibrated against sources
+
+| Parameter | v2026.10 | v2026.11 | Source |
+| :--- | :--- | :--- | :--- |
+| Ransomware disruption | 21 days | 10 days at 70% of operations | Sophos 2025: 53% fully recovered within a week |
+| Ransom at $50M revenue | $1.2M | $400K | Sophos 2025: median demand < US$350K for revenue ≤ US$250M |
+| Settlement per affected person | $15 (+$30 PHI, +$10 finance) | $5 (+$5 PHI, +$15 finance), range down to LifeLabs | Desjardins ≈ $21, LifeLabs ≈ $1 per affected person |
+| Lifecycle text | "Avg. 24 days", "241 days" (uncited) | Sophos 2025, IBM 2025 global | linked in the panel |
+| Threat landscape | uncited ransom figure, FR/EN differed | NCTA 2025–26 key findings, IBM 2025 Canada, Sophos 2025 | linked |
+
+17 external sources are now registered in the model, 12 of them linked. Parameters still tagged "Author estimate" are listed in amber in the assumptions panel.
+
+### New features
+
+- **Range of outcomes:** 5,000 simulated incidents per scenario (seeded, so a shared link reproduces the same range), P10 / P50 / P90 / P99 / mean and a loss exceedance curve. Fines and class actions are drawn as events.
+- **Security posture:** security AI & automation, immutable backups, IR retainer, tested IR plan, encryption & data minimisation. A "What would reduce this" card ranks the saving of each and can apply or remove it in place.
+- **Ransom decision** (pay / don't pay, interacting with backups) and **BEC fast reporting** (share of funds recovered).
+- **Insurance terms:** current premium, ransomware sublimit, coinsurance, business-interruption waiting period, insurer panel rates.
+- **Scenario comparison:** pin up to three scenarios and compare them side by side.
+- **Methodology page** with formulas, calibration notes, every parameter and linked sources.
+- **Open Graph tags and preview image** for link sharing.
+- **Related scenarios** in the Microsoft Cloud Attack & Abuse Matrix for each incident type.
+
+### Engineering
+
+- `// @ts-check` with shared JSDoc types; `node scripts/typecheck.mjs` runs TypeScript with no build step.
+- Cache busting without a build: `?v=<version>` on every asset and module import, stamped by `node scripts/release.mjs`, enforced by `validate.mjs`.
+- Accessibility: axe-core reports no violations on the form, results (EN/FR) and methodology pages.
+- Tests: golden point estimates and simulated ranges for 20 scenarios, plus invariants (operations loss never exceeds revenue earned during the outage, controls never increase cost, insurance never pushes net above gross, simulated event frequencies match the model).
+
 ## Model v2026.10 — modular rewrite
 
 The single 1,668-line `index.html` is now a static site with no build step: markup, CSS, ES modules, `data/model.json` and EN/FR translation files. The calculation was extracted first and checked against the old page before any number changed: identical results for all 138,240 English input combinations.
