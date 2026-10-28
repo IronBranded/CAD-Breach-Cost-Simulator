@@ -1,4 +1,9 @@
 // Cyber insurance recovery and post-claim premium increase.
+//
+// Assumptions (stated in the in-app assumptions panel):
+// - The deductible (retention) sits inside the coverage limit, so the most the
+//   insurer pays is limit - deductible.
+// - The 3-year premium increase only applies when a claim is actually paid.
 export function applyInsurance(grossTotal, policy, model) {
   const none = { applied: false, covered: 0, premiumIncrease: 0, netTotal: grossTotal };
   if (!policy) return none;
@@ -7,14 +12,10 @@ export function applyInsurance(grossTotal, policy, model) {
   if (!limit) return none;
 
   const p = model.insurance.v;
-  const premiumIncrease = limit * p.premiumRateOfLimit * p.postClaimIncrease * p.increaseYears;
-  let covered, netTotal;
-  if (grossTotal > limit) {
-    covered = Math.max(0, limit - deductible);
-    netTotal = deductible + (grossTotal - limit) + premiumIncrease;
-  } else {
-    covered = Math.max(0, grossTotal - deductible);
-    netTotal = deductible + premiumIncrease;
-  }
+  const covered = Math.max(0, Math.min(grossTotal, limit) - deductible);
+  const premiumIncrease = covered > 0
+    ? limit * p.premiumRateOfLimit * p.postClaimIncrease * p.increaseYears
+    : 0;
+  const netTotal = grossTotal - covered + premiumIncrease;
   return { applied: true, covered, premiumIncrease, netTotal, limit, deductible };
 }

@@ -1,5 +1,5 @@
 {
-  "modelVersion": "2026.10-b",
+  "modelVersion": "2026.10",
   "scenarios": {
     "ransomware-qc-health-mid-phi-exfil-insured": {
       "dataExposed": true,
@@ -205,21 +205,21 @@
       "insurance": {
         "applied": true,
         "covered": 0,
-        "premiumIncrease": 3600,
-        "netTotal": 1250062,
+        "premiumIncrease": 0,
+        "netTotal": 1196462,
         "limit": 100000,
         "deductible": 150000
       },
-      "netTotal": 1250062,
+      "netTotal": 1196462,
       "timeline": {
-        "year1": 1200062,
+        "year1": 1196462,
         "year2Plus": 0,
-        "total": 1200062,
+        "total": 1196462,
         "variableX": {
           "annualImpact": 350000.00000000006,
-          "year3": 1550062,
-          "year4": 1900062,
-          "year5": 2250062
+          "year3": 1546462,
+          "year4": 1896462,
+          "year5": 2246462
         }
       },
       "variableX": {
@@ -378,21 +378,21 @@
       "insurance": {
         "applied": true,
         "covered": 0,
-        "premiumIncrease": 36000,
-        "netTotal": 536000,
+        "premiumIncrease": 0,
+        "netTotal": 112520,
         "limit": 1000000,
         "deductible": 500000
       },
-      "netTotal": 536000,
+      "netTotal": 112520,
       "timeline": {
-        "year1": 148520,
+        "year1": 112520,
         "year2Plus": 0,
-        "total": 148520,
+        "total": 112520,
         "variableX": {
           "annualImpact": 30000,
-          "year3": 178520,
-          "year4": 208520,
-          "year5": 238520
+          "year3": 142520,
+          "year4": 172520,
+          "year5": 202520
         }
       },
       "variableX": {

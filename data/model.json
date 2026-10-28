@@ -1,6 +1,6 @@
 {
   "$comment": "Every number the simulator uses. Each entry has v (value), and src (ids from 'sources'); titles for sources live in i18n/*.json under 'sources'. 'author' means an author estimate with no external citation yet.",
-  "version": "2026.10-b",
+  "version": "2026.10",
   "currency": "CAD",
 
   "sources": {
