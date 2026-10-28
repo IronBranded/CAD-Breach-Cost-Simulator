@@ -1,0 +1,40 @@
+/* Design tokens. Dark theme on screen; print.css redefines the palette for paper. */
+:root {
+  --bg: #060910;
+  --bg1: #0a1628;
+  --bg2: #111f35;
+  --bg3: #162844;
+  --border: rgba(255, 255, 255, 0.07);
+  --border2: rgba(255, 255, 255, 0.12);
+
+  --blue: #3b9eff;   --blue-dim: rgba(59, 158, 255, 0.12);
+  --red: #ff5a6b;    --red-dim: rgba(255, 68, 85, 0.12);
+  --purple: #b06bff; --purple-dim: rgba(176, 107, 255, 0.12);
+  --green: #19e07a;  --green-dim: rgba(25, 224, 122, 0.10);
+  --amber: #ffb547;  --amber-dim: rgba(255, 181, 71, 0.10);
+  --orange: #ff7b2c;
+  --lavender: #c8a6ff;
+  --coral: #ff4455;
+
+  --text: #e8edf5;
+  --muted: #7585a0;
+  --muted2: #8a9ab5;
+  --heading: #fff;
+
+  /* Chart series */
+  --c-tech: var(--blue);
+  --c-legal: var(--purple);
+  --c-biz: var(--red);
+  --c-churn: var(--orange);
+  --c-revenue: var(--amber);
+  --c-recruitment: var(--coral);
+  --c-partner: var(--lavender);
+  --c-varx: var(--orange);
+
+  --font-head: 'Syne', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+  --font-body: 'IBM Plex Sans', system-ui, sans-serif;
+  --radius: 10px;
+  --glow-blue: 0 0 30px rgba(59, 158, 255, 0.15);
+  --glow-red: 0 0 30px rgba(255, 68, 85, 0.2);
+}

@@ -1,0 +1,46 @@
+/* Cost timeline chart. Shared by the dashboard and the print report:
+   colours come from the --c-* tokens, which print.css redefines for paper. */
+.timeline-card { margin-bottom: 20px; padding: 24px 26px; background: var(--bg1); border: 1px solid var(--border); border-radius: 14px; }
+.timeline-card .chart-title { margin-bottom: 4px; }
+.timeline-card .chart-subtitle { margin-bottom: 20px; }
+.timeline-chart-wrap { position: relative; width: 100%; overflow-x: auto; overflow-y: hidden; padding-bottom: 12px; }
+.timeline-chart-wrap svg { display: block; width: 100%; height: auto; min-width: 600px; overflow: visible; }
+
+.tl-stop-1 { stop-color: var(--c-tech); }
+.tl-stop-2 { stop-color: var(--c-legal); }
+.tl-stop-3 { stop-color: var(--c-biz); }
+.tl-area-stop { stop-color: var(--c-legal); }
+.tl-grid { stroke: var(--border2); stroke-width: 1; }
+.tl-line { fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+.tl-point { fill: var(--bg1); stroke-width: 2.5; }
+.tl-point.y1 { stroke: var(--c-tech); }
+.tl-point.y2 { stroke: var(--c-biz); }
+.tl-value { font-family: var(--font-mono); font-size: 11px; font-weight: 700; }
+.tl-value.y1 { fill: var(--c-tech); }
+.tl-value.y2 { fill: var(--c-biz); }
+.tl-axis { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.05em; fill: var(--muted); }
+.tl-axis.varx { fill: var(--c-varx); }
+.tl-varx-band { fill: var(--c-varx); fill-opacity: 0.07; }
+.tl-varx-sep { stroke: var(--c-varx); stroke-opacity: 0.25; stroke-width: 1; stroke-dasharray: 3 3; }
+.tl-varx-line { stroke: var(--c-varx); stroke-width: 1.5; stroke-dasharray: 5 3; }
+.tl-varx-dot { fill: var(--bg1); stroke: var(--c-varx); stroke-width: 2; }
+.tl-varx-year { font-family: var(--font-mono); font-size: 9px; fill: var(--c-varx); }
+.tl-varx-label { font-family: var(--font-mono); font-size: 10px; font-weight: 700; fill: var(--c-varx); }
+.op-1 { opacity: 0.45; } .op-2 { opacity: 0.7; } .op-3 { opacity: 1; }
+
+/* Draw-in animation (dashboard only). pathLength="1" makes the dash maths length-independent. */
+.tl-animate .tl-line { stroke-dasharray: 1; stroke-dashoffset: 1; animation: tl-draw 1s cubic-bezier(.4, 0, .2, 1) forwards; }
+.tl-animate .tl-area, .tl-animate .tl-point, .tl-animate .tl-value { opacity: 0; animation: tl-fade 0.5s ease 0.5s forwards; }
+.tl-animate .tl-varx { opacity: 0; animation: tl-fade 0.6s ease 0.8s forwards; }
+@keyframes tl-draw { to { stroke-dashoffset: 0; } }
+@keyframes tl-fade { to { opacity: 1; } }
+
+.timeline-legend { list-style: none; display: flex; flex-wrap: wrap; gap: 14px 24px; margin-top: 18px; }
+.timeline-legend li { display: flex; align-items: flex-start; gap: 8px; font-size: 0.78rem; line-height: 1.5; color: var(--muted2); }
+.tl-swatch { width: 10px; height: 10px; margin-top: 4px; flex-shrink: 0; border-radius: 50%; }
+.tl-swatch.y1 { background: var(--c-tech); }
+.tl-swatch.y2 { background: var(--c-biz); }
+.tl-swatch.vx { background: none; border: 2px dashed var(--c-varx); }
+.timeline-legend strong { font-family: var(--font-mono); font-weight: 600; color: var(--text); }
+
+@media (max-width: 1024px) { .timeline-card { padding: 20px 18px; } }

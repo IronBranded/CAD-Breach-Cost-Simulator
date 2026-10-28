@@ -1,0 +1,410 @@
+{
+  "meta": {
+    "title": "Canadian Cyber Incident Cost Simulator — CA-2026",
+    "description": "Estimate the financial exposure of a cyber incident in Canada: technical response, legal and regulatory costs, business impact and insurance, by province."
+  },
+  "header": {
+    "eyebrow": "CANADIAN CYBER RISK · CA-2026",
+    "title": "Cyber Incident",
+    "titleMuted": "Cost Simulator",
+    "subtitle": "Visualizing the financial and operational gravity of a cyber incident through a Canadian lens — grounded in provincial regulatory frameworks, published breach cost research, and legal precedent."
+  },
+  "actions": {
+    "skip": "Skip to content",
+    "language": "Language",
+    "copyLink": "Copy link",
+    "linkCopied": "Link copied",
+    "linkCopyFailed": "Copy failed — use the address bar",
+    "print": "Print report",
+    "edit": "Edit scenario"
+  },
+  "form": {
+    "section": "Incident Parameters",
+    "groups": {
+      "incident": "Incident Profile",
+      "org": "Organisation Profile",
+      "jurisdiction": "Jurisdiction"
+    },
+    "labels": {
+      "incident": "Incident Scenario",
+      "industry": "Industry",
+      "records": "PII Leak Volume",
+      "revenue": "Annual Revenue (CAD)",
+      "cause": "Root Cause",
+      "province": "Province / Jurisdiction",
+      "insLimit": "Coverage Limit ($)",
+      "insDeductible": "Deductible ($)"
+    },
+    "placeholders": {
+      "incident": "Select Incident Type",
+      "industry": "Select Industry",
+      "records": "Select Record Volume",
+      "revenue": "Select Revenue Bracket",
+      "cause": "Select Root Cause",
+      "province": "Select Province / Jurisdiction",
+      "insLimit": "e.g. 1000000",
+      "insDeductible": "e.g. 25000"
+    },
+    "exposure": {
+      "Ransomware": {
+        "label": "Data exfiltration also occurred?",
+        "tag": "Double extortion"
+      },
+      "BEC": {
+        "label": "Personal information in the compromised mailbox was accessed?",
+        "tag": "PII exposed"
+      }
+    },
+    "recordsNotApplicable": "Not applicable — no personal information is exposed in this scenario.",
+    "phiToggle": "Organization holds Protected Health Information (PHI)?",
+    "phiInfo": "Triggers mandatory breach notification under provincial health acts (PHIPA, HIA, HIPA). Significantly increases regulatory scrutiny and class-action certification risk.",
+    "insuranceToggle": "Active Cyber Insurance Policy?",
+    "insWarning": "⚠ Deductible exceeds coverage limit — please verify your policy values.",
+    "required": "Required.",
+    "insLimitRequired": "Enter a coverage limit greater than 0.",
+    "run": "Run Simulation",
+    "reset": "Clear form"
+  },
+  "options": {
+    "incident": {
+      "Ransomware": "Ransomware (Encryption / Extortion)",
+      "BEC": "Business Email Compromise (BEC)",
+      "DataBreach": "Data Leak / Exfiltration",
+      "Insider": "Insider Threat (Malicious)",
+      "DoS": "Denial of Service (DDoS)"
+    },
+    "industry": {
+      "edu": "Education",
+      "energy": "Energy / Industrial",
+      "finance": "Finance / Insurance",
+      "gov": "Government / Public Sector",
+      "health": "Healthcare / Pharma",
+      "legal": "Legal / Professional Services",
+      "mfg": "Manufacturing",
+      "retail": "Retail / E-Commerce",
+      "telco": "Telecommunications",
+      "tech": "Technology / SaaS"
+    },
+    "records": {
+      "Low": "< 1,000 Records",
+      "Medium": "1k – 10k Records",
+      "High": "10k – 50k Records",
+      "Critical": "50k+ Records"
+    },
+    "revenue": {
+      "Micro": "$50k – $2M",
+      "Small": "$2M – $10M",
+      "Mid": "$10M – $100M",
+      "Large": "$100M+"
+    },
+    "cause": {
+      "phishing": "Human Error / Phishing",
+      "vuln": "Exploited Vulnerability (CVE)",
+      "thirdParty": "Third Party / Supply Chain Compromise"
+    },
+    "province": {
+      "QC": "Quebec (Loi 25 / Law 25)",
+      "ON": "Ontario (PIPEDA + PHIPA)",
+      "AB": "Alberta (PIPA AB)",
+      "BC": "British Columbia (PIPA BC)",
+      "OTHER": "Other Province / Territory (PIPEDA)",
+      "FED": "Federal Regulated Entity (Bank / Telco)"
+    },
+    "provinceShort": {
+      "QC": "Quebec",
+      "ON": "Ontario",
+      "AB": "Alberta",
+      "BC": "British Columbia",
+      "OTHER": "Other Province / Territory",
+      "FED": "Federal Regulated Entity"
+    }
+  },
+  "results": {
+    "title": "Simulation results",
+    "exposureGross": "TOTAL ESTIMATED FINANCIAL EXPOSURE",
+    "exposureNet": "NET FINANCIAL EXPOSURE (POST-INSURANCE)",
+    "variableX": "+ Variable X: Brand & Reputation",
+    "insuranceCovered": "Insurance covered: {amount}",
+    "premiumIncluded": "Includes {amount} est. 3-yr premium increase",
+    "lifecycle": "Incident & Recovery Lifecycle",
+    "regime": "Regime: {regime}",
+    "badges": {
+      "phi": "PHI exposure",
+      "exposed": "PII exposed",
+      "notExposed": "No PII exposed"
+    },
+    "durations": {
+      "Ransomware": "Avg. 24 Days Downtime",
+      "BEC": "Avg. 2–5 Weeks to Resolve",
+      "DataBreach": "Avg. 241-Day Breach Cycle",
+      "Insider": "1–7 Days Direct / Months to Detect",
+      "DoS": "Avg. 6–72 Hours Active Disruption"
+    }
+  },
+  "severity": {
+    "tiers": {
+      "low": "Low risk",
+      "medium": "Medium risk",
+      "high": "High risk",
+      "critical": "Critical"
+    },
+    "start": "$0",
+    "average": "Cdn avg {amount}",
+    "aria": "Severity: {tier}. Gross exposure is {ratio} times the Canadian average breach cost of {amount}."
+  },
+  "chart": {
+    "distribution": "Cost Distribution",
+    "distributionAria": "Cost distribution: {parts}.",
+    "centerTotal": "Gross total",
+    "legend": {
+      "tech": "Technical",
+      "legal": "Legal & Settlements",
+      "biz": "Business Impact"
+    },
+    "brandTitle": "Variable X Breakdown",
+    "brandSubtitle": "Estimated relative weight",
+    "brandAria": "Variable X breakdown: {parts}.",
+    "brandLegend": {
+      "churn": "Customer Churn",
+      "revenue": "Revenue Contraction",
+      "recruitment": "Talent & Recruitment",
+      "partner": "Partner Attrition"
+    }
+  },
+  "cards": {
+    "tech": "Technical Response",
+    "legal": "Legal, Regulatory & Settlements",
+    "biz": "Business Impact",
+    "brand": "Brand & Reputation (Variable X)",
+    "rows": {
+      "ir": "Incident Response",
+      "forensics": "Digital Forensics & Analysis",
+      "it": "Disaster Recovery & IT Hardening",
+      "counsel": "Breach Counsel & Commissioner Filings",
+      "fines": "Regulatory Fines (Probabilistic)",
+      "settlement": "Class Action Settlement Reserve",
+      "notification": "Notification Logistics",
+      "doubleExtortionSurcharge": "Double-Extortion Response Surcharge",
+      "credit": "Credit & Identity Monitoring",
+      "creditPhi": "PHI: Enhanced ID Monitoring",
+      "operations": "Operations Downtime",
+      "remediation": "Post-Incident Remediation (Training, PR, Procurement)",
+      "extortion": {
+        "Ransomware": "Ransom Payment (assumed paid)",
+        "BEC": "Fraudulent Transfer Loss"
+      }
+    },
+    "tags": {
+      "phi": "PHI",
+      "risk": "RISK",
+      "dx": "2X"
+    },
+    "noExposure": "No personal information is exposed in this scenario, so notification, credit monitoring, privacy fines and the class-action reserve do not apply.",
+    "brandImpactTitle": "Unquantifiable Impact",
+    "churnText": "Customer churn varies by industry and public perception. For Canadian SMBs, a significant breach often correlates with 15–20% revenue contraction in the following fiscal year. Reputational damage to enterprise organizations can persist 3–5 years."
+  },
+  "timeline": {
+    "title": "Cost Timeline",
+    "subtitle": "When breach costs actually land",
+    "aria": "Cumulative cost timeline: Year 1 {year1}, Year 2+ {year2}, total by month 36 {total}, followed by an open-ended Variable X projection.",
+    "axis": {
+      "day0": "Day 0",
+      "day30": "Day 30",
+      "month12": "Month 12",
+      "month36": "Month 36",
+      "years": "Years 3–5+"
+    },
+    "years": [
+      "Yr 3",
+      "Yr 4",
+      "Yr 5"
+    ],
+    "varXShort": "+ Variable X",
+    "year1Label": "Year 1 (Days 1–30 onward)",
+    "year1Desc": "— incident response, forensics, IT restoration, breach counsel, notification & credit monitoring, operational losses, ransom, and insurance premium impact.",
+    "year2Label": "Year 2+ (12–36 months)",
+    "year2Desc": "— regulatory fines, commissioner penalties, and class-action settlements, which typically resolve well after the initial incident.",
+    "varXLabel": "(Brand & Reputation)",
+    "varXDesc": "— unquantifiable, open-ended: customer churn, revenue contraction, and reputational damage that can compound for 3–5 years."
+  },
+  "regimes": {
+    "labels": {
+      "QC": "Loi 25",
+      "ON": "PIPEDA + PHIPA",
+      "AB": "PIPA (AB)",
+      "BC": "PIPA (BC)",
+      "OTHER": "PIPEDA",
+      "FED": "PIPEDA (Federal)",
+      "FIN": "PIPEDA + OSFI B-13"
+    },
+    "notices": {
+      "QC": "**REGULATORY NOTICE — Loi 25 (QC):** Severe penalties apply. Penal fines can reach **$25M or 4% of worldwide turnover** (whichever is greater). The CAI and affected individuals must be notified promptly where there is a risk of serious injury.",
+      "ON": "**REGULATORY NOTICE — PIPEDA + PHIPA (ON):** If PHI is involved, PHIPA applies: administrative penalties up to **$500,000** and offence fines up to **$1,000,000** for organizations. Class-action risk is the primary financial driver in Ontario.",
+      "AB": "**REGULATORY NOTICE — PIPA (AB):** Notification required when there is a real risk of significant harm. Fines are statutory but low; focus is on cause remediation.",
+      "BC": "**REGULATORY NOTICE — PIPA (BC):** Similar to Alberta. Recent case law strengthens “Intrusion upon Seclusion” tort claims.",
+      "OTHER": "**REGULATORY NOTICE — PIPEDA (Federal):** Mandatory breach reporting to the OPC when there is a Real Risk of Significant Harm (RROSH). Non-compliance is a serious offence.",
+      "FED": "**REGULATORY NOTICE — PIPEDA (Federal):** Mandatory breach reporting to the OPC when there is a Real Risk of Significant Harm (RROSH). Non-compliance is a serious offence.",
+      "FIN": "**REGULATORY NOTICE — PIPEDA + OSFI B-13:** Federally regulated financial entities must comply with OSFI B-13. Failures trigger supervisory intervention and increased capital requirements."
+    }
+  },
+  "ncta": {
+    "title": "NCTA 2025–2026 STRATEGIC INTELLIGENCE",
+    "intro": "Intelligence from the Canadian Centre for Cyber Security (CCCS) highlights an aggressive threat landscape targeting critical infrastructure and data extortion.",
+    "trends": [
+      {
+        "label": "AI-Enabled Threats",
+        "body": "Adversaries are using LLMs to craft convincing spear-phishing lures and automate vulnerability scanning at scale."
+      },
+      {
+        "label": "Living off the Land (LotL)",
+        "body": "Threat actors (Volt Typhoon, etc.) use legitimate admin tools to remain undetected inside Canadian networks for months."
+      },
+      {
+        "label": "Ransomware Evolution",
+        "body": "Shift from encryption to pure data extortion. Attackers pressure victims by directly contacting clients and regulators."
+      },
+      {
+        "label": "Supply Chain Risk",
+        "body": "Reliance on managed service providers (MSPs) and cloud platforms remains a critical single-point-of-failure vector."
+      },
+      {
+        "label": "Disruptive Activism",
+        "body": "Geopolitical tensions are escalating DDoS and defacement campaigns against Canadian public and critical institutions."
+      }
+    ],
+    "alertTitle": "Critical Threat Assessment",
+    "alert": "**Ransomware:** The average ransom paid by Canadian organizations reached **CA$1.13M** in 2023 and continues rising. IBM 2025 puts the national average breach cost at **CA$6.98M**. Finance (CA$9.97M) and Industrial (CA$8.39M) sectors face the steepest exposure."
+  },
+  "disclaimer": "This simulator produces illustrative estimates based on Canadian industry averages, published breach cost research, and legal precedent. Figures are probabilistic ranges presented as point estimates for clarity. This tool does not constitute legal, actuarial, or financial advice. Consult qualified counsel before making risk management or insurance decisions.",
+  "sources": {
+    "author": "Author estimate",
+    "ibm2025": "IBM Cost of a Data Breach 2025 (CA$6.98M avg)",
+    "cccsNcta2025": "CCCS National Cyber Threat Assessment 2025–26",
+    "desjardins2023": "Desjardins Settlement 2023",
+    "lifelabs2024": "LifeLabs Settlement 2024",
+    "osfiB13": "OSFI B-13 Guideline",
+    "opc": "OPC Breach Reports",
+    "cafc2024": "CAFC Fraud Report 2024",
+    "loi25": "Quebec Law 25 (Loi 25)",
+    "phipa": "IPC Ontario — PHIPA penalties",
+    "pipeda": "PIPEDA",
+    "edelmanTrust": "Edelman Trust Barometer"
+  },
+  "assumptions": {
+    "title": "Model assumptions & sources",
+    "version": "Model v{version}",
+    "intro": "Every figure the simulator uses comes from data/model.json. Values tagged “Author estimate” do not have an external citation yet.",
+    "colParameter": "Parameter",
+    "colValue": "Value",
+    "colSource": "Source",
+    "sourceNote": "Source: {sources}",
+    "units": {
+      "perHour": "/ hour",
+      "perIndividual": "/ person",
+      "perDay": "/ day",
+      "perYear": "/ year",
+      "times": "×"
+    },
+    "sections": {
+      "rules": "How the model works",
+      "rates": "Hourly rates",
+      "effort": "Effort ratios",
+      "causes": "Root-cause multipliers",
+      "incidents": "Incident profiles",
+      "revenue": "Revenue brackets",
+      "records": "Records buckets",
+      "notification": "Notification & monitoring",
+      "settlement": "Class-action settlement reserve",
+      "industries": "Industry multipliers (operations downtime)",
+      "regimes": "Regulatory fines",
+      "insurance": "Cyber insurance",
+      "benchmark": "Benchmark & severity",
+      "variableX": "Variable X weights"
+    },
+    "rules": [
+      "Technical effort = incident IR hours × revenue effort multiplier (Large is capped at 70%), then split into IR, forensics and IT recovery using the effort ratios and root-cause multipliers.",
+      "Notification, credit monitoring, regulatory fines and the class-action reserve only apply when personal information is exposed: always for data breaches and insider incidents, for ransomware only when exfiltration occurred, for BEC only when mailbox personal information was accessed, never for DDoS.",
+      "Regulatory fines and settlements are expected values: fine or settlement amount × probability.",
+      "Ransomware assumes the ransom is paid; BEC includes the fraudulent transfer loss.",
+      "Insurance: the deductible sits inside the coverage limit, so the insurer pays at most limit − deductible. The 3-year premium increase only applies when a claim is paid. Net = gross − covered + premium increase.",
+      "Timeline: Year 1 holds response, counsel, notification, monitoring, business impact and the premium increase; fines and settlements land in Year 2+. Variable X is projected as revenue × Variable X rate per year for years 3–5."
+    ],
+    "params": {
+      "incidentResponse": "Incident response",
+      "forensics": "Digital forensics",
+      "breachCounsel": "Breach counsel",
+      "itRecovery": "IT recovery & hardening",
+      "forensicHoursPerIrHour": "Forensic hours per IR hour",
+      "itHoursPerIrHour": "IT recovery hours per IR hour",
+      "baseRatePerIndividual": "Notification cost",
+      "doubleExtortionSurcharge": "Double-extortion surcharge (share of notification)",
+      "creditStandard": "Credit monitoring",
+      "creditPhi": "Credit monitoring (PHI)",
+      "settlementBase": "Settlement per individual",
+      "settlementPhi": "PHI premium per individual",
+      "settlementFinance": "Finance premium per individual",
+      "premiumRateOfLimit": "Annual premium (share of coverage limit)",
+      "postClaimIncrease": "Post-claim premium increase",
+      "increaseYears": "Years the increase applies",
+      "averageBreachCost": "Canadian average breach cost",
+      "severityTiers": "Severity tiers (gross ÷ average)"
+    },
+    "cols": {
+      "scenario": "Scenario",
+      "downtime": "Downtime (days)",
+      "irHours": "IR hours",
+      "counselHours": "Counsel hours",
+      "exposure": "Personal data exposed",
+      "extortion": "Ransom / fraud loss (Micro · Small · Mid · Large)",
+      "bracket": "Bracket",
+      "representative": "Representative revenue",
+      "effortMult": "Effort multiplier",
+      "opsLoss": "Ops loss / day",
+      "remediation": "Remediation",
+      "varXRate": "Variable X / year",
+      "bucket": "Bucket",
+      "individuals": "Individuals",
+      "classAction": "Class-action probability (standard · PHI or finance)",
+      "dxRate": "Notification rate with double extortion",
+      "cause": "Root cause",
+      "irMult": "IR ×",
+      "forensicsMult": "Forensics ×",
+      "industry": "Industry",
+      "multiplier": "Multiplier",
+      "regime": "Regime",
+      "fineBasis": "Fine basis",
+      "probability": "Probability",
+      "churn": "Churn",
+      "revenue": "Revenue",
+      "recruitment": "Recruitment",
+      "partner": "Partner"
+    },
+    "exposure": {
+      "always": "Always",
+      "optional": "If confirmed",
+      "never": "Never"
+    },
+    "fineFixed": "{amount} ({amountPhi} with PHI)",
+    "fineRevenuePct": "{pct} of revenue ({pctPhi} with PHI), capped at max({cap}, {capPct} of revenue)",
+    "fedRule": "Federal entities in finance or telecom use the PIPEDA + OSFI B-13 regime.",
+    "tiers": "Medium ≥ {medium}× · High ≥ {high}× · Critical ≥ {critical}×"
+  },
+  "print": {
+    "generatedOn": "Generated on",
+    "regime": "Regime",
+    "classification": "Classification",
+    "confidential": "CONFIDENTIAL — For internal use only",
+    "params": "Incident Parameters",
+    "breakdown": "Cost Breakdown",
+    "split": "Cost Split",
+    "gross": "Gross: {amount}",
+    "dataExposure": "Personal data exposed",
+    "insurance": "Cyber insurance",
+    "insuranceNone": "None",
+    "insuranceValue": "Limit {limit} · Deductible {deductible}",
+    "yes": "Yes",
+    "no": "No",
+    "model": "Model v{version}",
+    "empty": "Run a simulation first, then print to get the report."
+  }
+}

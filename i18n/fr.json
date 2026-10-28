@@ -1,0 +1,410 @@
+{
+  "meta": {
+    "title": "Simulateur canadien de coûts de cyber incident — CA-2026",
+    "description": "Estimez l'exposition financière d'un cyber incident au Canada : réponse technique, coûts juridiques et réglementaires, impact opérationnel et assurance, par province."
+  },
+  "header": {
+    "eyebrow": "RISQUE CYBER CANADIEN · CA-2026",
+    "title": "Simulateur de coûts",
+    "titleMuted": "de cyber incident",
+    "subtitle": "Visualisation de la gravité financière et opérationnelle d'un cyber incident à travers un prisme canadien — ancrée dans les cadres réglementaires provinciaux, la recherche publiée sur le coût des brèches et les précédents juridiques."
+  },
+  "actions": {
+    "skip": "Passer au contenu",
+    "language": "Langue",
+    "copyLink": "Copier le lien",
+    "linkCopied": "Lien copié",
+    "linkCopyFailed": "Échec de la copie — utilisez la barre d'adresse",
+    "print": "Imprimer le rapport",
+    "edit": "Modifier le scénario"
+  },
+  "form": {
+    "section": "Paramètres de l'incident",
+    "groups": {
+      "incident": "Profil de l'incident",
+      "org": "Profil de l'organisation",
+      "jurisdiction": "Juridiction"
+    },
+    "labels": {
+      "incident": "Scénario d'incident",
+      "industry": "Secteur d'activité",
+      "records": "Données et identifiants personnels impactés",
+      "revenue": "Chiffre d'affaires annuel (CAD)",
+      "cause": "Cause principale",
+      "province": "Province / Juridiction",
+      "insLimit": "Limite de couverture ($)",
+      "insDeductible": "Franchise ($)"
+    },
+    "placeholders": {
+      "incident": "Sélectionnez le type d'incident",
+      "industry": "Sélectionnez le secteur",
+      "records": "Sélectionnez le volume",
+      "revenue": "Sélectionnez le revenu",
+      "cause": "Sélectionnez la cause",
+      "province": "Sélectionnez la province / juridiction",
+      "insLimit": "ex. 1000000",
+      "insDeductible": "ex. 25000"
+    },
+    "exposure": {
+      "Ransomware": {
+        "label": "Exfiltration de données également survenue ?",
+        "tag": "Double extorsion"
+      },
+      "BEC": {
+        "label": "Des renseignements personnels de la boîte courriel compromise ont été consultés ?",
+        "tag": "RP exposés"
+      }
+    },
+    "recordsNotApplicable": "Sans objet — aucun renseignement personnel n'est exposé dans ce scénario.",
+    "phiToggle": "L'organisation détient des renseignements personnels sur la santé (RPS) ?",
+    "phiInfo": "Déclenche les obligations de notification en vertu des lois provinciales sur la santé (LPRPS, HIA, HIPA). Augmente considérablement la surveillance réglementaire et le risque d'autorisation d'une action collective.",
+    "insuranceToggle": "Police de cyberassurance active ?",
+    "insWarning": "⚠ La franchise dépasse la limite de couverture — veuillez vérifier les valeurs de votre police.",
+    "required": "Obligatoire.",
+    "insLimitRequired": "Entrez une limite de couverture supérieure à 0.",
+    "run": "Lancer la simulation",
+    "reset": "Effacer le formulaire"
+  },
+  "options": {
+    "incident": {
+      "Ransomware": "Rançongiciel (chiffrement / extorsion)",
+      "BEC": "Compromission de courriels d'affaires (BEC)",
+      "DataBreach": "Fuite de données / exfiltration",
+      "Insider": "Menace interne (malveillante)",
+      "DoS": "Déni de service (DDoS)"
+    },
+    "industry": {
+      "edu": "Éducation",
+      "energy": "Énergie / Industriel",
+      "finance": "Finance / Assurance",
+      "gov": "Gouvernement / Secteur public",
+      "health": "Santé / Pharma",
+      "legal": "Juridique / Services professionnels",
+      "mfg": "Manufacturier",
+      "retail": "Commerce de détail / Commerce en ligne",
+      "telco": "Télécommunications",
+      "tech": "Technologie / SaaS"
+    },
+    "records": {
+      "Low": "< 1 000 dossiers",
+      "Medium": "1k – 10k dossiers",
+      "High": "10k – 50k dossiers",
+      "Critical": "50k+ dossiers"
+    },
+    "revenue": {
+      "Micro": "50 k$ – 2 M$",
+      "Small": "2 M$ – 10 M$",
+      "Mid": "10 M$ – 100 M$",
+      "Large": "100 M$ +"
+    },
+    "cause": {
+      "phishing": "Erreur humaine / Hameçonnage",
+      "vuln": "Exploitation de vulnérabilité (CVE)",
+      "thirdParty": "Tiers / Compromission de la chaîne d'approvisionnement"
+    },
+    "province": {
+      "QC": "Québec (Loi 25)",
+      "ON": "Ontario (LPRPDE + LPRPS)",
+      "AB": "Alberta (PIPA AB)",
+      "BC": "Colombie-Britannique (PIPA C.-B.)",
+      "OTHER": "Autre province / territoire (LPRPDE)",
+      "FED": "Entité sous réglementation fédérale (banque / télécom)"
+    },
+    "provinceShort": {
+      "QC": "Québec",
+      "ON": "Ontario",
+      "AB": "Alberta",
+      "BC": "Colombie-Britannique",
+      "OTHER": "Autre province / territoire",
+      "FED": "Entité fédérale réglementée"
+    }
+  },
+  "results": {
+    "title": "Résultats de la simulation",
+    "exposureGross": "EXPOSITION FINANCIÈRE TOTALE ESTIMÉE",
+    "exposureNet": "EXPOSITION FINANCIÈRE NETTE (APRÈS ASSURANCE)",
+    "variableX": "+ Variable X : Marque et réputation",
+    "insuranceCovered": "Couvert par l'assurance : {amount}",
+    "premiumIncluded": "Inclut une hausse de prime estimée de {amount} sur 3 ans",
+    "lifecycle": "Cycle de vie : incident et rétablissement",
+    "regime": "Régime : {regime}",
+    "badges": {
+      "phi": "Exposition RPS",
+      "exposed": "RP exposés",
+      "notExposed": "Aucun RP exposé"
+    },
+    "durations": {
+      "Ransomware": "Moy. 24 jours d'arrêt",
+      "BEC": "Moy. 2–5 semaines de résolution",
+      "DataBreach": "Cycle moy. de 241 jours",
+      "Insider": "1–7 jours directs / des mois pour détecter",
+      "DoS": "Moy. 6–72 heures de perturbation"
+    }
+  },
+  "severity": {
+    "tiers": {
+      "low": "Risque faible",
+      "medium": "Risque moyen",
+      "high": "Risque élevé",
+      "critical": "Critique"
+    },
+    "start": "0 $",
+    "average": "Moy. canadienne {amount}",
+    "aria": "Gravité : {tier}. L'exposition brute représente {ratio} fois le coût moyen d'une brèche au Canada ({amount})."
+  },
+  "chart": {
+    "distribution": "Répartition des coûts",
+    "distributionAria": "Répartition des coûts : {parts}.",
+    "centerTotal": "Total brut",
+    "legend": {
+      "tech": "Technique",
+      "legal": "Juridique et litiges",
+      "biz": "Impact opérationnel"
+    },
+    "brandTitle": "Décomposition de la Variable X",
+    "brandSubtitle": "Poids relatif estimé",
+    "brandAria": "Décomposition de la Variable X : {parts}.",
+    "brandLegend": {
+      "churn": "Perte de clients",
+      "revenue": "Contraction des revenus",
+      "recruitment": "Talent et recrutement",
+      "partner": "Attrition des partenaires"
+    }
+  },
+  "cards": {
+    "tech": "Réponse technique",
+    "legal": "Juridique, réglementaire et litiges",
+    "biz": "Impact opérationnel",
+    "brand": "Marque et réputation (Variable X)",
+    "rows": {
+      "ir": "Réponse aux incidents",
+      "forensics": "Investigation numérique et analyse",
+      "it": "Reprise après sinistre et durcissement TI",
+      "counsel": "Avocats spécialisés et dépôts auprès des commissaires",
+      "fines": "Amendes réglementaires (probabilistes)",
+      "settlement": "Réserve pour action collective",
+      "notification": "Logistique de notification",
+      "doubleExtortionSurcharge": "Supplément de réponse à la double extorsion",
+      "credit": "Surveillance du crédit et de l'identité",
+      "creditPhi": "RPS : surveillance d'identité renforcée",
+      "operations": "Interruption des opérations",
+      "remediation": "Remédiation post-incident (formation, RP, approvisionnement)",
+      "extortion": {
+        "Ransomware": "Paiement de la rançon (présumé payé)",
+        "BEC": "Perte par virement frauduleux"
+      }
+    },
+    "tags": {
+      "phi": "RPS",
+      "risk": "RISQUE",
+      "dx": "2X"
+    },
+    "noExposure": "Aucun renseignement personnel n'est exposé dans ce scénario : la notification, la surveillance du crédit, les amendes en matière de vie privée et la réserve pour action collective ne s'appliquent pas.",
+    "brandImpactTitle": "Impact inquantifiable",
+    "churnText": "La perte de clients varie selon le secteur et la perception du public. Pour les PME canadiennes, une brèche importante est souvent corrélée à une contraction de 15 à 20 % des revenus au cours de l'exercice suivant. L'atteinte à la réputation des grandes organisations peut persister de 3 à 5 ans."
+  },
+  "timeline": {
+    "title": "Chronologie des coûts",
+    "subtitle": "Quand les coûts surviennent réellement",
+    "aria": "Chronologie cumulative des coûts : année 1 {year1}, année 2+ {year2}, total au mois 36 {total}, suivi d'une projection ouverte de la Variable X.",
+    "axis": {
+      "day0": "Jour 0",
+      "day30": "Jour 30",
+      "month12": "Mois 12",
+      "month36": "Mois 36",
+      "years": "Années 3–5+"
+    },
+    "years": [
+      "An 3",
+      "An 4",
+      "An 5"
+    ],
+    "varXShort": "+ Variable X",
+    "year1Label": "Année 1 (jours 1–30 et suivants)",
+    "year1Desc": "— réponse à l'incident, investigation numérique, restauration informatique, conseil juridique, notification et surveillance du crédit, pertes opérationnelles, rançon et hausse de la prime d'assurance.",
+    "year2Label": "Année 2+ (12–36 mois)",
+    "year2Desc": "— amendes réglementaires, pénalités des commissaires et règlements d'actions collectives, qui se résolvent généralement bien après l'incident initial.",
+    "varXLabel": "(Marque et réputation)",
+    "varXDesc": "— inquantifiable et ouvert : perte de clients, contraction des revenus et atteinte à la réputation pouvant s'accumuler pendant 3 à 5 ans."
+  },
+  "regimes": {
+    "labels": {
+      "QC": "Loi 25",
+      "ON": "LPRPDE + LPRPS",
+      "AB": "PIPA (AB)",
+      "BC": "PIPA (C.-B.)",
+      "OTHER": "LPRPDE",
+      "FED": "LPRPDE (fédéral)",
+      "FIN": "LPRPDE + BSIF B-13"
+    },
+    "notices": {
+      "QC": "**AVIS RÉGLEMENTAIRE — Loi 25 (QC) :** Pénalités sévères. Les amendes pénales peuvent atteindre **25 M$ ou 4 % du chiffre d'affaires mondial** (le plus élevé des deux). La CAI et les personnes concernées doivent être avisées avec diligence en cas de risque de préjudice sérieux.",
+      "ON": "**AVIS RÉGLEMENTAIRE — LPRPDE + LPRPS (ON) :** Si des RPS sont en cause, la LPRPS s'applique : sanctions administratives jusqu'à **500 000 $** et amendes pénales jusqu'à **1 000 000 $** pour les organisations. Le risque d'action collective est le principal facteur de coût en Ontario.",
+      "AB": "**AVIS RÉGLEMENTAIRE — PIPA (AB) :** Notification obligatoire en cas de risque réel de préjudice grave. Les amendes sont prévues par la loi mais faibles ; l'accent est mis sur la correction des causes.",
+      "BC": "**AVIS RÉGLEMENTAIRE — PIPA (C.-B.) :** Semblable à l'Alberta. La jurisprudence récente renforce les recours pour « intrusion dans l'intimité ».",
+      "OTHER": "**AVIS RÉGLEMENTAIRE — LPRPDE (fédéral) :** Déclaration obligatoire au CPVP en cas de risque réel de préjudice grave (RRPG). Le non-respect constitue une infraction grave.",
+      "FED": "**AVIS RÉGLEMENTAIRE — LPRPDE (fédéral) :** Déclaration obligatoire au CPVP en cas de risque réel de préjudice grave (RRPG). Le non-respect constitue une infraction grave.",
+      "FIN": "**AVIS RÉGLEMENTAIRE — LPRPDE + BSIF B-13 :** Les institutions financières fédérales doivent se conformer à la ligne directrice B-13 du BSIF. Les manquements déclenchent une intervention prudentielle et des exigences de capital accrues."
+    }
+  },
+  "ncta": {
+    "title": "RENSEIGNEMENT STRATÉGIQUE · CYBERMENACES NATIONALES 2025–2026",
+    "intro": "Le Centre canadien pour la cybersécurité signale un paysage de menaces agressif ciblant les infrastructures essentielles et l'extorsion de données.",
+    "trends": [
+      {
+        "label": "Menaces alimentées par l'IA",
+        "body": "Les adversaires utilisent les grands modèles de langage pour créer des hameçonnages ciblés convaincants et automatiser la recherche de vulnérabilités à grande échelle."
+      },
+      {
+        "label": "Living off the Land (LotL)",
+        "body": "Des acteurs malveillants (Volt Typhoon, etc.) utilisent des outils d'administration légitimes pour demeurer non détectés dans les réseaux canadiens pendant des mois."
+      },
+      {
+        "label": "Évolution du rançongiciel",
+        "body": "Passage du chiffrement à l'extorsion pure. Les attaquants font pression sur les victimes en contactant directement leurs clients et les régulateurs."
+      },
+      {
+        "label": "Risque de la chaîne d'approvisionnement",
+        "body": "La dépendance aux fournisseurs de services gérés (FSG) et aux plateformes infonuagiques demeure un point de défaillance unique critique."
+      },
+      {
+        "label": "Activisme perturbateur",
+        "body": "Les tensions géopolitiques intensifient les campagnes de DDoS et de défiguration contre les institutions publiques et essentielles canadiennes."
+      }
+    ],
+    "alertTitle": "Évaluation des menaces critiques",
+    "alert": "**Rançongiciel :** La rançon moyenne payée par les organisations canadiennes a atteint **1,13 M$ CA** en 2023 et continue d'augmenter. Selon IBM 2025, le coût moyen d'une brèche au Canada s'élève à **6,98 M$ CA**. Les secteurs de la finance (9,97 M$ CA) et industriel (8,39 M$ CA) sont les plus exposés."
+  },
+  "disclaimer": "Ce simulateur produit des estimations illustratives fondées sur les moyennes sectorielles canadiennes, la recherche publiée sur le coût des brèches et les précédents juridiques. Les chiffres sont des plages probabilistes présentées comme des estimations ponctuelles par souci de clarté. Cet outil ne constitue pas un avis juridique, actuariel ou financier. Consultez des conseillers qualifiés avant de prendre des décisions de gestion des risques ou d'assurance.",
+  "sources": {
+    "author": "Estimation de l'auteur",
+    "ibm2025": "IBM Cost of a Data Breach 2025 (moy. 6,98 M$ CA)",
+    "cccsNcta2025": "CCC — Évaluation des cybermenaces nationales 2025–2026",
+    "desjardins2023": "Règlement Desjardins 2023",
+    "lifelabs2024": "Règlement LifeLabs 2024",
+    "osfiB13": "Ligne directrice B-13 du BSIF",
+    "opc": "Rapports d'atteinte du CPVP",
+    "cafc2024": "Rapport sur la fraude du CAFC 2024",
+    "loi25": "Loi 25 (Québec)",
+    "phipa": "CIPVP Ontario — sanctions LPRPS",
+    "pipeda": "LPRPDE",
+    "edelmanTrust": "Baromètre de confiance Edelman"
+  },
+  "assumptions": {
+    "title": "Hypothèses du modèle et sources",
+    "version": "Modèle v{version}",
+    "intro": "Chaque chiffre utilisé par le simulateur provient de data/model.json. Les valeurs marquées « Estimation de l'auteur » n'ont pas encore de source externe.",
+    "colParameter": "Paramètre",
+    "colValue": "Valeur",
+    "colSource": "Source",
+    "sourceNote": "Source : {sources}",
+    "units": {
+      "perHour": "/ heure",
+      "perIndividual": "/ personne",
+      "perDay": "/ jour",
+      "perYear": "/ an",
+      "times": "×"
+    },
+    "sections": {
+      "rules": "Fonctionnement du modèle",
+      "rates": "Taux horaires",
+      "effort": "Ratios d'effort",
+      "causes": "Multiplicateurs selon la cause",
+      "incidents": "Profils d'incident",
+      "revenue": "Tranches de revenus",
+      "records": "Tranches de dossiers",
+      "notification": "Notification et surveillance",
+      "settlement": "Réserve pour action collective",
+      "industries": "Multiplicateurs sectoriels (interruption des opérations)",
+      "regimes": "Amendes réglementaires",
+      "insurance": "Cyberassurance",
+      "benchmark": "Référence et gravité",
+      "variableX": "Pondérations de la Variable X"
+    },
+    "rules": [
+      "Effort technique = heures de réponse de l'incident × multiplicateur d'effort selon le revenu (plafonné à 70 % pour les grandes organisations), puis réparti entre réponse, investigation et reprise TI selon les ratios d'effort et les multiplicateurs de cause.",
+      "La notification, la surveillance du crédit, les amendes réglementaires et la réserve pour action collective ne s'appliquent que si des renseignements personnels sont exposés : toujours pour les fuites de données et les menaces internes, pour le rançongiciel seulement en cas d'exfiltration, pour la BEC seulement si des renseignements de la boîte courriel ont été consultés, jamais pour le DDoS.",
+      "Les amendes et les règlements sont des valeurs espérées : montant × probabilité.",
+      "Le rançongiciel présume que la rançon est payée ; la BEC inclut la perte par virement frauduleux.",
+      "Assurance : la franchise est incluse dans la limite, donc l'assureur paie au plus limite − franchise. La hausse de prime sur 3 ans ne s'applique que si une réclamation est payée. Net = brut − montant couvert + hausse de prime.",
+      "Chronologie : l'année 1 regroupe la réponse, le conseil juridique, la notification, la surveillance, l'impact opérationnel et la hausse de prime ; les amendes et règlements surviennent à l'année 2+. La Variable X est projetée comme revenu × taux de Variable X par année pour les années 3 à 5."
+    ],
+    "params": {
+      "incidentResponse": "Réponse aux incidents",
+      "forensics": "Investigation numérique",
+      "breachCounsel": "Avocat spécialisé en brèches",
+      "itRecovery": "Reprise et durcissement TI",
+      "forensicHoursPerIrHour": "Heures d'investigation par heure de réponse",
+      "itHoursPerIrHour": "Heures de reprise TI par heure de réponse",
+      "baseRatePerIndividual": "Coût de notification",
+      "doubleExtortionSurcharge": "Supplément double extorsion (part de la notification)",
+      "creditStandard": "Surveillance du crédit",
+      "creditPhi": "Surveillance du crédit (RPS)",
+      "settlementBase": "Règlement par personne",
+      "settlementPhi": "Prime RPS par personne",
+      "settlementFinance": "Prime finance par personne",
+      "premiumRateOfLimit": "Prime annuelle (part de la limite)",
+      "postClaimIncrease": "Hausse de prime après réclamation",
+      "increaseYears": "Années d'application de la hausse",
+      "averageBreachCost": "Coût moyen d'une brèche au Canada",
+      "severityTiers": "Seuils de gravité (brut ÷ moyenne)"
+    },
+    "cols": {
+      "scenario": "Scénario",
+      "downtime": "Arrêt (jours)",
+      "irHours": "Heures de réponse",
+      "counselHours": "Heures juridiques",
+      "exposure": "Données personnelles exposées",
+      "extortion": "Rançon / fraude (Micro · Petite · Moyenne · Grande)",
+      "bracket": "Tranche",
+      "representative": "Revenu représentatif",
+      "effortMult": "Multiplicateur d'effort",
+      "opsLoss": "Perte opérationnelle / jour",
+      "remediation": "Remédiation",
+      "varXRate": "Variable X / an",
+      "bucket": "Tranche",
+      "individuals": "Personnes",
+      "classAction": "Probabilité d'action collective (standard · RPS ou finance)",
+      "dxRate": "Taux de notification avec double extorsion",
+      "cause": "Cause",
+      "irMult": "Réponse ×",
+      "forensicsMult": "Investigation ×",
+      "industry": "Secteur",
+      "multiplier": "Multiplicateur",
+      "regime": "Régime",
+      "fineBasis": "Base de l'amende",
+      "probability": "Probabilité",
+      "churn": "Clients",
+      "revenue": "Revenus",
+      "recruitment": "Recrutement",
+      "partner": "Partenaires"
+    },
+    "exposure": {
+      "always": "Toujours",
+      "optional": "Si confirmé",
+      "never": "Jamais"
+    },
+    "fineFixed": "{amount} ({amountPhi} avec RPS)",
+    "fineRevenuePct": "{pct} du revenu ({pctPhi} avec RPS), plafonné à max({cap}, {capPct} du revenu)",
+    "fedRule": "Les entités fédérales des secteurs finance et télécom relèvent du régime LPRPDE + BSIF B-13.",
+    "tiers": "Moyen ≥ {medium}× · Élevé ≥ {high}× · Critique ≥ {critical}×"
+  },
+  "print": {
+    "generatedOn": "Généré le",
+    "regime": "Régime",
+    "classification": "Classification",
+    "confidential": "CONFIDENTIEL — Usage interne uniquement",
+    "params": "Paramètres de l'incident",
+    "breakdown": "Ventilation des coûts",
+    "split": "Répartition",
+    "gross": "Brut : {amount}",
+    "dataExposure": "Données personnelles exposées",
+    "insurance": "Cyberassurance",
+    "insuranceNone": "Aucune",
+    "insuranceValue": "Limite {limit} · Franchise {deductible}",
+    "yes": "Oui",
+    "no": "Non",
+    "model": "Modèle v{version}",
+    "empty": "Lancez d'abord une simulation, puis imprimez pour obtenir le rapport."
+  }
+}

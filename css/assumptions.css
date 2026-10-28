@@ -1,0 +1,27 @@
+/* Model assumptions & sources panel. */
+.assumptions-card { margin-top: 20px; background: var(--bg1); border: 1px solid var(--border); border-radius: 14px; }
+.assumptions-card > summary {
+  display: flex; align-items: center; gap: 12px; padding: 16px 24px; cursor: pointer; list-style: none;
+  font-family: var(--font-mono); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.14em; color: var(--blue); text-transform: uppercase;
+}
+.assumptions-card > summary::-webkit-details-marker { display: none; }
+.assumptions-card > summary::before { content: '+'; width: 14px; font-size: 0.9rem; }
+.assumptions-card[open] > summary::before { content: '−'; }
+.assumptions-card[open] > summary { border-bottom: 1px solid var(--border); }
+.assumptions-version { margin-left: auto; font-weight: 400; letter-spacing: 0.08em; color: var(--muted); }
+.assumptions-body { padding: 20px 24px 24px; }
+.assumptions-intro { margin-bottom: 16px; font-size: 0.8rem; line-height: 1.6; color: var(--muted2); }
+.assumptions-body h4 {
+  margin: 22px 0 8px; font-family: var(--font-mono); font-size: 0.6rem; font-weight: 600;
+  letter-spacing: 0.16em; color: var(--muted); text-transform: uppercase;
+}
+.assumptions-rules { padding-left: 18px; display: flex; flex-direction: column; gap: 6px; font-size: 0.78rem; line-height: 1.6; color: var(--muted2); }
+.table-scroll { overflow-x: auto; }
+.assumptions-body table { width: 100%; border-collapse: collapse; font-size: 0.75rem; }
+.assumptions-body th, .assumptions-body td { padding: 7px 10px 7px 0; border-bottom: 1px solid var(--border); text-align: left; vertical-align: top; }
+.assumptions-body th { font-family: var(--font-mono); font-size: 0.58rem; font-weight: 500; letter-spacing: 0.08em; color: var(--muted); text-transform: uppercase; }
+.assumptions-body td { color: var(--muted2); }
+.assumptions-body td.num { font-family: var(--font-mono); color: var(--text); white-space: nowrap; }
+.assumptions-body .src { font-family: var(--font-mono); font-size: 0.62rem; color: var(--muted); }
+.assumptions-body .src.author { color: var(--amber); }
+.assumptions-body .note { margin-top: 6px; font-size: 0.72rem; color: var(--muted); }
