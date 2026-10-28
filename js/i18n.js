@@ -1,5 +1,6 @@
+// @ts-check
 // Translations and locale formatting.
-import { rich } from './ui/dom.js';
+import { rich } from './ui/dom.js?v=2026.11.0';
 
 export const LANGS = ['en', 'fr'];
 const LOCALE = { en: 'en-CA', fr: 'fr-CA' };
@@ -57,10 +58,10 @@ export const percent = (r, digits = 0) => Number(r).toLocaleString(locale(), { s
  *   data-i18n-attr="attr:key;attr2:key2"
  */
 export function applyStatic(root = document) {
-  root.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = t(el.dataset.i18n); });
-  root.querySelectorAll('[data-i18n-rich]').forEach(el => { el.replaceChildren(rich(t(el.dataset.i18nRich))); });
+  root.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = t(/** @type {HTMLElement} */ (el).dataset.i18n || ''); });
+  root.querySelectorAll('[data-i18n-rich]').forEach(el => { el.replaceChildren(rich(t(/** @type {HTMLElement} */ (el).dataset.i18nRich || ''))); });
   root.querySelectorAll('[data-i18n-attr]').forEach(el => {
-    el.dataset.i18nAttr.split(';').forEach(pair => {
+    (/** @type {HTMLElement} */ (el).dataset.i18nAttr || '').split(';').forEach(pair => {
       const [attr, key] = pair.split(':');
       if (attr && key) el.setAttribute(attr.trim(), t(key.trim()));
     });

@@ -1,7 +1,8 @@
+// @ts-check
 // Donut chart with a legend. Rebuilt from scratch on every render, so event
 // listeners never accumulate across runs or language switches.
-import { h, s } from './dom.js';
-import { percent } from '../i18n.js';
+import { h, s } from './dom.js?v=2026.11.0';
+import { percent } from '../i18n.js?v=2026.11.0';
 
 const R = 60;
 const C = 2 * Math.PI * R;

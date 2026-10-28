@@ -19,8 +19,14 @@ export function assertClose(actual, expected, path = '') {
   assert.equal(actual, expected, path);
 }
 
-// The parts of a result recorded in golden.json (inputs and labels excluded).
+// The parts of a result recorded in golden.json (inputs excluded).
 export function goldenView(r) {
   const { inputs, ...rest } = r;
   return JSON.parse(JSON.stringify(rest));
+}
+
+// Simulation summary recorded in golden.json (curve excluded to keep the file small).
+export function simulationView(sim) {
+  const pick = ({ p10, p50, p90, p99, mean }) => ({ p10, p50, p90, p99, mean });
+  return { seed: sim.seed, runs: sim.runs, net: pick(sim.net), gross: pick(sim.gross), fineShare: sim.fineShare, classActionShare: sim.classActionShare };
 }

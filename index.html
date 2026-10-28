@@ -6,25 +6,37 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="referrer" content="no-referrer">
 <title>Canadian Cyber Incident Cost Simulator — CA-2026</title>
-<meta name="description" content="Estimate the financial exposure of a cyber incident in Canada: technical response, legal and regulatory costs, business impact and insurance, by province.">
-<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="assets/fonts/fonts.css">
-<link rel="stylesheet" href="css/tokens.css">
-<link rel="stylesheet" href="css/base.css">
-<link rel="stylesheet" href="css/form.css">
-<link rel="stylesheet" href="css/dashboard.css">
-<link rel="stylesheet" href="css/timeline.css">
-<link rel="stylesheet" href="css/assumptions.css">
-<link rel="stylesheet" href="css/print.css">
-<script type="module" src="js/main.js"></script>
+<meta name="description" content="Estimate the financial exposure of a cyber incident in Canada: technical response, legal and regulatory costs, business impact and insurance, by province — with a simulated range of outcomes.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="CAD Breach-Cost Simulator">
+<meta property="og:title" content="Canadian Cyber Incident Cost Simulator">
+<meta property="og:description" content="What would a ransomware attack, BEC or data breach cost a Canadian organisation? Province-aware legal exposure, insurance, security controls and a simulated range of outcomes. EN / FR.">
+<meta property="og:url" content="https://ironbranded.github.io/CAD-Breach-Cost-Simulator/">
+<meta property="og:image" content="https://ironbranded.github.io/CAD-Breach-Cost-Simulator/assets/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Cyber Incident Cost Simulator: cost distribution donut and loss exceedance curve">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="assets/favicon.svg?v=2026.11.0" type="image/svg+xml">
+<link rel="stylesheet" href="assets/fonts/fonts.css?v=2026.11.0">
+<link rel="stylesheet" href="css/tokens.css?v=2026.11.0">
+<link rel="stylesheet" href="css/base.css?v=2026.11.0">
+<link rel="stylesheet" href="css/form.css?v=2026.11.0">
+<link rel="stylesheet" href="css/dashboard.css?v=2026.11.0">
+<link rel="stylesheet" href="css/timeline.css?v=2026.11.0">
+<link rel="stylesheet" href="css/insights.css?v=2026.11.0">
+<link rel="stylesheet" href="css/assumptions.css?v=2026.11.0">
+<link rel="stylesheet" href="css/print.css?v=2026.11.0">
+<script type="module" src="js/main.js?v=2026.11.0"></script>
 </head>
 <body>
 <a class="skip-link" href="#main" data-i18n="actions.skip">Skip to content</a>
 <div class="grid-bg" aria-hidden="true"></div>
 
 <div id="app">
-  <div class="top-bar">
+  <header class="top-bar">
     <div class="dash-actions" id="dashActions" hidden>
+      <button type="button" class="top-action-btn" id="btnPin" data-i18n="actions.pin">Pin for comparison</button>
       <button type="button" class="top-action-btn" id="btnCopyLink" data-i18n="actions.copyLink">Copy link</button>
       <button type="button" class="top-action-btn" id="btnPrint" data-i18n="actions.print">Print report</button>
       <button type="button" class="top-action-btn restart" id="btnEdit"><span aria-hidden="true">← </span><span data-i18n="actions.edit">Edit scenario</span></button>
@@ -34,7 +46,7 @@
       <button type="button" class="lang-btn" data-lang="fr" lang="fr" aria-pressed="false">FR</button>
     </div>
     <p class="sr-only" id="liveStatus" role="status" aria-live="polite"></p>
-  </div>
+  </header>
 
   <main id="main" class="page" tabindex="-1">
     <div id="loadError" class="load-error" role="alert" hidden>
@@ -51,6 +63,7 @@
           <div>
             <h1 id="mainTitle"><span data-i18n="header.title">Cyber Incident</span> <span class="title-muted" data-i18n="header.titleMuted">Cost Simulator</span></h1>
             <p class="subtitle" data-i18n="header.subtitle">Visualizing the financial and operational gravity of a cyber incident through a Canadian lens.</p>
+            <p class="subtitle"><a class="text-link methodology-link" href="methodology.html" data-i18n="header.methodology">Methodology &amp; sources</a></p>
           </div>
         </div>
       </header>
@@ -68,13 +81,29 @@
                 <select id="incident" name="incident" required aria-describedby="err-incident"></select>
                 <span class="error-msg" id="err-incident"></span>
               </div>
-              <div class="exposure-toggle full-width" id="exposureToggle" hidden>
+              <div class="option-toggle red full-width" id="exposureToggle" hidden>
                 <label class="toggle-label" for="dataExposed">
                   <input type="checkbox" id="dataExposed" name="dataExposed" class="visually-hidden">
                   <span class="checkmark red" aria-hidden="true"></span>
                   <span id="exposureLabel">Data exfiltration also occurred?</span>
-                  <span class="exposure-tag" id="exposureTag">Double extortion</span>
+                  <span class="option-tag" id="exposureTag">Double extortion</span>
                 </label>
+              </div>
+              <div class="option-toggle full-width" id="ransomToggle" hidden>
+                <label class="toggle-label" for="ransomPaid">
+                  <input type="checkbox" id="ransomPaid" name="ransomPaid" class="visually-hidden" checked aria-describedby="hint-ransomPaid">
+                  <span class="checkmark" aria-hidden="true"></span>
+                  <span data-i18n="form.ransomPaid">Ransom paid?</span>
+                </label>
+                <p class="field-hint" id="hint-ransomPaid" data-i18n="form.ransomPaidHint"></p>
+              </div>
+              <div class="option-toggle full-width" id="fraudToggle" hidden>
+                <label class="toggle-label" for="fraudReportedFast">
+                  <input type="checkbox" id="fraudReportedFast" name="fraudReportedFast" class="visually-hidden" aria-describedby="hint-fraud">
+                  <span class="checkmark" aria-hidden="true"></span>
+                  <span data-i18n="form.fraudReportedFast">Fraudulent transfer reported to the bank within 24 hours?</span>
+                </label>
+                <p class="field-hint" id="hint-fraud" data-i18n="form.fraudReportedFastHint"></p>
               </div>
               <div class="field-group">
                 <label for="industry" data-i18n="form.labels.industry">Industry</label>
@@ -93,10 +122,22 @@
           <fieldset class="form-group">
             <legend class="form-sub-label" data-i18n="form.groups.org">Organisation Profile</legend>
             <div class="grid-form">
-              <div class="field-group full-width">
+              <div class="field-group">
                 <label for="revenue" data-i18n="form.labels.revenue">Annual Revenue (CAD)</label>
-                <select id="revenue" name="revenue" required aria-describedby="err-revenue"></select>
+                <input type="number" id="revenue" name="revenue" min="1" step="any" inputmode="numeric" required aria-describedby="hint-revenue err-revenue" data-i18n-attr="placeholder:form.placeholders.revenue">
+                <span class="field-hint" id="hint-revenue" data-i18n="form.hints.revenue"></span>
                 <span class="error-msg" id="err-revenue"></span>
+              </div>
+              <div class="field-group">
+                <label for="employees" data-i18n="form.labels.employees">Employees (optional)</label>
+                <input type="number" id="employees" name="employees" min="1" step="1" inputmode="numeric" aria-describedby="hint-employees" data-i18n-attr="placeholder:form.placeholders.employees">
+                <span class="field-hint" id="hint-employees" data-i18n="form.hints.employees"></span>
+              </div>
+              <div class="field-group full-width">
+                <label for="sector" data-i18n="form.labels.sector">Organisation Type</label>
+                <select id="sector" name="sector" required aria-describedby="hint-sector err-sector"></select>
+                <span class="field-hint" id="hint-sector" data-i18n="form.hints.sector"></span>
+                <span class="error-msg" id="err-sector"></span>
               </div>
               <div class="field-group full-width">
                 <label for="cause" data-i18n="form.labels.cause">Root Cause</label>
@@ -107,7 +148,7 @@
           </fieldset>
 
           <fieldset class="form-group">
-            <legend class="form-sub-label" data-i18n="form.groups.jurisdiction">Jurisdiction</legend>
+            <legend class="form-sub-label" data-i18n="form.groups.jurisdiction">Jurisdiction &amp; Coverage</legend>
             <div class="grid-form">
               <div class="field-group full-width">
                 <label for="province" data-i18n="form.labels.province">Province / Jurisdiction</label>
@@ -116,10 +157,11 @@
               </div>
               <div class="toggle-card phi-card full-width">
                 <label class="toggle-label" for="phi">
-                  <input type="checkbox" id="phi" name="phi" class="visually-hidden" aria-controls="phiPanel">
+                  <input type="checkbox" id="phi" name="phi" class="visually-hidden" aria-controls="phiPanel" aria-describedby="hint-phiAuto">
                   <span class="checkmark amber" aria-hidden="true"></span>
                   <span class="toggle-text" data-i18n="form.phiToggle">Organization holds Protected Health Information (PHI)?</span>
                 </label>
+                <p class="field-hint phi-auto" id="hint-phiAuto" hidden data-i18n="form.hints.phiAuto"></p>
                 <div class="toggle-sub" id="phiPanel" hidden>
                   <p class="phi-info-box" data-i18n="form.phiInfo"></p>
                 </div>
@@ -141,11 +183,40 @@
                       <label for="insDeductible" data-i18n="form.labels.insDeductible">Deductible ($)</label>
                       <input type="number" id="insDeductible" name="insDeductible" min="0" step="1000" inputmode="numeric" aria-describedby="insWarning" data-i18n-attr="placeholder:form.placeholders.insDeductible">
                     </div>
+                    <div class="field-group full-width">
+                      <label for="insPremium" data-i18n="form.labels.insPremium">Current Annual Premium ($, optional)</label>
+                      <input type="number" id="insPremium" name="insPremium" min="0" step="100" inputmode="numeric" aria-describedby="hint-insPremium" data-i18n-attr="placeholder:form.placeholders.insPremium">
+                      <span class="field-hint" id="hint-insPremium" data-i18n="form.hints.insPremium"></span>
+                    </div>
                   </div>
+                  <details class="advanced-terms">
+                    <summary data-i18n="form.hints.advanced">Advanced policy terms</summary>
+                    <div class="ins-grid">
+                      <div class="field-group">
+                        <label for="insSublimit" data-i18n="form.labels.insSublimit">Ransomware Sublimit ($)</label>
+                        <input type="number" id="insSublimit" name="insSublimit" min="0" step="1000" inputmode="numeric" data-i18n-attr="placeholder:form.placeholders.insSublimit">
+                      </div>
+                      <div class="field-group">
+                        <label for="insCoinsurance" data-i18n="form.labels.insCoinsurance">Ransomware Coinsurance (%)</label>
+                        <input type="number" id="insCoinsurance" name="insCoinsurance" min="0" max="100" step="5" inputmode="numeric" aria-describedby="err-insCoinsurance" data-i18n-attr="placeholder:form.placeholders.insCoinsurance">
+                        <span class="error-msg" id="err-insCoinsurance"></span>
+                      </div>
+                      <div class="field-group full-width">
+                        <label for="insWaiting" data-i18n="form.labels.insWaiting">Business-Interruption Waiting Period (hours)</label>
+                        <input type="number" id="insWaiting" name="insWaiting" min="0" step="1" inputmode="numeric" data-i18n-attr="placeholder:form.placeholders.insWaiting">
+                      </div>
+                    </div>
+                  </details>
                   <p class="ins-warning" id="insWarning" hidden data-i18n="form.insWarning"></p>
                 </div>
               </div>
             </div>
+          </fieldset>
+
+          <fieldset class="form-group">
+            <legend class="form-sub-label" data-i18n="form.groups.controls">Security Posture</legend>
+            <p class="field-hint controls-intro" data-i18n="form.controlsIntro"></p>
+            <div class="controls-grid" id="controlsGrid"></div>
           </fieldset>
 
           <button type="submit" class="run-btn" data-i18n="form.run">Run Simulation</button>
@@ -155,12 +226,17 @@
     </section>
 
     <section class="dashboard" id="results" hidden aria-labelledby="exposureLabelText">
+      <h1 class="sr-only" data-i18n="results.title">Simulation results</h1>
+      <div class="version-banner" id="versionBanner" role="note" hidden></div>
+
       <div class="hero-card fade-in">
         <div class="hero-badges" id="heroBadges"></div>
         <div class="hero-body">
           <div class="hero-left">
             <h2 class="exposure-label" id="exposureLabelText" tabindex="-1">TOTAL ESTIMATED FINANCIAL EXPOSURE</h2>
             <p class="total-value" id="grandTotal">$0</p>
+            <p class="point-note" data-i18n="results.pointEstimate"></p>
+            <p class="range-line" id="rangeLine"></p>
             <p class="variable-x" data-i18n="results.variableX">+ Variable X: Brand &amp; Reputation</p>
             <div id="insuranceSummary"></div>
             <div id="severityBand"></div>
@@ -169,10 +245,18 @@
             <div class="lifecycle-box">
               <div class="lifecycle-label" data-i18n="results.lifecycle">Incident &amp; Recovery Lifecycle</div>
               <div class="lifecycle-value" id="lifecycleValue">—</div>
+              <div class="lifecycle-modelled" id="lifecycleModelled"></div>
             </div>
             <div class="regime-pill" id="regimePill"></div>
           </div>
         </div>
+      </div>
+
+      <section class="insight-card compare-card" id="compareCard" hidden aria-labelledby="compareTitle"></section>
+
+      <div class="insights-grid">
+        <section class="insight-card" id="rangeCard" aria-labelledby="rangeTitle"></section>
+        <section class="insight-card" id="savingsCard" aria-labelledby="savingsTitle"></section>
       </div>
 
       <div class="stats-grid fade-in">
@@ -194,6 +278,8 @@
         <ul class="timeline-legend" id="timelineLegend"></ul>
       </div>
 
+      <section class="insight-card related-card" id="relatedCard" aria-labelledby="relatedTitle"></section>
+
       <details class="assumptions-card" id="assumptions">
         <summary><span data-i18n="assumptions.title">Model assumptions &amp; sources</span> <span class="assumptions-version" id="assumptionsVersion"></span></summary>
         <div class="assumptions-body" id="assumptionsBody"></div>
@@ -204,6 +290,7 @@
       <footer class="disclaimer-footer">
         <div class="disclaimer-inner"><span class="disclaimer-icon" aria-hidden="true">⚠</span><p data-i18n="disclaimer"></p></div>
         <ul class="disclaimer-sources" id="disclaimerSources"></ul>
+        <p class="footer-links"><a class="text-link" href="methodology.html" data-i18n="header.methodology">Methodology &amp; sources</a></p>
       </footer>
     </section>
   </main>

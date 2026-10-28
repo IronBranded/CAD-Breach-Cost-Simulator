@@ -1,20 +1,26 @@
 {
-  "$comment": "Every number the simulator uses. Each entry has v (value), and src (ids from 'sources'); titles for sources live in i18n/*.json under 'sources'. 'author' means an author estimate with no external citation yet.",
-  "version": "2026.10",
+  "$comment": "Every number the simulator uses. Each entry has v (value) and src (ids from 'sources'); source titles live in i18n/*.json under 'sources'. 'author' = author estimate without an external citation. Values tagged with a citation plus 'author' are author estimates calibrated against that source.",
+  "version": "2026.11",
   "currency": "CAD",
 
   "sources": {
     "author": {},
-    "ibm2025": {},
-    "cccsNcta2025": {},
-    "desjardins2023": {},
-    "lifelabs2024": {},
-    "osfiB13": {},
-    "opc": {},
-    "cafc2024": {},
+    "ibm2025": { "url": "https://canada.newsroom.ibm.com/2025-07-30-IBM-Report-Canadians-Data-Security-Under-Increased-Threat,-While-Breach-Costs-Surge" },
+    "ibm2025global": { "url": "https://www.infosecurity-magazine.com/news/data-breach-costs-fall/" },
+    "sophos2025": { "url": "https://www.sophos.com/en-us/press/press-releases/2025/06/nearly-half-companies-opt-pay-ransom-sophos-report-finds" },
+    "cccsNcta2025": { "url": "https://www.canada.ca/en/communications-security/news/2024/10/canadian-centre-for-cyber-security-releases-national-cyber-threat-assessment-2025-2026.html" },
+    "desjardins2022": { "url": "https://montreal.ctvnews.ca/200-million-settlement-approved-in-desjardins-personal-information-leak-1.5952935" },
+    "lifelabs2023": { "url": "https://bc.ctvnews.ca/maximum-payout-for-lifelabs-class-action-drops-from-150-estimate-to-7-86-1.6886594" },
     "loi25": {},
+    "qcIncidents": { "url": "https://www.legisquebec.gouv.qc.ca/en/document/cr/A-2.1,%20r.%203.1" },
     "phipa": { "url": "https://www.ipc.on.ca/en/node/2476" },
+    "onFippa2025": { "url": "https://www.ipc.on.ca/en/node/5061" },
+    "bcFippa2023": { "url": "https://www.mccarthy.ca/en/insights/blogs/techlex/bc-fippas-mandatory-privacy-breach-notification-and-privacy-management-program-obligations-start-february-1-2023" },
+    "abPopa2025": { "url": "https://oipc.ab.ca/legislation/popa/" },
+    "privacyActFed": { "url": "https://priv.gc.ca/en/report-a-concern/report-a-privacy-breach-at-your-organization/report-a-privacy-breach-at-your-federal-institution" },
     "pipeda": {},
+    "opc": {},
+    "osfiB13": {},
     "edelmanTrust": {}
   },
 
@@ -39,36 +45,72 @@
     }
   },
 
-  "incidents": {
-    "$comment": "dataExposure: always | optional (user confirms) | never. Notification, credit monitoring, fines and class-action reserve only apply when personal information was exposed.",
+  "scale": {
+    "$comment": "Size anchors. Effort, counsel hours, remediation and extortion amounts are interpolated on a log scale between anchors (clamped outside them). Size = employees when given, otherwise annual revenue.",
     "src": ["author"],
     "v": {
-      "Ransomware": { "downtimeDays": 21,  "irHours": 140, "counselHours": 50,  "dataExposure": "optional", "exposureIsDoubleExtortion": true, "extortion": { "Micro": 45000, "Small": 300000, "Mid": 1200000, "Large": 3500000 } },
-      "BEC":        { "downtimeDays": 4,   "irHours": 40,  "counselHours": 25,  "dataExposure": "optional", "extortion": { "Micro": 55000, "Small": 165000, "Mid": 420000,  "Large": 1100000 } },
-      "DataBreach": { "downtimeDays": 2,   "irHours": 100, "counselHours": 180, "dataExposure": "always", "extortion": null },
-      "Insider":    { "downtimeDays": 5,   "irHours": 60,  "counselHours": 30,  "dataExposure": "always", "extortion": null },
-      "DoS":        { "downtimeDays": 0.5, "irHours": 30,  "counselHours": 15,  "dataExposure": "never", "extortion": null }
+      "revenue":       [1000000, 5000000, 50000000, 500000000],
+      "employees":     [10, 50, 300, 3000],
+      "irEffort":      [0.5, 1.8, 6.0, 10.5],
+      "counselEffort": [0.5, 1.8, 6.0, 15.0],
+      "remediation":   [8000, 35000, 180000, 650000]
     }
   },
 
-  "revenue": {
+  "incidents": {
+    "$comment": "dataExposure: always | optional (user confirms) | never. operationsImpact = share of operations disrupted during downtimeDays. extortion = amount at each scale.revenue anchor.",
+    "src": ["author", "sophos2025"],
+    "v": {
+      "Ransomware": { "downtimeDays": 10,  "operationsImpact": 0.7, "irHours": 140, "counselHours": 50,  "dataExposure": "optional", "exposureIsDoubleExtortion": true, "ransomDecision": true, "extortion": [40000, 150000, 400000, 1400000] },
+      "BEC":        { "downtimeDays": 4,   "operationsImpact": 0.1, "irHours": 40,  "counselHours": 25,  "dataExposure": "optional", "fraudRecovery": true, "extortion": [55000, 165000, 420000, 1100000] },
+      "DataBreach": { "downtimeDays": 2,   "operationsImpact": 0.1, "irHours": 100, "counselHours": 180, "dataExposure": "always", "extortion": null },
+      "Insider":    { "downtimeDays": 5,   "operationsImpact": 0.2, "irHours": 60,  "counselHours": 30,  "dataExposure": "always", "extortion": null },
+      "DoS":        { "downtimeDays": 0.5, "operationsImpact": 0.8, "irHours": 30,  "counselHours": 15,  "dataExposure": "never", "extortion": null }
+    }
+  },
+
+  "decisions": {
+    "$comment": "Not paying a ransom: longer disruption and more rebuild work, unless immutable backups are in place. Fast reporting of a fraudulent transfer: share of BEC funds recovered.",
+    "src": ["author", "sophos2025"],
+    "v": {
+      "unpaidDowntimeMult": 1.5,
+      "unpaidDowntimeMultWithBackups": 1.0,
+      "unpaidItRecoveryMult": 1.3,
+      "becRecoveredShareIfReportedFast": 0.35
+    }
+  },
+
+  "businessInterruption": {
+    "$comment": "Operations loss = annual revenue / 365 x downtime days x incident operationsImpact x industry revenueAtRisk x (1 + extraCostRate).",
+    "v": { "extraCostRate": 0.25 },
+    "src": ["author"]
+  },
+
+  "industries": {
+    "$comment": "revenueAtRisk: share of daily revenue lost while operations are disrupted. defaultSector and impliesPhi only pre-fill the form.",
     "src": ["author"],
     "v": {
-      "Micro": { "representative": 1000000,   "effortMult": 0.5,  "irScaleCap": 1.0, "opsLossPerDay": 4000,   "remediation": 8000,   "varXRate": 0.03 },
-      "Small": { "representative": 5000000,   "effortMult": 1.8,  "irScaleCap": 1.0, "opsLossPerDay": 15000,  "remediation": 35000,  "varXRate": 0.07 },
-      "Mid":   { "representative": 50000000,  "effortMult": 6.0,  "irScaleCap": 1.0, "opsLossPerDay": 90000,  "remediation": 180000, "varXRate": 0.15 },
-      "Large": { "representative": 500000000, "effortMult": 15.0, "irScaleCap": 0.7, "opsLossPerDay": 350000, "remediation": 650000, "varXRate": 0.20 }
+      "edu":     { "revenueAtRisk": 0.35, "defaultSector": "public" },
+      "energy":  { "revenueAtRisk": 0.85 },
+      "finance": { "revenueAtRisk": 0.9 },
+      "gov":     { "revenueAtRisk": 0.3, "defaultSector": "public" },
+      "health":  { "revenueAtRisk": 0.6, "impliesPhi": true },
+      "legal":   { "revenueAtRisk": 0.75 },
+      "mfg":     { "revenueAtRisk": 0.85 },
+      "retail":  { "revenueAtRisk": 0.9 },
+      "telco":   { "revenueAtRisk": 0.85 },
+      "tech":    { "revenueAtRisk": 0.9 }
     }
   },
 
   "records": {
-    "$comment": "One representative count of affected individuals per bucket (approximate midpoint; 50k+ assumes 100,000), used for notification, monitoring and settlement alike.",
+    "$comment": "One representative count of affected individuals per bucket (approximate midpoint; 50k+ assumes 100,000). defenceCost = class-action defence spend if a claim is filed.",
     "src": ["author"],
     "v": {
-      "Low":      { "individuals": 800,    "classActionProb": 0,    "classActionProbSensitive": 0,    "doubleExtortionNotifyRate": 12 },
-      "Medium":   { "individuals": 5000,   "classActionProb": 0,    "classActionProbSensitive": 0.15, "doubleExtortionNotifyRate": 12 },
-      "High":     { "individuals": 30000,  "classActionProb": 0.35, "classActionProbSensitive": 0.35, "doubleExtortionNotifyRate": 18 },
-      "Critical": { "individuals": 100000, "classActionProb": 0.70, "classActionProbSensitive": 0.70, "doubleExtortionNotifyRate": 22 }
+      "Low":      { "individuals": 800,    "classActionProb": 0,    "classActionProbSensitive": 0,    "defenceCost": 0 },
+      "Medium":   { "individuals": 5000,   "classActionProb": 0,    "classActionProbSensitive": 0.15, "defenceCost": 150000 },
+      "High":     { "individuals": 30000,  "classActionProb": 0.35, "classActionProbSensitive": 0.35, "defenceCost": 300000 },
+      "Critical": { "individuals": 100000, "classActionProb": 0.70, "classActionProbSensitive": 0.70, "defenceCost": 600000 }
     }
   },
 
@@ -79,43 +121,74 @@
   },
 
   "settlement": {
-    "v": { "basePerIndividual": 15, "phiPremium": 30, "financePremium": 10 },
+    "$comment": "Calibration: Desjardins (2022) up to $200.85M for ~9.7M people = ~$20.7 per affected person, incl. 5 years of credit monitoring; LifeLabs (2023) up to $9.8M for ~8.6M people = ~$1.14 per affected person. Base + finance premium ~ Desjardins; the uncertainty range spans LifeLabs.",
+    "v": { "basePerIndividual": 5, "phiPremium": 5, "financePremium": 15 },
     "unit": "perIndividual",
-    "src": ["author", "desjardins2023", "lifelabs2024"]
-  },
-
-  "industries": {
-    "$comment": "Multiplier applied to operations downtime loss.",
-    "src": ["author"],
-    "v": { "edu": 1.4, "energy": 1.8, "finance": 3.2, "gov": 1.5, "health": 3.0, "legal": 1.6, "mfg": 1.7, "retail": 1.2, "telco": 1.5, "tech": 1.4 }
+    "src": ["author", "desjardins2022", "lifelabs2023"]
   },
 
   "regimes": {
-    "$comment": "Expected fine = fine amount x probability. FED + finance/telco resolves to FIN.",
-    "src": ["author", "loi25", "pipeda", "phipa", "osfiB13", "opc"],
+    "$comment": "Expected fine = amount x probability. Private sector: FED + finance/telco resolves to FIN. Public bodies: no monetary penalty is modelled; notification duties and class actions still apply.",
+    "src": ["author", "loi25", "pipeda", "phipa", "osfiB13", "opc", "qcIncidents", "onFippa2025", "bcFippa2023", "abPopa2025", "privacyActFed"],
     "federalFinancialIndustries": ["finance", "telco"],
     "v": {
-      "QC":    { "fine": { "type": "revenuePct", "pct": 0.005, "pctPhi": 0.015, "capFixed": 25000000, "capRevenuePct": 0.04, "probability": 0.25 } },
-      "ON":    { "fine": { "type": "fixed", "amount": 50000,  "amountPhi": 150000, "probability": 0.05 } },
-      "AB":    { "fine": { "type": "fixed", "amount": 50000,  "amountPhi": 150000, "probability": 0.05 } },
-      "BC":    { "fine": { "type": "fixed", "amount": 50000,  "amountPhi": 150000, "probability": 0.05 } },
-      "OTHER": { "fine": { "type": "fixed", "amount": 50000,  "amountPhi": 150000, "probability": 0.05 } },
-      "FED":   { "fine": { "type": "fixed", "amount": 50000,  "amountPhi": 150000, "probability": 0.05 } },
-      "FIN":   { "fine": { "type": "fixed", "amount": 500000, "amountPhi": 500000, "probability": 0.20 } }
+      "QC":        { "sector": "private", "fine": { "type": "revenuePct", "pct": 0.005, "pctPhi": 0.015, "capFixed": 25000000, "capRevenuePct": 0.04, "probability": 0.25 } },
+      "ON":        { "sector": "private", "fine": { "type": "fixed", "amount": 50000,  "amountPhi": 150000, "probability": 0.05 } },
+      "AB":        { "sector": "private", "fine": { "type": "fixed", "amount": 50000,  "amountPhi": 150000, "probability": 0.05 } },
+      "BC":        { "sector": "private", "fine": { "type": "fixed", "amount": 50000,  "amountPhi": 150000, "probability": 0.05 } },
+      "OTHER":     { "sector": "private", "fine": { "type": "fixed", "amount": 50000,  "amountPhi": 150000, "probability": 0.05 } },
+      "FED":       { "sector": "private", "fine": { "type": "fixed", "amount": 50000,  "amountPhi": 150000, "probability": 0.05 } },
+      "FIN":       { "sector": "private", "fine": { "type": "fixed", "amount": 500000, "amountPhi": 500000, "probability": 0.20 } },
+      "QC_PUB":    { "sector": "public", "fine": { "type": "none" } },
+      "ON_PUB":    { "sector": "public", "fine": { "type": "none" } },
+      "AB_PUB":    { "sector": "public", "fine": { "type": "none" } },
+      "BC_PUB":    { "sector": "public", "fine": { "type": "none" } },
+      "OTHER_PUB": { "sector": "public", "fine": { "type": "none" } },
+      "FED_PUB":   { "sector": "public", "fine": { "type": "none" } }
+    }
+  },
+
+  "controls": {
+    "$comment": "Multipliers applied when a control is in place. appliesTo limits a control to some incidents (all when absent). IBM Canada 2025: CA$5.19M average with extensive security AI & automation vs CA$8.53M without; the model applies a smaller, effort-only reduction.",
+    "src": ["author", "ibm2025"],
+    "v": {
+      "automation": { "irEffort": 0.8, "downtime": 0.8 },
+      "backups":    { "downtime": 0.6, "itRecovery": 0.7, "appliesTo": ["Ransomware", "Insider"] },
+      "retainer":   { "rates": 0.85, "irEffort": 0.9 },
+      "irPlan":     { "irEffort": 0.9, "counsel": 0.85, "downtime": 0.9 },
+      "encryption": { "individuals": 0.5 }
     }
   },
 
   "insurance": {
-    "v": { "premiumRateOfLimit": 0.03, "postClaimIncrease": 0.40, "increaseYears": 3 },
+    "$comment": "premiumRateOfLimit is used only when no current premium is entered. Panel rates apply to IR, forensics and counsel when a policy is in place.",
+    "v": { "premiumRateOfLimit": 0.03, "postClaimIncrease": 0.40, "increaseYears": 3, "defaultWaitingHours": 12, "panelRateDiscount": 0.85 },
     "src": ["author"]
   },
 
   "benchmark": {
     "averageBreachCost": { "v": 6980000, "unit": "amount", "src": ["ibm2025"] },
     "severityTiers": {
-      "$comment": "Tier thresholds as a ratio of gross exposure to the benchmark average.",
-      "v": { "medium": 0.5, "high": 1.2, "critical": 2.5 },
+      "$comment": "Tier thresholds as net exposure (after insurance) / annual revenue.",
+      "v": { "medium": 0.02, "high": 0.10, "critical": 0.25 },
       "src": ["author"]
+    }
+  },
+
+  "uncertainty": {
+    "$comment": "Monte Carlo: triangular multipliers (mode 1 = the point estimate) per driver; fines and class actions are drawn as events with the regime / bucket probability. Downtime high end reflects Sophos 2025 (18% took over a month to recover); settlement low end reflects LifeLabs.",
+    "src": ["author", "sophos2025", "lifelabs2023"],
+    "runs": 5000,
+    "v": {
+      "effort":             { "low": 0.6, "high": 1.8 },
+      "downtime":           { "low": 0.4, "high": 3.0 },
+      "counsel":            { "low": 0.7, "high": 1.6 },
+      "extortion":          { "low": 0.3, "high": 2.5 },
+      "unitCosts":          { "low": 0.8, "high": 1.3 },
+      "remediation":        { "low": 0.6, "high": 1.6 },
+      "fineSeverity":       { "low": 0.2, "high": 3.0 },
+      "settlementSeverity": { "low": 0.2, "high": 3.0 },
+      "defenceSeverity":    { "low": 0.5, "high": 2.0 }
     }
   },
 

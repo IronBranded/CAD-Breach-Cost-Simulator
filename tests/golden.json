@@ -1,868 +1,1663 @@
 {
-  "modelVersion": "2026.10",
+  "modelVersion": "2026.11",
   "scenarios": {
-    "ransomware-qc-health-mid-phi-exfil-insured": {
-      "dataExposed": true,
-      "doubleExtortion": true,
-      "tech": {
-        "ir": 315000,
-        "forensics": 162540,
-        "it": 294000,
-        "total": 771540
-      },
-      "legal": {
-        "counsel": 210000,
-        "fines": 187500,
-        "settlement": 472499.99999999994,
-        "notification": 540000,
-        "doubleExtortionSurcharge": 270000,
-        "credit": 1950000,
-        "total": 3630000,
-        "regime": "QC"
-      },
-      "business": {
-        "operations": 5670000,
-        "remediation": 180000,
-        "extortion": 1200000,
-        "total": 7050000
-      },
-      "grossTotal": 11451540,
-      "insurance": {
-        "applied": true,
-        "covered": 1950000,
-        "premiumIncrease": 72000,
-        "netTotal": 9573540,
-        "limit": 2000000,
-        "deductible": 50000
-      },
-      "netTotal": 9573540,
-      "timeline": {
-        "year1": 10863540,
-        "year2Plus": 660000,
-        "total": 11523540,
+    "ransomware-qc-health-50m-phi-exfil-insured": {
+      "point": {
+        "dataExposed": true,
+        "doubleExtortion": true,
+        "ransomUnpaid": false,
+        "sizeBasis": "revenue",
+        "tech": {
+          "ir": 267750,
+          "forensics": 138159,
+          "it": 294000,
+          "total": 699909,
+          "irHours": 840
+        },
+        "legal": {
+          "counsel": 178500,
+          "fines": 187500,
+          "settlement": 105000,
+          "defence": 105000,
+          "notification": 360000,
+          "doubleExtortionSurcharge": 180000,
+          "credit": 1950000,
+          "individuals": 30000,
+          "total": 3066000,
+          "regime": "QC"
+        },
+        "business": {
+          "operations": 719178.0821917807,
+          "remediation": 180000,
+          "extortion": 400000,
+          "total": 1299178.0821917807,
+          "downtimeDays": 10
+        },
+        "grossTotal": 5065087.08219178,
+        "insurance": {
+          "applied": true,
+          "covered": 1950000,
+          "premiumIncrease": 72000,
+          "netTotal": 3187087.08219178,
+          "limit": 2000000,
+          "deductible": 50000,
+          "cap": 2000000,
+          "coinsurance": 0,
+          "waitingHours": 12,
+          "biUncovered": 35958.904109589035,
+          "premiumBase": 60000
+        },
+        "netTotal": 3187087.08219178,
+        "timeline": {
+          "year1": 4739587.08219178,
+          "year2Plus": 397500,
+          "total": 5137087.08219178
+        },
         "variableX": {
-          "annualImpact": 7500000,
-          "year3": 19023540,
-          "year4": 26523540,
-          "year5": 34023540
-        }
+          "churn": 0.46601941747572817,
+          "revenue": 0.2912621359223301,
+          "recruitment": 0.14563106796116504,
+          "partner": 0.09708737864077668
+        },
+        "severity": {
+          "tier": "medium",
+          "ratio": 0.0637417416438356,
+          "benchmark": 6980000,
+          "benchmarkRatio": 0.4566027338383639
+        },
+        "revenueValue": 50000000,
+        "onePercentOfRevenue": 500000
       },
-      "variableX": {
-        "churn": 0.46601941747572817,
-        "revenue": 0.2912621359223301,
-        "recruitment": 0.14563106796116504,
-        "partner": 0.09708737864077668
-      },
-      "severity": {
-        "tier": "high",
-        "ratio": 1.640621776504298,
-        "benchmark": 6980000
-      },
-      "revenueValue": 50000000
+      "range": {
+        "seed": 1725469123,
+        "runs": 5000,
+        "net": {
+          "p10": 2954054.874448217,
+          "p50": 3870919.3432580726,
+          "p90": 5133964.478415661,
+          "p99": 6262134.939083514,
+          "mean": 3960007.2679122803
+        },
+        "gross": {
+          "p10": 4832054.8744482165,
+          "p50": 5748919.343258073,
+          "p90": 7011964.478415661,
+          "p99": 8140134.939083514,
+          "mean": 5838007.267912275
+        },
+        "fineShare": 0.256,
+        "classActionShare": 0.3448
+      }
     },
-    "ransomware-on-retail-small-no-exfil": {
-      "dataExposed": false,
-      "doubleExtortion": false,
-      "tech": {
-        "ir": 118125,
-        "forensics": 48762,
-        "it": 88200,
-        "total": 255087
-      },
-      "legal": {
-        "counsel": 63000,
-        "fines": 0,
-        "settlement": 0,
-        "notification": 0,
-        "doubleExtortionSurcharge": 0,
-        "credit": 0,
-        "total": 63000,
-        "regime": "ON"
-      },
-      "business": {
-        "operations": 378000,
-        "remediation": 35000,
-        "extortion": 300000,
-        "total": 713000
-      },
-      "grossTotal": 1031087,
-      "insurance": {
-        "applied": false,
-        "covered": 0,
-        "premiumIncrease": 0,
-        "netTotal": 1031087
-      },
-      "netTotal": 1031087,
-      "timeline": {
-        "year1": 1031087,
-        "year2Plus": 0,
-        "total": 1031087,
+    "ransomware-on-retail-5m-no-exfil": {
+      "point": {
+        "dataExposed": false,
+        "doubleExtortion": false,
+        "ransomUnpaid": false,
+        "sizeBasis": "revenue",
+        "tech": {
+          "ir": 118125,
+          "forensics": 48762,
+          "it": 88200,
+          "total": 255087,
+          "irHours": 252
+        },
+        "legal": {
+          "counsel": 63000,
+          "fines": 0,
+          "settlement": 0,
+          "defence": 0,
+          "notification": 0,
+          "doubleExtortionSurcharge": 0,
+          "credit": 0,
+          "individuals": 0,
+          "total": 63000,
+          "regime": "ON"
+        },
+        "business": {
+          "operations": 107876.71232876711,
+          "remediation": 35000,
+          "extortion": 150000,
+          "total": 292876.7123287671,
+          "downtimeDays": 10
+        },
+        "grossTotal": 610963.7123287672,
+        "insurance": {
+          "applied": false,
+          "covered": 0,
+          "premiumIncrease": 0,
+          "netTotal": 610963.7123287672,
+          "biUncovered": 0
+        },
+        "netTotal": 610963.7123287672,
+        "timeline": {
+          "year1": 610963.7123287672,
+          "year2Plus": 0,
+          "total": 610963.7123287672
+        },
         "variableX": {
-          "annualImpact": 350000.00000000006,
-          "year3": 1381087,
-          "year4": 1731087,
-          "year5": 2081087.0000000002
-        }
+          "churn": 0.5,
+          "revenue": 0.25,
+          "recruitment": 0.15,
+          "partner": 0.09999999999999999
+        },
+        "severity": {
+          "tier": "high",
+          "ratio": 0.12219274246575343,
+          "benchmark": 6980000,
+          "benchmarkRatio": 0.08753061781214429
+        },
+        "revenueValue": 5000000,
+        "onePercentOfRevenue": 50000
       },
-      "variableX": {
-        "churn": 0.5,
-        "revenue": 0.25,
-        "recruitment": 0.15,
-        "partner": 0.09999999999999999
-      },
-      "severity": {
-        "tier": "low",
-        "ratio": 0.1477202005730659,
-        "benchmark": 6980000
-      },
-      "revenueValue": 5000000
+      "range": {
+        "seed": 4271765181,
+        "runs": 5000,
+        "net": {
+          "p10": 598840.6142860636,
+          "p50": 738837.1260763987,
+          "p90": 889518.3844840188,
+          "p99": 1012086.8842268515,
+          "mean": 743120.0066325627
+        },
+        "gross": {
+          "p10": 598840.6142860636,
+          "p50": 738837.1260763987,
+          "p90": 889518.3844840188,
+          "p99": 1012086.8842268515,
+          "mean": 743120.0066325627
+        },
+        "fineShare": 0,
+        "classActionShare": 0
+      }
     },
-    "ransomware-large-over-limit": {
-      "dataExposed": true,
-      "doubleExtortion": true,
-      "tech": {
-        "ir": 551250,
-        "forensics": 412445.25,
-        "it": 514500,
-        "total": 1478195.25
-      },
-      "legal": {
-        "counsel": 525000,
-        "fines": 2500,
-        "settlement": 1050000,
-        "notification": 2200000,
-        "doubleExtortionSurcharge": 1100000,
-        "credit": 3500000,
-        "total": 8377500,
-        "regime": "AB"
-      },
-      "business": {
-        "operations": 12495000,
-        "remediation": 650000,
-        "extortion": 3500000,
-        "total": 16645000
-      },
-      "grossTotal": 26500695.25,
-      "insurance": {
-        "applied": true,
-        "covered": 4750000,
-        "premiumIncrease": 180000,
-        "netTotal": 21930695.25,
-        "limit": 5000000,
-        "deductible": 250000
-      },
-      "netTotal": 21930695.25,
-      "timeline": {
-        "year1": 25628195.25,
-        "year2Plus": 1052500,
-        "total": 26680695.25,
+    "ransomware-on-retail-5m-not-paid": {
+      "point": {
+        "dataExposed": false,
+        "doubleExtortion": false,
+        "ransomUnpaid": true,
+        "sizeBasis": "revenue",
+        "tech": {
+          "ir": 118125,
+          "forensics": 48762,
+          "it": 114660,
+          "total": 281547,
+          "irHours": 252
+        },
+        "legal": {
+          "counsel": 63000,
+          "fines": 0,
+          "settlement": 0,
+          "defence": 0,
+          "notification": 0,
+          "doubleExtortionSurcharge": 0,
+          "credit": 0,
+          "individuals": 0,
+          "total": 63000,
+          "regime": "ON"
+        },
+        "business": {
+          "operations": 161815.0684931507,
+          "remediation": 35000,
+          "extortion": 0,
+          "total": 196815.0684931507,
+          "downtimeDays": 15
+        },
+        "grossTotal": 541362.0684931506,
+        "insurance": {
+          "applied": false,
+          "covered": 0,
+          "premiumIncrease": 0,
+          "netTotal": 541362.0684931506,
+          "biUncovered": 0
+        },
+        "netTotal": 541362.0684931506,
+        "timeline": {
+          "year1": 541362.0684931506,
+          "year2Plus": 0,
+          "total": 541362.0684931506
+        },
         "variableX": {
-          "annualImpact": 100000000,
-          "year3": 126680695.25,
-          "year4": 226680695.25,
-          "year5": 326680695.25
-        }
+          "churn": 0.5,
+          "revenue": 0.25,
+          "recruitment": 0.15,
+          "partner": 0.09999999999999999
+        },
+        "severity": {
+          "tier": "high",
+          "ratio": 0.10827241369863012,
+          "benchmark": 6980000,
+          "benchmarkRatio": 0.07755903560073792
+        },
+        "revenueValue": 5000000,
+        "onePercentOfRevenue": 50000
       },
-      "variableX": {
-        "churn": 0.4,
-        "revenue": 0.3,
-        "recruitment": 0.15,
-        "partner": 0.15
-      },
-      "severity": {
-        "tier": "critical",
-        "ratio": 3.796661210601719,
-        "benchmark": 6980000
-      },
-      "revenueValue": 500000000
+      "range": {
+        "seed": 949851366,
+        "runs": 5000,
+        "net": {
+          "p10": 518694.8340975037,
+          "p50": 656481.965642228,
+          "p90": 816523.7838348206,
+          "p99": 931545.8631592173,
+          "mean": 662083.2669044605
+        },
+        "gross": {
+          "p10": 518694.8340975037,
+          "p50": 656481.965642228,
+          "p90": 816523.7838348206,
+          "p99": 931545.8631592173,
+          "mean": 662083.2669044605
+        },
+        "fineShare": 0,
+        "classActionShare": 0
+      }
     },
-    "ransomware-deductible-above-limit": {
-      "dataExposed": false,
-      "doubleExtortion": false,
-      "tech": {
-        "ir": 94500,
-        "forensics": 48762,
-        "it": 88200,
-        "total": 231462
-      },
-      "legal": {
-        "counsel": 63000,
-        "fines": 0,
-        "settlement": 0,
-        "notification": 0,
-        "doubleExtortionSurcharge": 0,
-        "credit": 0,
-        "total": 63000,
-        "regime": "BC"
-      },
-      "business": {
-        "operations": 567000,
-        "remediation": 35000,
-        "extortion": 300000,
-        "total": 902000
-      },
-      "grossTotal": 1196462,
-      "insurance": {
-        "applied": true,
-        "covered": 0,
-        "premiumIncrease": 0,
-        "netTotal": 1196462,
-        "limit": 100000,
-        "deductible": 150000
-      },
-      "netTotal": 1196462,
-      "timeline": {
-        "year1": 1196462,
-        "year2Plus": 0,
-        "total": 1196462,
+    "ransomware-not-paid-with-backups": {
+      "point": {
+        "dataExposed": false,
+        "doubleExtortion": false,
+        "ransomUnpaid": true,
+        "sizeBasis": "revenue",
+        "tech": {
+          "ir": 118125,
+          "forensics": 48762,
+          "it": 80262,
+          "total": 247149,
+          "irHours": 252
+        },
+        "legal": {
+          "counsel": 63000,
+          "fines": 0,
+          "settlement": 0,
+          "defence": 0,
+          "notification": 0,
+          "doubleExtortionSurcharge": 0,
+          "credit": 0,
+          "individuals": 0,
+          "total": 63000,
+          "regime": "ON"
+        },
+        "business": {
+          "operations": 64726.027397260266,
+          "remediation": 35000,
+          "extortion": 0,
+          "total": 99726.02739726027,
+          "downtimeDays": 6
+        },
+        "grossTotal": 409875.0273972603,
+        "insurance": {
+          "applied": false,
+          "covered": 0,
+          "premiumIncrease": 0,
+          "netTotal": 409875.0273972603,
+          "biUncovered": 0
+        },
+        "netTotal": 409875.0273972603,
+        "timeline": {
+          "year1": 409875.0273972603,
+          "year2Plus": 0,
+          "total": 409875.0273972603
+        },
         "variableX": {
-          "annualImpact": 350000.00000000006,
-          "year3": 1546462,
-          "year4": 1896462,
-          "year5": 2246462
-        }
+          "churn": 0.5,
+          "revenue": 0.25,
+          "recruitment": 0.15,
+          "partner": 0.09999999999999999
+        },
+        "severity": {
+          "tier": "medium",
+          "ratio": 0.08197500547945206,
+          "benchmark": 6980000,
+          "benchmarkRatio": 0.05872135062997998
+        },
+        "revenueValue": 5000000,
+        "onePercentOfRevenue": 50000
       },
-      "variableX": {
-        "churn": 0.4,
-        "revenue": 0.3,
-        "recruitment": 0.15,
-        "partner": 0.15
-      },
-      "severity": {
-        "tier": "low",
-        "ratio": 0.171412893982808,
-        "benchmark": 6980000
-      },
-      "revenueValue": 5000000
+      "range": {
+        "seed": 1467082001,
+        "runs": 5000,
+        "net": {
+          "p10": 392797.7601287372,
+          "p50": 478335.71544021077,
+          "p90": 580258.6636191994,
+          "p99": 654304.6530510685,
+          "mean": 482612.64232178783
+        },
+        "gross": {
+          "p10": 392797.7601287372,
+          "p50": 478335.71544021077,
+          "p90": 580258.6636191994,
+          "p99": 654304.6530510685,
+          "mean": 482612.64232178783
+        },
+        "fineShare": 0,
+        "classActionShare": 0
+      }
     },
-    "bec-other-legal-micro": {
-      "dataExposed": false,
-      "doubleExtortion": false,
-      "tech": {
-        "ir": 7500,
-        "forensics": 3870,
-        "it": 7000,
-        "total": 18370
-      },
-      "legal": {
-        "counsel": 8750,
-        "fines": 0,
-        "settlement": 0,
-        "notification": 0,
-        "doubleExtortionSurcharge": 0,
-        "credit": 0,
-        "total": 8750,
-        "regime": "OTHER"
-      },
-      "business": {
-        "operations": 25600,
-        "remediation": 8000,
-        "extortion": 55000,
-        "total": 88600
-      },
-      "grossTotal": 115720,
-      "insurance": {
-        "applied": false,
-        "covered": 0,
-        "premiumIncrease": 0,
-        "netTotal": 115720
-      },
-      "netTotal": 115720,
-      "timeline": {
-        "year1": 115720,
-        "year2Plus": 0,
-        "total": 115720,
+    "ransomware-500m-sublimit-coinsurance": {
+      "point": {
+        "dataExposed": true,
+        "doubleExtortion": true,
+        "ransomUnpaid": false,
+        "sizeBasis": "employees",
+        "tech": {
+          "ir": 452661.91602806136,
+          "forensics": 338681.64557219547,
+          "it": 497040.5352464988,
+          "total": 1288384.0968467556,
+          "irHours": 1420.1158149899966
+        },
+        "legal": {
+          "counsel": 425049.22137074854,
+          "fines": 2500,
+          "settlement": 350000,
+          "defence": 420000,
+          "notification": 1200000,
+          "doubleExtortionSurcharge": 600000,
+          "credit": 3500000,
+          "individuals": 100000,
+          "total": 6497549.221370748,
+          "regime": "AB"
+        },
+        "business": {
+          "operations": 10188356.16438356,
+          "remediation": 612784.8143576165,
+          "extortion": 1400000,
+          "total": 12201140.978741176,
+          "downtimeDays": 10
+        },
+        "grossTotal": 19987074.29695868,
+        "insurance": {
+          "applied": true,
+          "covered": 1400000,
+          "premiumIncrease": 216000,
+          "netTotal": 18803074.29695868,
+          "limit": 5000000,
+          "deductible": 250000,
+          "cap": 2000000,
+          "coinsurance": 0.2,
+          "waitingHours": 24,
+          "biUncovered": 1018835.6164383561,
+          "premiumBase": 180000
+        },
+        "netTotal": 18803074.29695868,
+        "timeline": {
+          "year1": 19430574.29695868,
+          "year2Plus": 772500,
+          "total": 20203074.29695868
+        },
         "variableX": {
-          "annualImpact": 30000,
-          "year3": 145720,
-          "year4": 175720,
-          "year5": 205720
-        }
+          "churn": 0.4,
+          "revenue": 0.3,
+          "recruitment": 0.15,
+          "partner": 0.15
+        },
+        "severity": {
+          "tier": "medium",
+          "ratio": 0.037606148593917366,
+          "benchmark": 6980000,
+          "benchmarkRatio": 2.693850185810699
+        },
+        "revenueValue": 500000000,
+        "onePercentOfRevenue": 5000000
       },
-      "variableX": {
-        "churn": 0.25,
-        "revenue": 0.35,
-        "recruitment": 0.1,
-        "partner": 0.3
-      },
-      "severity": {
-        "tier": "low",
-        "ratio": 0.016578796561604586,
-        "benchmark": 6980000
-      },
-      "revenueValue": 1000000
+      "range": {
+        "seed": 4344026,
+        "runs": 5000,
+        "net": {
+          "p10": 17665828.455081128,
+          "p50": 23912476.120645482,
+          "p90": 32985678.359732855,
+          "p99": 38315345.61278311,
+          "mean": 24647876.852827996
+        },
+        "gross": {
+          "p10": 18849828.455081128,
+          "p50": 25096476.120645482,
+          "p90": 34169678.35973286,
+          "p99": 39499345.61278311,
+          "mean": 25831876.852827977
+        },
+        "fineShare": 0.044,
+        "classActionShare": 0.7046
+      }
     },
-    "bec-mailbox-exposed-on-medium": {
-      "dataExposed": true,
-      "doubleExtortion": false,
-      "tech": {
-        "ir": 27000,
-        "forensics": 13932,
-        "it": 25200,
-        "total": 66132
-      },
-      "legal": {
-        "counsel": 31500,
-        "fines": 2500,
-        "settlement": 0,
-        "notification": 60000,
-        "doubleExtortionSurcharge": 0,
-        "credit": 175000,
-        "total": 269000,
-        "regime": "ON"
-      },
-      "business": {
-        "operations": 96000,
-        "remediation": 35000,
-        "extortion": 165000,
-        "total": 296000
-      },
-      "grossTotal": 631132,
-      "insurance": {
-        "applied": false,
-        "covered": 0,
-        "premiumIncrease": 0,
-        "netTotal": 631132
-      },
-      "netTotal": 631132,
-      "timeline": {
-        "year1": 628632,
-        "year2Plus": 2500,
-        "total": 631132,
+    "ransomware-all-controls": {
+      "point": {
+        "dataExposed": true,
+        "doubleExtortion": true,
+        "ransomUnpaid": false,
+        "sizeBasis": "revenue",
+        "tech": {
+          "ir": 173502.00000000006,
+          "forensics": 89527.03200000002,
+          "it": 133358.40000000002,
+          "total": 396387.4320000001,
+          "irHours": 544.3200000000002
+        },
+        "legal": {
+          "counsel": 151725,
+          "fines": 2500,
+          "settlement": 26250,
+          "defence": 105000,
+          "notification": 180000,
+          "doubleExtortionSurcharge": 90000,
+          "credit": 525000,
+          "individuals": 15000,
+          "total": 1080475,
+          "regime": "BC"
+        },
+        "business": {
+          "operations": 440136.9863013699,
+          "remediation": 180000,
+          "extortion": 400000,
+          "total": 1020136.98630137,
+          "downtimeDays": 4.32
+        },
+        "grossTotal": 2496999.41830137,
+        "insurance": {
+          "applied": false,
+          "covered": 0,
+          "premiumIncrease": 0,
+          "netTotal": 2496999.41830137,
+          "biUncovered": 0
+        },
+        "netTotal": 2496999.41830137,
+        "timeline": {
+          "year1": 2363249.41830137,
+          "year2Plus": 133750,
+          "total": 2496999.41830137
+        },
         "variableX": {
-          "annualImpact": 350000.00000000006,
-          "year3": 981132,
-          "year4": 1331132,
-          "year5": 1681132.0000000002
-        }
+          "churn": 0.4,
+          "revenue": 0.3,
+          "recruitment": 0.15,
+          "partner": 0.15
+        },
+        "severity": {
+          "tier": "medium",
+          "ratio": 0.0499399883660274,
+          "benchmark": 6980000,
+          "benchmarkRatio": 0.3577363063469011
+        },
+        "revenueValue": 50000000,
+        "onePercentOfRevenue": 500000
       },
-      "variableX": {
-        "churn": 0.25,
-        "revenue": 0.35,
-        "recruitment": 0.1,
-        "partner": 0.3
+      "range": {
+        "seed": 4205290280,
+        "runs": 5000,
+        "net": {
+          "p10": 2438044.467911243,
+          "p50": 2926661.0781397563,
+          "p90": 3488404.694128006,
+          "p99": 3919627.930931533,
+          "mean": 2948826.040293144
+        },
+        "gross": {
+          "p10": 2438044.467911243,
+          "p50": 2926661.0781397563,
+          "p90": 3488404.694128006,
+          "p99": 3919627.930931533,
+          "mean": 2948826.040293144
+        },
+        "fineShare": 0.0464,
+        "classActionShare": 0.3478
+      }
+    },
+    "bec-other-legal-1m": {
+      "point": {
+        "dataExposed": false,
+        "doubleExtortion": false,
+        "ransomUnpaid": false,
+        "sizeBasis": "revenue",
+        "tech": {
+          "ir": 7500,
+          "forensics": 3870,
+          "it": 7000,
+          "total": 18370,
+          "irHours": 20
+        },
+        "legal": {
+          "counsel": 8750,
+          "fines": 0,
+          "settlement": 0,
+          "defence": 0,
+          "notification": 0,
+          "doubleExtortionSurcharge": 0,
+          "credit": 0,
+          "individuals": 0,
+          "total": 8750,
+          "regime": "OTHER"
+        },
+        "business": {
+          "operations": 1027.3972602739727,
+          "remediation": 8000,
+          "extortion": 55000,
+          "total": 64027.397260273974,
+          "downtimeDays": 4
+        },
+        "grossTotal": 91147.39726027398,
+        "insurance": {
+          "applied": false,
+          "covered": 0,
+          "premiumIncrease": 0,
+          "netTotal": 91147.39726027398,
+          "biUncovered": 0
+        },
+        "netTotal": 91147.39726027398,
+        "timeline": {
+          "year1": 91147.39726027398,
+          "year2Plus": 0,
+          "total": 91147.39726027398
+        },
+        "variableX": {
+          "churn": 0.25,
+          "revenue": 0.35,
+          "recruitment": 0.1,
+          "partner": 0.3
+        },
+        "severity": {
+          "tier": "medium",
+          "ratio": 0.09114739726027399,
+          "benchmark": 6980000,
+          "benchmarkRatio": 0.013058366369666759
+        },
+        "revenueValue": 1000000,
+        "onePercentOfRevenue": 10000
       },
-      "severity": {
-        "tier": "low",
-        "ratio": 0.09042005730659025,
-        "benchmark": 6980000
+      "range": {
+        "seed": 678976790,
+        "runs": 5000,
+        "net": {
+          "p10": 77452.69481435475,
+          "p50": 107199.56784076993,
+          "p90": 146079.62661615715,
+          "p99": 168747.96055790083,
+          "mean": 109746.36629666352
+        },
+        "gross": {
+          "p10": 77452.69481435475,
+          "p50": 107199.56784076993,
+          "p90": 146079.62661615715,
+          "p99": 168747.96055790083,
+          "mean": 109746.36629666352
+        },
+        "fineShare": 0,
+        "classActionShare": 0
+      }
+    },
+    "bec-reported-fast": {
+      "point": {
+        "dataExposed": false,
+        "doubleExtortion": false,
+        "ransomUnpaid": false,
+        "sizeBasis": "revenue",
+        "tech": {
+          "ir": 7500,
+          "forensics": 3870,
+          "it": 7000,
+          "total": 18370,
+          "irHours": 20
+        },
+        "legal": {
+          "counsel": 8750,
+          "fines": 0,
+          "settlement": 0,
+          "defence": 0,
+          "notification": 0,
+          "doubleExtortionSurcharge": 0,
+          "credit": 0,
+          "individuals": 0,
+          "total": 8750,
+          "regime": "OTHER"
+        },
+        "business": {
+          "operations": 1027.3972602739727,
+          "remediation": 8000,
+          "extortion": 35750,
+          "total": 44777.397260273974,
+          "downtimeDays": 4
+        },
+        "grossTotal": 71897.39726027398,
+        "insurance": {
+          "applied": false,
+          "covered": 0,
+          "premiumIncrease": 0,
+          "netTotal": 71897.39726027398,
+          "biUncovered": 0
+        },
+        "netTotal": 71897.39726027398,
+        "timeline": {
+          "year1": 71897.39726027398,
+          "year2Plus": 0,
+          "total": 71897.39726027398
+        },
+        "variableX": {
+          "churn": 0.25,
+          "revenue": 0.35,
+          "recruitment": 0.1,
+          "partner": 0.3
+        },
+        "severity": {
+          "tier": "medium",
+          "ratio": 0.07189739726027398,
+          "benchmark": 6980000,
+          "benchmarkRatio": 0.0103004867135063
+        },
+        "revenueValue": 1000000,
+        "onePercentOfRevenue": 10000
       },
-      "revenueValue": 5000000
+      "range": {
+        "seed": 259203137,
+        "runs": 5000,
+        "net": {
+          "p10": 63907.836232312555,
+          "p50": 84541.02143279201,
+          "p90": 111050.36179103534,
+          "p99": 125592.30589678799,
+          "mean": 86047.67214122697
+        },
+        "gross": {
+          "p10": 63907.836232312555,
+          "p50": 84541.02143279201,
+          "p90": 111050.36179103534,
+          "p99": 125592.30589678799,
+          "mean": 86047.67214122697
+        },
+        "fineShare": 0,
+        "classActionShare": 0
+      }
+    },
+    "bec-mailbox-exposed-on-5m": {
+      "point": {
+        "dataExposed": true,
+        "doubleExtortion": false,
+        "ransomUnpaid": false,
+        "sizeBasis": "revenue",
+        "tech": {
+          "ir": 27000,
+          "forensics": 13932,
+          "it": 25200,
+          "total": 66132,
+          "irHours": 72
+        },
+        "legal": {
+          "counsel": 31500,
+          "fines": 2500,
+          "settlement": 0,
+          "defence": 0,
+          "notification": 60000,
+          "doubleExtortionSurcharge": 0,
+          "credit": 175000,
+          "individuals": 5000,
+          "total": 269000,
+          "regime": "ON"
+        },
+        "business": {
+          "operations": 5136.986301369863,
+          "remediation": 35000,
+          "extortion": 165000,
+          "total": 205136.98630136985,
+          "downtimeDays": 4
+        },
+        "grossTotal": 540268.9863013698,
+        "insurance": {
+          "applied": false,
+          "covered": 0,
+          "premiumIncrease": 0,
+          "netTotal": 540268.9863013698,
+          "biUncovered": 0
+        },
+        "netTotal": 540268.9863013698,
+        "timeline": {
+          "year1": 537768.9863013698,
+          "year2Plus": 2500,
+          "total": 540268.9863013698
+        },
+        "variableX": {
+          "churn": 0.25,
+          "revenue": 0.35,
+          "recruitment": 0.1,
+          "partner": 0.3
+        },
+        "severity": {
+          "tier": "high",
+          "ratio": 0.10805379726027398,
+          "benchmark": 6980000,
+          "benchmarkRatio": 0.0774024335675315
+        },
+        "revenueValue": 5000000,
+        "onePercentOfRevenue": 50000
+      },
+      "range": {
+        "seed": 399898326,
+        "runs": 5000,
+        "net": {
+          "p10": 502227.28046065813,
+          "p50": 604009.9888924469,
+          "p90": 724866.341113327,
+          "p99": 806552.0894088944,
+          "mean": 609644.3782883494
+        },
+        "gross": {
+          "p10": 502227.28046065813,
+          "p50": 604009.9888924469,
+          "p90": 724866.341113327,
+          "p99": 806552.0894088944,
+          "mean": 609644.3782883494
+        },
+        "fineShare": 0.0516,
+        "classActionShare": 0
+      }
     },
     "bec-deductible-above-gross": {
-      "dataExposed": false,
-      "doubleExtortion": false,
-      "tech": {
-        "ir": 7500,
-        "forensics": 3870,
-        "it": 7000,
-        "total": 18370
-      },
-      "legal": {
-        "counsel": 8750,
-        "fines": 0,
-        "settlement": 0,
-        "notification": 0,
-        "doubleExtortionSurcharge": 0,
-        "credit": 0,
-        "total": 8750,
-        "regime": "ON"
-      },
-      "business": {
-        "operations": 22400,
-        "remediation": 8000,
-        "extortion": 55000,
-        "total": 85400
-      },
-      "grossTotal": 112520,
-      "insurance": {
-        "applied": true,
-        "covered": 0,
-        "premiumIncrease": 0,
-        "netTotal": 112520,
-        "limit": 1000000,
-        "deductible": 500000
-      },
-      "netTotal": 112520,
-      "timeline": {
-        "year1": 112520,
-        "year2Plus": 0,
-        "total": 112520,
+      "point": {
+        "dataExposed": false,
+        "doubleExtortion": false,
+        "ransomUnpaid": false,
+        "sizeBasis": "revenue",
+        "tech": {
+          "ir": 6375,
+          "forensics": 3289.5,
+          "it": 7000,
+          "total": 16664.5,
+          "irHours": 20
+        },
+        "legal": {
+          "counsel": 7437.5,
+          "fines": 0,
+          "settlement": 0,
+          "defence": 0,
+          "notification": 0,
+          "doubleExtortionSurcharge": 0,
+          "credit": 0,
+          "individuals": 0,
+          "total": 7437.5,
+          "regime": "ON"
+        },
+        "business": {
+          "operations": 1232.876712328767,
+          "remediation": 8000,
+          "extortion": 55000,
+          "total": 64232.87671232877,
+          "downtimeDays": 4
+        },
+        "grossTotal": 88334.87671232877,
+        "insurance": {
+          "applied": true,
+          "covered": 0,
+          "premiumIncrease": 0,
+          "netTotal": 88334.87671232877,
+          "limit": 1000000,
+          "deductible": 500000,
+          "cap": 1000000,
+          "coinsurance": 0,
+          "waitingHours": 12,
+          "biUncovered": 154.1095890410959,
+          "premiumBase": 30000
+        },
+        "netTotal": 88334.87671232877,
+        "timeline": {
+          "year1": 88334.87671232877,
+          "year2Plus": 0,
+          "total": 88334.87671232877
+        },
         "variableX": {
-          "annualImpact": 30000,
-          "year3": 142520,
-          "year4": 172520,
-          "year5": 202520
-        }
+          "churn": 0.25,
+          "revenue": 0.35,
+          "recruitment": 0.1,
+          "partner": 0.3
+        },
+        "severity": {
+          "tier": "medium",
+          "ratio": 0.08833487671232877,
+          "benchmark": 6980000,
+          "benchmarkRatio": 0.012655426463084351
+        },
+        "revenueValue": 1000000,
+        "onePercentOfRevenue": 10000
       },
-      "variableX": {
-        "churn": 0.25,
-        "revenue": 0.35,
-        "recruitment": 0.1,
-        "partner": 0.3
-      },
-      "severity": {
-        "tier": "low",
-        "ratio": 0.016120343839541546,
-        "benchmark": 6980000
-      },
-      "revenueValue": 1000000
+      "range": {
+        "seed": 1612161583,
+        "runs": 5000,
+        "net": {
+          "p10": 75070.36169082011,
+          "p50": 103827.27884021937,
+          "p90": 143704.00141071103,
+          "p99": 165847.62429109012,
+          "mean": 106518.9565672169
+        },
+        "gross": {
+          "p10": 75070.36169082011,
+          "p50": 103827.27884021937,
+          "p90": 143704.00141071103,
+          "p99": 165847.62429109012,
+          "mean": 106518.9565672169
+        },
+        "fineShare": 0,
+        "classActionShare": 0
+      }
     },
-    "databreach-fed-finance-large-phi": {
-      "dataExposed": true,
-      "doubleExtortion": false,
-      "tech": {
-        "ir": 393750,
-        "forensics": 294603.75,
-        "it": 367500,
-        "total": 1055853.75
-      },
-      "legal": {
-        "counsel": 1890000,
-        "fines": 100000,
-        "settlement": 3849999.9999999995,
-        "notification": 1200000,
-        "doubleExtortionSurcharge": 0,
-        "credit": 6500000,
-        "total": 13540000,
-        "regime": "FIN"
-      },
-      "business": {
-        "operations": 2240000,
-        "remediation": 650000,
-        "extortion": 0,
-        "total": 2890000
-      },
-      "grossTotal": 17485853.75,
-      "insurance": {
-        "applied": false,
-        "covered": 0,
-        "premiumIncrease": 0,
-        "netTotal": 17485853.75
-      },
-      "netTotal": 17485853.75,
-      "timeline": {
-        "year1": 13535853.75,
-        "year2Plus": 3949999.9999999995,
-        "total": 17485853.75,
+    "databreach-fed-finance-500m-phi": {
+      "point": {
+        "dataExposed": true,
+        "doubleExtortion": false,
+        "ransomUnpaid": false,
+        "sizeBasis": "revenue",
+        "tech": {
+          "ir": 393750,
+          "forensics": 294603.75,
+          "it": 367500,
+          "total": 1055853.75,
+          "irHours": 1050
+        },
+        "legal": {
+          "counsel": 1890000,
+          "fines": 100000,
+          "settlement": 1750000,
+          "defence": 420000,
+          "notification": 1200000,
+          "doubleExtortionSurcharge": 0,
+          "credit": 6500000,
+          "individuals": 100000,
+          "total": 11860000,
+          "regime": "FIN"
+        },
+        "business": {
+          "operations": 308219.1780821918,
+          "remediation": 650000,
+          "extortion": 0,
+          "total": 958219.1780821919,
+          "downtimeDays": 2
+        },
+        "grossTotal": 13874072.928082192,
+        "insurance": {
+          "applied": false,
+          "covered": 0,
+          "premiumIncrease": 0,
+          "netTotal": 13874072.928082192,
+          "biUncovered": 0
+        },
+        "netTotal": 13874072.928082192,
+        "timeline": {
+          "year1": 11604072.928082192,
+          "year2Plus": 2270000,
+          "total": 13874072.928082192
+        },
         "variableX": {
-          "annualImpact": 100000000,
-          "year3": 117485853.75,
-          "year4": 217485853.75,
-          "year5": 317485853.75
-        }
+          "churn": 0.3883495145631068,
+          "revenue": 0.2718446601941748,
+          "recruitment": 0.11650485436893203,
+          "partner": 0.2233009708737864
+        },
+        "severity": {
+          "tier": "medium",
+          "ratio": 0.027748145856164384,
+          "benchmark": 6980000,
+          "benchmarkRatio": 1.9876895312438672
+        },
+        "revenueValue": 500000000,
+        "onePercentOfRevenue": 5000000
       },
-      "variableX": {
-        "churn": 0.3883495145631068,
-        "revenue": 0.2718446601941748,
-        "recruitment": 0.11650485436893203,
-        "partner": 0.2233009708737864
-      },
-      "severity": {
-        "tier": "critical",
-        "ratio": 2.505136640401146,
-        "benchmark": 6980000
-      },
-      "revenueValue": 500000000
+      "range": {
+        "seed": 1189294759,
+        "runs": 5000,
+        "net": {
+          "p10": 12059299.440923605,
+          "p50": 15565015.983800601,
+          "p90": 18670880.335167635,
+          "p99": 20747835.266024746,
+          "mean": 15442246.254146758
+        },
+        "gross": {
+          "p10": 12059299.440923605,
+          "p50": 15565015.983800601,
+          "p90": 18670880.335167635,
+          "p99": 20747835.266024746,
+          "mean": 15442246.254146758
+        },
+        "fineShare": 0.1914,
+        "classActionShare": 0.703
+      }
     },
-    "databreach-bc-tech-mid-critical": {
-      "dataExposed": true,
-      "doubleExtortion": false,
-      "tech": {
-        "ir": 281250,
-        "forensics": 116100,
-        "it": 210000,
-        "total": 607350
-      },
-      "legal": {
-        "counsel": 756000,
-        "fines": 2500,
-        "settlement": 1050000,
-        "notification": 1200000,
-        "doubleExtortionSurcharge": 0,
-        "credit": 3500000,
-        "total": 6508500,
-        "regime": "BC"
-      },
-      "business": {
-        "operations": 251999.99999999997,
-        "remediation": 180000,
-        "extortion": 0,
-        "total": 432000
-      },
-      "grossTotal": 7547850,
-      "insurance": {
-        "applied": false,
-        "covered": 0,
-        "premiumIncrease": 0,
-        "netTotal": 7547850
-      },
-      "netTotal": 7547850,
-      "timeline": {
-        "year1": 6495350,
-        "year2Plus": 1052500,
-        "total": 7547850,
+    "databreach-bc-tech-50m-critical": {
+      "point": {
+        "dataExposed": true,
+        "doubleExtortion": false,
+        "ransomUnpaid": false,
+        "sizeBasis": "revenue",
+        "tech": {
+          "ir": 281250,
+          "forensics": 116100,
+          "it": 210000,
+          "total": 607350,
+          "irHours": 600
+        },
+        "legal": {
+          "counsel": 756000,
+          "fines": 2500,
+          "settlement": 350000,
+          "defence": 420000,
+          "notification": 1200000,
+          "doubleExtortionSurcharge": 0,
+          "credit": 3500000,
+          "individuals": 100000,
+          "total": 6228500,
+          "regime": "BC"
+        },
+        "business": {
+          "operations": 30821.91780821918,
+          "remediation": 180000,
+          "extortion": 0,
+          "total": 210821.91780821918,
+          "downtimeDays": 2
+        },
+        "grossTotal": 7046671.917808219,
+        "insurance": {
+          "applied": false,
+          "covered": 0,
+          "premiumIncrease": 0,
+          "netTotal": 7046671.917808219,
+          "biUncovered": 0
+        },
+        "netTotal": 7046671.917808219,
+        "timeline": {
+          "year1": 6274171.917808219,
+          "year2Plus": 772500,
+          "total": 7046671.917808219
+        },
         "variableX": {
-          "annualImpact": 7500000,
-          "year3": 15047850,
-          "year4": 22547850,
-          "year5": 30047850
-        }
+          "churn": 0.45,
+          "revenue": 0.28,
+          "recruitment": 0.12,
+          "partner": 0.15
+        },
+        "severity": {
+          "tier": "high",
+          "ratio": 0.14093343835616437,
+          "benchmark": 6980000,
+          "benchmarkRatio": 1.0095518506888566
+        },
+        "revenueValue": 50000000,
+        "onePercentOfRevenue": 500000
       },
-      "variableX": {
-        "churn": 0.45,
-        "revenue": 0.28,
-        "recruitment": 0.12,
-        "partner": 0.15
-      },
-      "severity": {
-        "tier": "medium",
-        "ratio": 1.0813538681948425,
-        "benchmark": 6980000
-      },
-      "revenueValue": 50000000
+      "range": {
+        "seed": 2587529320,
+        "runs": 5000,
+        "net": {
+          "p10": 6341774.100226256,
+          "p50": 7683397.39742923,
+          "p90": 8706547.341117747,
+          "p99": 9410874.682827024,
+          "mean": 7607255.433151233
+        },
+        "gross": {
+          "p10": 6341774.100226256,
+          "p50": 7683397.39742923,
+          "p90": 8706547.341117747,
+          "p99": 9410874.682827024,
+          "mean": 7607255.433151233
+        },
+        "fineShare": 0.0478,
+        "classActionShare": 0.7038
+      }
     },
-    "databreach-on-finance-medium": {
-      "dataExposed": true,
-      "doubleExtortion": false,
-      "tech": {
-        "ir": 67500,
-        "forensics": 34830,
-        "it": 63000,
-        "total": 165330
-      },
-      "legal": {
-        "counsel": 226800,
-        "fines": 2500,
-        "settlement": 18750,
-        "notification": 60000,
-        "doubleExtortionSurcharge": 0,
-        "credit": 175000,
-        "total": 483050,
-        "regime": "ON"
-      },
-      "business": {
-        "operations": 96000,
-        "remediation": 35000,
-        "extortion": 0,
-        "total": 131000
-      },
-      "grossTotal": 779380,
-      "insurance": {
-        "applied": false,
-        "covered": 0,
-        "premiumIncrease": 0,
-        "netTotal": 779380
-      },
-      "netTotal": 779380,
-      "timeline": {
-        "year1": 758130,
-        "year2Plus": 21250,
-        "total": 779380,
+    "databreach-qc-health-500m-phi": {
+      "point": {
+        "dataExposed": true,
+        "doubleExtortion": false,
+        "ransomUnpaid": false,
+        "sizeBasis": "revenue",
+        "tech": {
+          "ir": 492187.5,
+          "forensics": 203175,
+          "it": 367500,
+          "total": 1062862.5,
+          "irHours": 1050
+        },
+        "legal": {
+          "counsel": 1890000,
+          "fines": 1875000,
+          "settlement": 700000,
+          "defence": 420000,
+          "notification": 1200000,
+          "doubleExtortionSurcharge": 0,
+          "credit": 6500000,
+          "individuals": 100000,
+          "total": 12585000,
+          "regime": "QC"
+        },
+        "business": {
+          "operations": 205479.4520547945,
+          "remediation": 650000,
+          "extortion": 0,
+          "total": 855479.4520547945,
+          "downtimeDays": 2
+        },
+        "grossTotal": 14503341.952054795,
+        "insurance": {
+          "applied": false,
+          "covered": 0,
+          "premiumIncrease": 0,
+          "netTotal": 14503341.952054795,
+          "biUncovered": 0
+        },
+        "netTotal": 14503341.952054795,
+        "timeline": {
+          "year1": 11508341.952054795,
+          "year2Plus": 2995000,
+          "total": 14503341.952054795
+        },
         "variableX": {
-          "annualImpact": 350000.00000000006,
-          "year3": 1129380,
-          "year4": 1479380,
-          "year5": 1829380.0000000002
-        }
+          "churn": 0.5145631067961165,
+          "revenue": 0.2718446601941748,
+          "recruitment": 0.11650485436893203,
+          "partner": 0.09708737864077668
+        },
+        "severity": {
+          "tier": "medium",
+          "ratio": 0.02900668390410959,
+          "benchmark": 6980000,
+          "benchmarkRatio": 2.0778426865408015
+        },
+        "revenueValue": 500000000,
+        "onePercentOfRevenue": 5000000
       },
-      "variableX": {
-        "churn": 0.3883495145631068,
-        "revenue": 0.2718446601941748,
-        "recruitment": 0.11650485436893203,
-        "partner": 0.2233009708737864
-      },
-      "severity": {
-        "tier": "low",
-        "ratio": 0.11165902578796562,
-        "benchmark": 6980000
-      },
-      "revenueValue": 5000000
+      "range": {
+        "seed": 3453016772,
+        "runs": 5000,
+        "net": {
+          "p10": 11991712.909473456,
+          "p50": 14414713.7453006,
+          "p90": 25033865.691920552,
+          "p99": 32944829.934728164,
+          "mean": 16350243.99545377
+        },
+        "gross": {
+          "p10": 11991712.909473456,
+          "p50": 14414713.7453006,
+          "p90": 25033865.691920552,
+          "p99": 32944829.934728164,
+          "mean": 16350243.99545377
+        },
+        "fineShare": 0.2544,
+        "classActionShare": 0.6984
+      }
     },
-    "databreach-qc-large-phi-critical": {
-      "dataExposed": true,
-      "doubleExtortion": false,
-      "tech": {
-        "ir": 492187.5,
-        "forensics": 203175,
-        "it": 367500,
-        "total": 1062862.5
-      },
-      "legal": {
-        "counsel": 1890000,
-        "fines": 1875000,
-        "settlement": 3150000,
-        "notification": 1200000,
-        "doubleExtortionSurcharge": 0,
-        "credit": 6500000,
-        "total": 14615000,
-        "regime": "QC"
-      },
-      "business": {
-        "operations": 2100000,
-        "remediation": 650000,
-        "extortion": 0,
-        "total": 2750000
-      },
-      "grossTotal": 18427862.5,
-      "insurance": {
-        "applied": false,
-        "covered": 0,
-        "premiumIncrease": 0,
-        "netTotal": 18427862.5
-      },
-      "netTotal": 18427862.5,
-      "timeline": {
-        "year1": 13402862.5,
-        "year2Plus": 5025000,
-        "total": 18427862.5,
+    "databreach-on-gov-public-50m": {
+      "point": {
+        "dataExposed": true,
+        "doubleExtortion": false,
+        "ransomUnpaid": false,
+        "sizeBasis": "revenue",
+        "tech": {
+          "ir": 225000,
+          "forensics": 116100,
+          "it": 210000,
+          "total": 551100,
+          "irHours": 600
+        },
+        "legal": {
+          "counsel": 756000,
+          "fines": 0,
+          "settlement": 52500,
+          "defence": 105000,
+          "notification": 360000,
+          "doubleExtortionSurcharge": 0,
+          "credit": 1050000,
+          "individuals": 30000,
+          "total": 2323500,
+          "regime": "ON_PUB"
+        },
+        "business": {
+          "operations": 10273.972602739725,
+          "remediation": 180000,
+          "extortion": 0,
+          "total": 190273.97260273973,
+          "downtimeDays": 2
+        },
+        "grossTotal": 3064873.97260274,
+        "insurance": {
+          "applied": false,
+          "covered": 0,
+          "premiumIncrease": 0,
+          "netTotal": 3064873.97260274,
+          "biUncovered": 0
+        },
+        "netTotal": 3064873.97260274,
+        "timeline": {
+          "year1": 2907373.97260274,
+          "year2Plus": 157500,
+          "total": 3064873.97260274
+        },
         "variableX": {
-          "annualImpact": 100000000,
-          "year3": 118427862.5,
-          "year4": 218427862.5,
-          "year5": 318427862.5
-        }
+          "churn": 0.4,
+          "revenue": 0.28,
+          "recruitment": 0.22,
+          "partner": 0.09999999999999999
+        },
+        "severity": {
+          "tier": "medium",
+          "ratio": 0.0612974794520548,
+          "benchmark": 6980000,
+          "benchmarkRatio": 0.43909369234996276
+        },
+        "revenueValue": 50000000,
+        "onePercentOfRevenue": 500000
       },
-      "variableX": {
-        "churn": 0.5145631067961165,
-        "revenue": 0.2718446601941748,
-        "recruitment": 0.11650485436893203,
-        "partner": 0.09708737864077668
-      },
-      "severity": {
-        "tier": "critical",
-        "ratio": 2.6400949140401146,
-        "benchmark": 6980000
-      },
-      "revenueValue": 500000000
+      "range": {
+        "seed": 4067187298,
+        "runs": 5000,
+        "net": {
+          "p10": 2869064.190473199,
+          "p50": 3271056.6919249287,
+          "p90": 3842768.024851767,
+          "p99": 4231223.209725753,
+          "mean": 3314809.0186395277
+        },
+        "gross": {
+          "p10": 2869064.190473199,
+          "p50": 3271056.6919249287,
+          "p90": 3842768.024851767,
+          "p99": 4231223.209725753,
+          "mean": 3314809.0186395277
+        },
+        "fineShare": 0,
+        "classActionShare": 0.3524
+      }
     },
-    "insider-ab-gov-small-high": {
-      "dataExposed": true,
-      "doubleExtortion": false,
-      "tech": {
-        "ir": 40500,
-        "forensics": 20898,
-        "it": 37800,
-        "total": 99198
-      },
-      "legal": {
-        "counsel": 37800,
-        "fines": 2500,
-        "settlement": 157500,
-        "notification": 360000,
-        "doubleExtortionSurcharge": 0,
-        "credit": 1050000,
-        "total": 1607800,
-        "regime": "AB"
-      },
-      "business": {
-        "operations": 112500,
-        "remediation": 35000,
-        "extortion": 0,
-        "total": 147500
-      },
-      "grossTotal": 1854498,
-      "insurance": {
-        "applied": false,
-        "covered": 0,
-        "premiumIncrease": 0,
-        "netTotal": 1854498
-      },
-      "netTotal": 1854498,
-      "timeline": {
-        "year1": 1694498,
-        "year2Plus": 160000,
-        "total": 1854498,
+    "databreach-fed-public-institution": {
+      "point": {
+        "dataExposed": true,
+        "doubleExtortion": false,
+        "ransomUnpaid": false,
+        "sizeBasis": "employees",
+        "tech": {
+          "ir": 393750,
+          "forensics": 294603.75,
+          "it": 367500,
+          "total": 1055853.75,
+          "irHours": 1050
+        },
+        "legal": {
+          "counsel": 1890000,
+          "fines": 0,
+          "settlement": 350000,
+          "defence": 420000,
+          "notification": 1200000,
+          "doubleExtortionSurcharge": 0,
+          "credit": 3500000,
+          "individuals": 100000,
+          "total": 7360000,
+          "regime": "FED_PUB"
+        },
+        "business": {
+          "operations": 102739.72602739725,
+          "remediation": 650000,
+          "extortion": 0,
+          "total": 752739.7260273972,
+          "downtimeDays": 2
+        },
+        "grossTotal": 9168593.476027397,
+        "insurance": {
+          "applied": false,
+          "covered": 0,
+          "premiumIncrease": 0,
+          "netTotal": 9168593.476027397,
+          "biUncovered": 0
+        },
+        "netTotal": 9168593.476027397,
+        "timeline": {
+          "year1": 8398593.476027397,
+          "year2Plus": 770000,
+          "total": 9168593.476027397
+        },
         "variableX": {
-          "annualImpact": 350000.00000000006,
-          "year3": 2204498,
-          "year4": 2554498,
-          "year5": 2904498
-        }
+          "churn": 0.4,
+          "revenue": 0.28,
+          "recruitment": 0.22,
+          "partner": 0.09999999999999999
+        },
+        "severity": {
+          "tier": "low",
+          "ratio": 0.018337186952054794,
+          "benchmark": 6980000,
+          "benchmarkRatio": 1.3135520739294266
+        },
+        "revenueValue": 500000000,
+        "onePercentOfRevenue": 5000000
       },
-      "variableX": {
-        "churn": 0.25,
-        "revenue": 0.25,
-        "recruitment": 0.4,
-        "partner": 0.09999999999999999
-      },
-      "severity": {
-        "tier": "low",
-        "ratio": 0.2656873925501433,
-        "benchmark": 6980000
-      },
-      "revenueValue": 5000000
+      "range": {
+        "seed": 1318750990,
+        "runs": 5000,
+        "net": {
+          "p10": 8648137.841405705,
+          "p50": 9997084.145571442,
+          "p90": 11196200.860774137,
+          "p99": 12104490.308417521,
+          "mean": 9962145.519866863
+        },
+        "gross": {
+          "p10": 8648137.841405705,
+          "p50": 9997084.145571442,
+          "p90": 11196200.860774137,
+          "p99": 12104490.308417521,
+          "mean": 9962145.519866863
+        },
+        "fineShare": 0,
+        "classActionShare": 0.7048
+      }
     },
-    "insider-other-edu-micro-low": {
-      "dataExposed": true,
-      "doubleExtortion": false,
-      "tech": {
-        "ir": 11250,
-        "forensics": 8417.25,
-        "it": 10500,
-        "total": 30167.25
-      },
-      "legal": {
-        "counsel": 10500,
-        "fines": 2500,
-        "settlement": 0,
-        "notification": 9600,
-        "doubleExtortionSurcharge": 0,
-        "credit": 28000,
-        "total": 50600,
-        "regime": "OTHER"
-      },
-      "business": {
-        "operations": 28000,
-        "remediation": 8000,
-        "extortion": 0,
-        "total": 36000
-      },
-      "grossTotal": 116767.25,
-      "insurance": {
-        "applied": false,
-        "covered": 0,
-        "premiumIncrease": 0,
-        "netTotal": 116767.25
-      },
-      "netTotal": 116767.25,
-      "timeline": {
-        "year1": 114267.25,
-        "year2Plus": 2500,
-        "total": 116767.25,
+    "insider-ab-edu-public-5m": {
+      "point": {
+        "dataExposed": true,
+        "doubleExtortion": false,
+        "ransomUnpaid": false,
+        "sizeBasis": "revenue",
+        "tech": {
+          "ir": 40500,
+          "forensics": 20898,
+          "it": 37800,
+          "total": 99198,
+          "irHours": 108
+        },
+        "legal": {
+          "counsel": 37800,
+          "fines": 0,
+          "settlement": 52500,
+          "defence": 105000,
+          "notification": 360000,
+          "doubleExtortionSurcharge": 0,
+          "credit": 1050000,
+          "individuals": 30000,
+          "total": 1605300,
+          "regime": "AB_PUB"
+        },
+        "business": {
+          "operations": 5993.1506849315065,
+          "remediation": 35000,
+          "extortion": 0,
+          "total": 40993.150684931505,
+          "downtimeDays": 5
+        },
+        "grossTotal": 1745491.1506849315,
+        "insurance": {
+          "applied": false,
+          "covered": 0,
+          "premiumIncrease": 0,
+          "netTotal": 1745491.1506849315,
+          "biUncovered": 0
+        },
+        "netTotal": 1745491.1506849315,
+        "timeline": {
+          "year1": 1587991.1506849315,
+          "year2Plus": 157500,
+          "total": 1745491.1506849315
+        },
         "variableX": {
-          "annualImpact": 30000,
-          "year3": 146767.25,
-          "year4": 176767.25,
-          "year5": 206767.25
-        }
+          "churn": 0.3,
+          "revenue": 0.25,
+          "recruitment": 0.3,
+          "partner": 0.15
+        },
+        "severity": {
+          "tier": "critical",
+          "ratio": 0.3490982301369863,
+          "benchmark": 6980000,
+          "benchmarkRatio": 0.2500703654276406
+        },
+        "revenueValue": 5000000,
+        "onePercentOfRevenue": 50000
       },
-      "variableX": {
-        "churn": 0.3,
-        "revenue": 0.25,
-        "recruitment": 0.3,
-        "partner": 0.15
-      },
-      "severity": {
-        "tier": "low",
-        "ratio": 0.016728832378223497,
-        "benchmark": 6980000
-      },
-      "revenueValue": 1000000
+      "range": {
+        "seed": 1820524093,
+        "runs": 5000,
+        "net": {
+          "p10": 1497780.7855074739,
+          "p50": 1761623.477185138,
+          "p90": 2325854.048604338,
+          "p99": 2595836.2022998435,
+          "mean": 1846389.9318832532
+        },
+        "gross": {
+          "p10": 1497780.7855074739,
+          "p50": 1761623.477185138,
+          "p90": 2325854.048604338,
+          "p99": 2595836.2022998435,
+          "mean": 1846389.9318832532
+        },
+        "fineShare": 0,
+        "classActionShare": 0.3354
+      }
     },
-    "dos-qc-telco-large-critical": {
-      "dataExposed": false,
-      "doubleExtortion": false,
-      "tech": {
-        "ir": 147656.25,
-        "forensics": 60952.5,
-        "it": 110250,
-        "total": 318858.75
-      },
-      "legal": {
-        "counsel": 157500,
-        "fines": 0,
-        "settlement": 0,
-        "notification": 0,
-        "doubleExtortionSurcharge": 0,
-        "credit": 0,
-        "total": 157500,
-        "regime": "QC"
-      },
-      "business": {
-        "operations": 262500,
-        "remediation": 650000,
-        "extortion": 0,
-        "total": 912500
-      },
-      "grossTotal": 1388858.75,
-      "insurance": {
-        "applied": false,
-        "covered": 0,
-        "premiumIncrease": 0,
-        "netTotal": 1388858.75
-      },
-      "netTotal": 1388858.75,
-      "timeline": {
-        "year1": 1388858.75,
-        "year2Plus": 0,
-        "total": 1388858.75,
+    "insider-other-edu-1m-low": {
+      "point": {
+        "dataExposed": true,
+        "doubleExtortion": false,
+        "ransomUnpaid": false,
+        "sizeBasis": "revenue",
+        "tech": {
+          "ir": 11250,
+          "forensics": 8417.25,
+          "it": 10500,
+          "total": 30167.25,
+          "irHours": 30
+        },
+        "legal": {
+          "counsel": 10500,
+          "fines": 2500,
+          "settlement": 0,
+          "defence": 0,
+          "notification": 9600,
+          "doubleExtortionSurcharge": 0,
+          "credit": 28000,
+          "individuals": 800,
+          "total": 50600,
+          "regime": "OTHER"
+        },
+        "business": {
+          "operations": 1198.6301369863013,
+          "remediation": 8000,
+          "extortion": 0,
+          "total": 9198.630136986301,
+          "downtimeDays": 5
+        },
+        "grossTotal": 89965.8801369863,
+        "insurance": {
+          "applied": false,
+          "covered": 0,
+          "premiumIncrease": 0,
+          "netTotal": 89965.8801369863,
+          "biUncovered": 0
+        },
+        "netTotal": 89965.8801369863,
+        "timeline": {
+          "year1": 87465.8801369863,
+          "year2Plus": 2500,
+          "total": 89965.8801369863
+        },
         "variableX": {
-          "annualImpact": 100000000,
-          "year3": 101388858.75,
-          "year4": 201388858.75,
-          "year5": 301388858.75
-        }
+          "churn": 0.3,
+          "revenue": 0.25,
+          "recruitment": 0.3,
+          "partner": 0.15
+        },
+        "severity": {
+          "tier": "medium",
+          "ratio": 0.08996588013698631,
+          "benchmark": 6980000,
+          "benchmarkRatio": 0.012889094575499471
+        },
+        "revenueValue": 1000000,
+        "onePercentOfRevenue": 10000
       },
-      "variableX": {
-        "churn": 0.35,
-        "revenue": 0.4,
-        "recruitment": 0.1,
-        "partner": 0.15
-      },
-      "severity": {
-        "tier": "low",
-        "ratio": 0.19897689828080228,
-        "benchmark": 6980000
-      },
-      "revenueValue": 500000000
+      "range": {
+        "seed": 2419078277,
+        "runs": 5000,
+        "net": {
+          "p10": 83921.22985420265,
+          "p50": 95017.75551935768,
+          "p90": 109670.89350632664,
+          "p99": 197918.27038908916,
+          "mean": 98414.15719771264
+        },
+        "gross": {
+          "p10": 83921.22985420265,
+          "p50": 95017.75551935768,
+          "p90": 109670.89350632664,
+          "p99": 197918.27038908916,
+          "mean": 98414.15719771264
+        },
+        "fineShare": 0.0492,
+        "classActionShare": 0
+      }
     },
-    "dos-fed-telco-mid": {
-      "dataExposed": false,
-      "doubleExtortion": false,
-      "tech": {
-        "ir": 67500,
-        "forensics": 34830,
-        "it": 63000,
-        "total": 165330
-      },
-      "legal": {
-        "counsel": 63000,
-        "fines": 0,
-        "settlement": 0,
-        "notification": 0,
-        "doubleExtortionSurcharge": 0,
-        "credit": 0,
-        "total": 63000,
-        "regime": "FIN"
-      },
-      "business": {
-        "operations": 67500,
-        "remediation": 180000,
-        "extortion": 0,
-        "total": 247500
-      },
-      "grossTotal": 475830,
-      "insurance": {
-        "applied": false,
-        "covered": 0,
-        "premiumIncrease": 0,
-        "netTotal": 475830
-      },
-      "netTotal": 475830,
-      "timeline": {
-        "year1": 475830,
-        "year2Plus": 0,
-        "total": 475830,
+    "dos-qc-telco-500m": {
+      "point": {
+        "dataExposed": false,
+        "doubleExtortion": false,
+        "ransomUnpaid": false,
+        "sizeBasis": "revenue",
+        "tech": {
+          "ir": 147656.25,
+          "forensics": 60952.5,
+          "it": 110250,
+          "total": 318858.75,
+          "irHours": 315
+        },
+        "legal": {
+          "counsel": 157500,
+          "fines": 0,
+          "settlement": 0,
+          "defence": 0,
+          "notification": 0,
+          "doubleExtortionSurcharge": 0,
+          "credit": 0,
+          "individuals": 0,
+          "total": 157500,
+          "regime": "QC"
+        },
+        "business": {
+          "operations": 582191.7808219178,
+          "remediation": 650000,
+          "extortion": 0,
+          "total": 1232191.7808219178,
+          "downtimeDays": 0.5
+        },
+        "grossTotal": 1708550.5308219178,
+        "insurance": {
+          "applied": false,
+          "covered": 0,
+          "premiumIncrease": 0,
+          "netTotal": 1708550.5308219178,
+          "biUncovered": 0
+        },
+        "netTotal": 1708550.5308219178,
+        "timeline": {
+          "year1": 1708550.5308219178,
+          "year2Plus": 0,
+          "total": 1708550.5308219178
+        },
         "variableX": {
-          "annualImpact": 7500000,
-          "year3": 7975830,
-          "year4": 15475830,
-          "year5": 22975830
-        }
+          "churn": 0.35,
+          "revenue": 0.4,
+          "recruitment": 0.1,
+          "partner": 0.15
+        },
+        "severity": {
+          "tier": "low",
+          "ratio": 0.0034171010616438355,
+          "benchmark": 6980000,
+          "benchmarkRatio": 0.24477801301173607
+        },
+        "revenueValue": 500000000,
+        "onePercentOfRevenue": 5000000
       },
-      "variableX": {
-        "churn": 0.35,
-        "revenue": 0.4,
-        "recruitment": 0.1,
-        "partner": 0.15
+      "range": {
+        "seed": 894692941,
+        "runs": 5000,
+        "net": {
+          "p10": 1632237.8973771431,
+          "p50": 2050300.9964498319,
+          "p90": 2566910.3884899677,
+          "p99": 2940340.1705860803,
+          "mean": 2075755.7794196038
+        },
+        "gross": {
+          "p10": 1632237.8973771431,
+          "p50": 2050300.9964498319,
+          "p90": 2566910.3884899677,
+          "p99": 2940340.1705860803,
+          "mean": 2075755.7794196038
+        },
+        "fineShare": 0,
+        "classActionShare": 0
+      }
+    },
+    "dos-fed-telco-11m-vs-99m-a": {
+      "point": {
+        "dataExposed": false,
+        "doubleExtortion": false,
+        "ransomUnpaid": false,
+        "sizeBasis": "revenue",
+        "tech": {
+          "ir": 36429.47166884927,
+          "forensics": 18797.607381126225,
+          "it": 34000.84022425932,
+          "total": 89227.91927423482,
+          "irHours": 97.14525778359805
+        },
+        "legal": {
+          "counsel": 34000.84022425932,
+          "fines": 0,
+          "settlement": 0,
+          "defence": 0,
+          "notification": 0,
+          "doubleExtortionSurcharge": 0,
+          "credit": 0,
+          "individuals": 0,
+          "total": 34000.84022425932,
+          "regime": "FIN"
+        },
+        "business": {
+          "operations": 12808.219178082192,
+          "remediation": 84651.28871921997,
+          "extortion": 0,
+          "total": 97459.50789730216,
+          "downtimeDays": 0.5
+        },
+        "grossTotal": 220688.2673957963,
+        "insurance": {
+          "applied": false,
+          "covered": 0,
+          "premiumIncrease": 0,
+          "netTotal": 220688.2673957963,
+          "biUncovered": 0
+        },
+        "netTotal": 220688.2673957963,
+        "timeline": {
+          "year1": 220688.2673957963,
+          "year2Plus": 0,
+          "total": 220688.2673957963
+        },
+        "variableX": {
+          "churn": 0.35,
+          "revenue": 0.4,
+          "recruitment": 0.1,
+          "partner": 0.15
+        },
+        "severity": {
+          "tier": "medium",
+          "ratio": 0.02006256976325421,
+          "benchmark": 6980000,
+          "benchmarkRatio": 0.031617230285930706
+        },
+        "revenueValue": 11000000,
+        "onePercentOfRevenue": 110000
       },
-      "severity": {
-        "tier": "low",
-        "ratio": 0.0681704871060172,
-        "benchmark": 6980000
+      "range": {
+        "seed": 929179424,
+        "runs": 5000,
+        "net": {
+          "p10": 209426.68876961942,
+          "p50": 246192.45178311545,
+          "p90": 286884.49107184174,
+          "p99": 316977.9692784121,
+          "mean": 247331.48135775066
+        },
+        "gross": {
+          "p10": 209426.68876961942,
+          "p50": 246192.45178311545,
+          "p90": 286884.49107184174,
+          "p99": 316977.9692784121,
+          "mean": 247331.48135775066
+        },
+        "fineShare": 0,
+        "classActionShare": 0
+      }
+    },
+    "dos-fed-telco-11m-vs-99m-b": {
+      "point": {
+        "dataExposed": false,
+        "doubleExtortion": false,
+        "ransomUnpaid": false,
+        "sizeBasis": "revenue",
+        "tech": {
+          "ir": 82518.67525699,
+          "forensics": 42579.63643260684,
+          "it": 77017.43023985733,
+          "total": 202115.74192945418,
+          "irHours": 220.04980068530668
+        },
+        "legal": {
+          "counsel": 91034.86047971467,
+          "fines": 0,
+          "settlement": 0,
+          "defence": 0,
+          "notification": 0,
+          "doubleExtortionSurcharge": 0,
+          "credit": 0,
+          "individuals": 0,
+          "total": 91034.86047971467,
+          "regime": "FIN"
+        },
+        "business": {
+          "operations": 115273.97260273973,
+          "remediation": 319432.6394229196,
+          "extortion": 0,
+          "total": 434706.6120256593,
+          "downtimeDays": 0.5
+        },
+        "grossTotal": 727857.2144348281,
+        "insurance": {
+          "applied": false,
+          "covered": 0,
+          "premiumIncrease": 0,
+          "netTotal": 727857.2144348281,
+          "biUncovered": 0
+        },
+        "netTotal": 727857.2144348281,
+        "timeline": {
+          "year1": 727857.2144348281,
+          "year2Plus": 0,
+          "total": 727857.2144348281
+        },
+        "variableX": {
+          "churn": 0.35,
+          "revenue": 0.4,
+          "recruitment": 0.1,
+          "partner": 0.15
+        },
+        "severity": {
+          "tier": "low",
+          "ratio": 0.0073520930750992745,
+          "benchmark": 6980000,
+          "benchmarkRatio": 0.10427753788464586
+        },
+        "revenueValue": 99000000,
+        "onePercentOfRevenue": 990000
       },
-      "revenueValue": 50000000
+      "range": {
+        "seed": 3673426352,
+        "runs": 5000,
+        "net": {
+          "p10": 704004.1179117254,
+          "p50": 835414.0824624042,
+          "p90": 976585.3247068549,
+          "p99": 1096877.0768140813,
+          "mean": 839581.5222054308
+        },
+        "gross": {
+          "p10": 704004.1179117254,
+          "p50": 835414.0824624042,
+          "p90": 976585.3247068549,
+          "p99": 1096877.0768140813,
+          "mean": 839581.5222054308
+        },
+        "fineShare": 0,
+        "classActionShare": 0
+      }
     }
   }
 }

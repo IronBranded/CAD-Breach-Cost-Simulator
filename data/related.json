@@ -1,0 +1,32 @@
+{
+  "$comment": "Cross-links to the Microsoft Cloud Attack & Abuse Matrix (https://github.com/IronBranded/Microsoft-CAA-matrix). Scenario ids are the matrix's #/threat/<id> routes; titles are kept in English as in the matrix.",
+  "name": "Microsoft Cloud Attack & Abuse Matrix",
+  "baseUrl": "https://ironbranded.github.io/Microsoft-CAA-matrix/#/threat/",
+  "v": {
+    "Ransomware": [
+      { "id": "sharepoint-onedrive-ransomware-versioning-abuse", "title": "SharePoint/OneDrive Ransomware via Versioning Abuse" },
+      { "id": "public-ip-exposition-edge-exploitation", "title": "Public IP Exposition & Edge Exploitation" },
+      { "id": "hybrid-identity-aadconnect-attack", "title": "Hybrid Identity Attack / AADConnect" },
+      { "id": "unified-audit-log-disablement", "title": "Unified Audit Log (UAL) Disablement" }
+    ],
+    "BEC": [
+      { "id": "bec-external-impact", "title": "BEC — External Impact" },
+      { "id": "bec-inbox-rule-manipulation", "title": "BEC — Inbox Rule Manipulation" },
+      { "id": "malicious-email-forwarding-rules", "title": "Malicious Email Forwarding Rules" },
+      { "id": "aitm-adversary-in-the-middle", "title": "AiTM — Adversary-in-the-Middle Phishing" }
+    ],
+    "DataBreach": [
+      { "id": "graph-api-bulk-exfiltration", "title": "Graph API Bulk Exfiltration" },
+      { "id": "os-disk-snapshot-vhd-exfiltration", "title": "OS Disk Snapshot & VHD Exfiltration" },
+      { "id": "token-theft-session-hijacking", "title": "Token Theft / Session Hijacking" }
+    ],
+    "Insider": [
+      { "id": "ediscovery-compliance-search-abuse", "title": "eDiscovery / Compliance Search Abuse" },
+      { "id": "privilege-escalation-role-assignment", "title": "Privilege Escalation via Role Assignment" },
+      { "id": "graph-api-bulk-exfiltration", "title": "Graph API Bulk Exfiltration" }
+    ],
+    "DoS": [
+      { "id": "public-ip-exposition-edge-exploitation", "title": "Public IP Exposition & Edge Exploitation" }
+    ]
+  }
+}

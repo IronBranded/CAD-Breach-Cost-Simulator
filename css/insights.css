@@ -1,0 +1,83 @@
+/* Range of outcomes, savings, comparison and related-scenario cards. */
+.insights-grid { display: grid; grid-template-columns: 1.25fr 1fr; gap: 20px; margin-bottom: 20px; }
+.insight-card { padding: 24px 26px; background: var(--bg1); border: 1px solid var(--border); border-radius: 14px; }
+.compare-card, .related-card { margin-bottom: 20px; }
+.insight-card .chart-title { margin-bottom: 4px; }
+.insight-card .chart-subtitle { margin-bottom: 14px; }
+.insight-intro { margin-bottom: 14px; font-size: 0.78rem; line-height: 1.6; color: var(--muted2); }
+.insight-note { margin-top: 12px; font-size: 0.72rem; line-height: 1.5; color: var(--muted); }
+
+/* Range stats */
+.range-stats { list-style: none; display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-bottom: 14px; }
+.range-stat { padding: 10px; border-radius: 8px; background: var(--bg2); border: 1px solid var(--border); }
+.range-stat-label { font-family: var(--font-mono); font-size: 0.55rem; letter-spacing: 0.08em; color: var(--muted2); text-transform: uppercase; }
+.range-stat-value { margin-top: 4px; font-family: var(--font-mono); font-size: 0.82rem; font-weight: 700; color: var(--text); }
+.range-stat.p90 .range-stat-value, .range-stat.p99 .range-stat-value { color: var(--red); }
+.range-stat.p10 .range-stat-value { color: var(--green); }
+
+/* Loss exceedance curve */
+.lec-wrap svg { display: block; width: 100%; height: auto; overflow: visible; }
+.lec-grid { stroke: var(--border); stroke-width: 1; }
+.lec-axis { stroke: var(--border2); stroke-width: 1; }
+.lec-tick { font-family: var(--font-mono); font-size: 9px; fill: var(--muted); }
+.lec-title { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.08em; fill: var(--muted2); text-transform: uppercase; }
+.lec-area { fill: var(--c-legal); fill-opacity: 0.12; }
+.lec-line { fill: none; stroke: var(--c-legal); stroke-width: 2.2; stroke-linejoin: round; }
+.lec-marker { stroke-width: 1.2; stroke-dasharray: 4 3; }
+.lec-marker.point { stroke: var(--c-tech); }
+.lec-marker.limit { stroke: var(--green); }
+.lec-marker-label { font-family: var(--font-mono); font-size: 9px; font-weight: 700; }
+.lec-marker-label.point { fill: var(--c-tech); }
+.lec-marker-label.limit { fill: var(--green); }
+.lec-pct-dot { fill: var(--bg1); stroke: var(--c-legal); stroke-width: 2; }
+
+/* Savings */
+.savings-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.saving-item {
+  display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 4px 12px;
+  padding: 10px 12px; border-radius: 8px; background: var(--bg2); border: 1px solid var(--border);
+}
+.saving-item.enabled { border-color: rgba(25, 224, 122, 0.3); }
+.saving-name { font-size: 0.82rem; color: var(--text); }
+.saving-value { font-family: var(--font-mono); font-size: 0.72rem; color: var(--green); }
+.saving-item.na .saving-value { color: var(--muted); }
+.saving-bar { grid-column: 1 / 3; height: 3px; border-radius: 2px; background: var(--green); opacity: 0.55; }
+.saving-btn {
+  grid-row: 1 / 3; grid-column: 2; padding: 5px 10px; border-radius: 6px; cursor: pointer;
+  background: transparent; border: 1px solid var(--border2); color: var(--muted2);
+  font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.08em; text-transform: uppercase;
+}
+.saving-btn:hover { border-color: var(--green); color: var(--green); }
+.saving-item .saving-meta { display: flex; flex-direction: column; gap: 2px; }
+.ransom-line { margin-top: 12px; padding: 10px 12px; border-radius: 8px; background: var(--red-dim); border: 1px solid rgba(255, 68, 85, 0.2); font-family: var(--font-mono); font-size: 0.7rem; color: #ffb3bb; }
+
+/* Comparison */
+.compare-table { width: 100%; border-collapse: collapse; font-size: 0.78rem; }
+.compare-table th, .compare-table td { padding: 8px 10px 8px 0; border-bottom: 1px solid var(--border); text-align: left; vertical-align: top; }
+.compare-table thead th { font-family: var(--font-mono); font-size: 0.6rem; font-weight: 600; letter-spacing: 0.08em; color: var(--muted2); text-transform: uppercase; }
+.compare-table tbody th { font-family: var(--font-mono); font-size: 0.6rem; font-weight: 500; letter-spacing: 0.06em; color: var(--muted); text-transform: uppercase; }
+.compare-table td { color: var(--muted2); }
+.compare-table td.num { font-family: var(--font-mono); color: var(--text); white-space: nowrap; }
+.compare-table tr.key td.num { font-weight: 700; font-size: 0.86rem; }
+.compare-table .current { color: var(--blue); }
+.compare-remove { margin-left: 6px; padding: 1px 6px; border-radius: 4px; cursor: pointer; background: none; border: 1px solid var(--border2); color: var(--muted); font-size: 0.6rem; }
+.compare-remove:hover { color: var(--red); border-color: var(--red); }
+
+/* Related scenarios */
+.related-list { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; }
+.related-list a {
+  display: inline-block; padding: 6px 12px; border-radius: 6px; text-decoration: none;
+  background: var(--blue-dim); border: 1px solid rgba(59, 158, 255, 0.25); color: var(--blue);
+  font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.02em;
+}
+.related-list a:hover { background: rgba(59, 158, 255, 0.2); color: var(--text); }
+.related-list a::after { content: ' ↗'; }
+
+@media (max-width: 1024px) {
+  .insights-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 700px) {
+  .range-stats { grid-template-columns: repeat(2, 1fr); }
+  .insight-card { padding: 20px 16px; }
+  .compare-scroll { overflow-x: auto; }
+}

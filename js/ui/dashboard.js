@@ -1,44 +1,56 @@
+// @ts-check
 // Results dashboard.
-import { t, money, moneyCompact, percent } from '../i18n.js';
-import { h, $, mount, rich } from './dom.js';
-import { buildDonut } from './donut.js';
-import { buildTimelineChart } from './timeline-chart.js';
-import { buildSeverityBand } from './severity.js';
-import { costSections, shares, optionLabel } from './sections.js';
+import { t, money, moneyCompact, percent, number } from '../i18n.js?v=2026.11.0';
+import { h, $, mount, rich } from './dom.js?v=2026.11.0';
+import { buildDonut } from './donut.js?v=2026.11.0';
+import { buildTimelineChart } from './timeline-chart.js?v=2026.11.0';
+import { buildSeverityBand } from './severity.js?v=2026.11.0';
+import { costSections, shares, optionLabel, enabledControls } from './sections.js?v=2026.11.0';
+import { rangeBasis } from './insights.js?v=2026.11.0';
 
 const BRAND_KEYS = ['churn', 'revenue', 'recruitment', 'partner'];
 
-export function renderDashboard(r, model) {
-  renderHero(r);
+/** @param {any} r engine result @param {any} sim simulation @param {any} model */
+export function renderDashboard(r, sim, model) {
+  renderHero(r, sim, model);
   renderCostDonut(r);
   renderBrandDonut(r);
   renderCards(r);
   renderTimeline(r);
-  renderThreatLandscape();
+  renderThreatLandscape(model);
   renderSources(model);
 }
 
-function renderHero(r) {
+function renderHero(r, sim, model) {
   const { inputs } = r;
+  const ctl = enabledControls(inputs).length;
   mount($('heroBadges'),
     h('span', { class: 'badge incident', text: optionLabel('incident', inputs.incident) }),
     h('span', { class: 'badge province', text: t(`options.provinceShort.${inputs.province}`) }),
+    inputs.sector === 'public' ? h('span', { class: 'badge public', text: t('results.badges.public') }) : null,
     inputs.phi ? h('span', { class: 'badge phi', text: t('results.badges.phi') }) : null,
     h('span', {
       class: ['badge', r.dataExposed ? 'exposed' : 'not-exposed'],
       text: t(r.dataExposed ? 'results.badges.exposed' : 'results.badges.notExposed'),
-    }));
+    }),
+    ctl ? h('span', { class: 'badge controls', text: t(ctl === 1 ? 'results.badges.controlsOne' : 'results.badges.controls', { count: ctl }) }) : null);
 
   $('exposureLabelText').textContent = t(r.insurance.applied ? 'results.exposureNet' : 'results.exposureGross');
   $('grandTotal').textContent = money(r.netTotal);
+  const basis = rangeBasis(sim, r).summary;
+  $('rangeLine').textContent = t('results.range', { p10: money(basis.p10), p90: money(basis.p90) });
 
   const ins = r.insurance;
   mount($('insuranceSummary'),
     ins.applied ? h('div', { class: 'insurance-covered-badge', text: t('results.insuranceCovered', { amount: money(ins.covered) }) }) : null,
     ins.premiumIncrease > 0 ? h('p', { class: 'premium-note', text: t('results.premiumIncluded', { amount: money(ins.premiumIncrease) }) }) : null);
 
-  mount($('severityBand'), buildSeverityBand(r.severity, r.grossTotal));
+  mount($('severityBand'), buildSeverityBand(r.severity, model.benchmark.severityTiers.v));
   $('lifecycleValue').textContent = t(`results.durations.${inputs.incident}`);
+  const inc = model.incidents.v[inputs.incident];
+  $('lifecycleModelled').textContent = t('results.modelled', {
+    days: number(r.business.downtimeDays, 1), pct: percent(inc.operationsImpact),
+  });
   $('regimePill').textContent = t('results.regime', { regime: t(`regimes.labels.${r.legal.regime}`) });
 }
 
@@ -87,7 +99,7 @@ function renderCards(r) {
       h('h3', { class: 'card-title', text: sec.title }),
       h('span', { class: 'card-total', text: money(sec.total) })),
     sec.notice ? h('p', { class: 'reg-notice' }, rich(sec.notice)) : null,
-    sec.note ? h('p', { class: 'no-exposure-note', text: sec.note }) : null,
+    sec.notes.map(n => h('p', { class: 'no-exposure-note', text: n })),
     costRows(sec)));
 
   cards.push(h('article', { class: 'detail-card brand' },
@@ -96,11 +108,13 @@ function renderCards(r) {
       h('h3', { class: 'card-title', text: t('cards.brand') })),
     h('div', { class: 'brand-impact' },
       h('p', { class: 'brand-impact-title', text: t('cards.brandImpactTitle') }),
-      h('p', { class: 'brand-impact-body', text: t('cards.churnText') }))));
+      h('p', { class: 'brand-impact-body', text: t('cards.churnText') }),
+      h('p', { class: 'brand-impact-body scale', text: t('cards.onePercent', { amount: money(r.onePercentOfRevenue) }) }))));
 
   mount($('detailCards'), cards);
 }
 
+/** @param {any} r @param {string} [liClass] */
 export function timelineLegendItems(r, liClass = '') {
   const tl = r.timeline;
   return [
@@ -117,26 +131,39 @@ function renderTimeline(r) {
   mount($('timelineLegend'), timelineLegendItems(r));
 }
 
-function renderThreatLandscape() {
+/** Links for a list of source ids. @param {any} model @param {string[]} ids */
+export function sourceLinks(model, ids) {
+  return ids.map(id => {
+    const meta = model.sources[id] || {};
+    return meta.url
+      ? h('a', { href: meta.url, target: '_blank', rel: 'noopener noreferrer', class: 'text-link', text: t(`sources.${id}`) })
+      : h('span', { text: t(`sources.${id}`) });
+  });
+}
+
+function renderThreatLandscape(model) {
   mount($('ncta'),
     h('div', { class: 'ncta-header' },
       h('span', { class: 'ncta-dot', 'aria-hidden': 'true' }),
       h('h2', { class: 'ncta-title', id: 'nctaTitle', text: t('ncta.title') })),
     h('div', { class: 'ncta-body' },
+      h('p', { class: 'ncta-meta' }, sourceLinks(model, ['cccsNcta2025'])[0], ` — ${t('ncta.meta')}`),
       h('p', { class: 'ncta-intro', text: t('ncta.intro') }),
       h('ol', { class: 'ncta-trends' }, t('ncta.trends').map((tr, i) => h('li', { class: 'trend-item' },
         h('span', { class: 'trend-num', 'aria-hidden': 'true', text: `T${i + 1}` }),
         h('span', { class: 'trend-text' }, h('strong', { text: `${tr.label}:` }), ` ${tr.body}`)))),
       h('div', { class: 'ncta-alert' },
         h('p', { class: 'ncta-alert-title', text: t('ncta.alertTitle') }),
-        h('p', { class: 'ncta-alert-body' }, rich(t('ncta.alert'))))));
+        h('p', { class: 'ncta-alert-body' }, rich(t('ncta.alert'))),
+        h('p', { class: 'ncta-alert-sources' }, `${t('ncta.sourcesLabel')} `,
+          sourceLinks(model, ['ibm2025', 'sophos2025']).flatMap((a, i) => (i ? [' · ', a] : [a]))))));
 }
 
-export function sourceList(model) {
-  return Object.entries(model.sources).filter(([id]) => id !== 'author');
+/** Sources cited anywhere in the model, in registry order. @param {any} model */
+export function citedSources(model) {
+  return Object.keys(model.sources).filter(id => id !== 'author');
 }
 
 function renderSources(model) {
-  mount($('disclaimerSources'), sourceList(model).map(([id, meta]) => h('li', { class: 'source-chip' },
-    meta.url ? h('a', { href: meta.url, target: '_blank', rel: 'noopener noreferrer', text: t(`sources.${id}`) }) : t(`sources.${id}`))));
+  mount($('disclaimerSources'), sourceLinks(model, citedSources(model)).map(a => h('li', { class: 'source-chip' }, a)));
 }

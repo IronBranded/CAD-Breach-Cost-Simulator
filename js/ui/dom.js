@@ -1,3 +1,4 @@
+// @ts-check
 // Tiny DOM helpers. Everything is built with createElement / textContent,
 // so translated or data-driven text never goes through innerHTML.
 

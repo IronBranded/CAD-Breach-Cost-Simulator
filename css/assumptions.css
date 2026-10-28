@@ -11,7 +11,7 @@
 .assumptions-version { margin-left: auto; font-weight: 400; letter-spacing: 0.08em; color: var(--muted); }
 .assumptions-body { padding: 20px 24px 24px; }
 .assumptions-intro { margin-bottom: 16px; font-size: 0.8rem; line-height: 1.6; color: var(--muted2); }
-.assumptions-body h4 {
+.assumptions-body .assumptions-h {
   margin: 22px 0 8px; font-family: var(--font-mono); font-size: 0.6rem; font-weight: 600;
   letter-spacing: 0.16em; color: var(--muted); text-transform: uppercase;
 }
@@ -25,3 +25,18 @@
 .assumptions-body .src { font-family: var(--font-mono); font-size: 0.62rem; color: var(--muted); }
 .assumptions-body .src.author { color: var(--amber); }
 .assumptions-body .note { margin-top: 6px; font-size: 0.72rem; color: var(--muted); }
+
+/* Methodology page */
+.method-page { padding-bottom: 80px; }
+.method-body { max-width: 900px; margin: 32px auto 0; padding: 0 20px; display: flex; flex-direction: column; gap: 20px; }
+.method-card { padding: 24px 26px; background: var(--bg1); border: 1px solid var(--border); border-radius: 14px; }
+.method-h2 { margin-bottom: 14px; font-family: var(--font-mono); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.14em; color: var(--blue); text-transform: uppercase; }
+.method-version { font-family: var(--font-mono); font-size: 0.7rem; color: var(--muted); }
+.method-formulas { display: grid; grid-template-columns: minmax(140px, 200px) 1fr; gap: 10px 16px; font-size: 0.8rem; line-height: 1.6; }
+.method-formulas dt { font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.06em; color: var(--text); text-transform: uppercase; padding-top: 2px; }
+.method-formulas dd { color: var(--muted2); }
+.method-sources { list-style: none; display: flex; flex-direction: column; gap: 8px; font-size: 0.82rem; }
+.method-url { margin-left: 8px; font-family: var(--font-mono); font-size: 0.62rem; color: var(--muted); }
+.assumptions-body .src a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+@media (max-width: 700px) { .method-formulas { grid-template-columns: 1fr; } }
+.method-card .assumptions-body { padding: 0; }

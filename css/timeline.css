@@ -20,13 +20,11 @@
 .tl-value.y2 { fill: var(--c-biz); }
 .tl-axis { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.05em; fill: var(--muted); }
 .tl-axis.varx { fill: var(--c-varx); }
-.tl-varx-band { fill: var(--c-varx); fill-opacity: 0.07; }
+.tl-varx-stop { stop-color: var(--c-varx); }
 .tl-varx-sep { stroke: var(--c-varx); stroke-opacity: 0.25; stroke-width: 1; stroke-dasharray: 3 3; }
-.tl-varx-line { stroke: var(--c-varx); stroke-width: 1.5; stroke-dasharray: 5 3; }
-.tl-varx-dot { fill: var(--bg1); stroke: var(--c-varx); stroke-width: 2; }
-.tl-varx-year { font-family: var(--font-mono); font-size: 9px; fill: var(--c-varx); }
+.tl-varx-line { stroke: var(--c-varx); stroke-width: 1.5; stroke-dasharray: 5 4; }
+.tl-varx-arrow { fill: none; stroke: var(--c-varx); stroke-width: 1.5; }
 .tl-varx-label { font-family: var(--font-mono); font-size: 10px; font-weight: 700; fill: var(--c-varx); }
-.op-1 { opacity: 0.45; } .op-2 { opacity: 0.7; } .op-3 { opacity: 1; }
 
 /* Draw-in animation (dashboard only). pathLength="1" makes the dash maths length-independent. */
 .tl-animate .tl-line { stroke-dasharray: 1; stroke-dashoffset: 1; animation: tl-draw 1s cubic-bezier(.4, 0, .2, 1) forwards; }

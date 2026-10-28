@@ -1,9 +1,13 @@
 {
   "name": "cad-breach-cost-simulator",
+  "version": "2026.11.0",
   "private": true,
   "type": "module",
   "description": "Static site. No dependencies; package.json only exists so Node can run the tests and checks.",
   "scripts": {
-    "test": "node --test"
+    "test": "node --test",
+    "validate": "node scripts/validate.mjs",
+    "release": "node scripts/release.mjs",
+    "typecheck": "node scripts/typecheck.mjs"
   }
 }

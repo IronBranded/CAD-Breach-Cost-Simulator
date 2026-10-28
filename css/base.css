@@ -63,7 +63,7 @@ body::before {
   transition: all 0.18s;
 }
 .lang-btn:hover { color: var(--text); }
-.lang-btn[aria-pressed="true"] { background: var(--blue); color: #fff; box-shadow: 0 2px 12px rgba(59, 158, 255, 0.35); }
+.lang-btn[aria-pressed="true"] { background: #1d5fd1; color: #fff; box-shadow: 0 2px 12px rgba(59, 158, 255, 0.35); }
 .dash-actions { display: flex; align-items: center; gap: 6px; }
 .top-action-btn {
   display: inline-flex; align-items: center; padding: 6px 14px;
@@ -101,6 +101,10 @@ h1 {
 .header-rule { max-width: 820px; margin: 28px auto 0; padding: 0 20px; }
 .header-rule hr { border: none; border-top: 1px solid var(--border); }
 
+.text-link { color: var(--blue); text-decoration: underline; text-underline-offset: 3px; }
+.text-link:hover { color: var(--text); }
+.methodology-link { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.06em; }
+
 .load-error {
   max-width: 820px; margin: 80px auto 0; padding: 18px 22px;
   background: var(--red-dim); border: 1px solid rgba(255, 68, 85, 0.3); border-radius: var(--radius);
@@ -121,6 +125,7 @@ h1 {
     position: static; justify-content: flex-end; flex-wrap: wrap;
     padding: 15px 20px 0; margin-bottom: -20px;
   }
+  .dash-actions { flex-wrap: wrap; justify-content: flex-end; }
   .top-action-btn { padding: 8px 10px; font-size: 0.6rem; }
   .site-header { padding-top: 30px; }
 }

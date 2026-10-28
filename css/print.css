@@ -94,7 +94,7 @@
 .pr-page-sub { margin-bottom: 12pt; font-family: var(--font-mono); font-size: 6pt; letter-spacing: 0.12em; color: #aaa; text-transform: uppercase; }
 .pr-chart { width: 100%; padding: 14pt 10pt 6pt; border: 0.75pt solid #e0e0e0; border-radius: 4pt; background: #fafafa; }
 .pr-chart svg { display: block; width: 100%; height: auto; overflow: visible; }
-.pr-chart .tl-point, .pr-chart .tl-varx-dot { fill: #fff; }
+.pr-chart .tl-point { fill: #fff; }
 .pr-legend { display: flex; flex-direction: column; gap: 7pt; margin-top: 10pt; list-style: none; }
 .pr-legend li { display: flex; align-items: flex-start; gap: 7pt; font-size: 6.5pt; line-height: 1.55; color: #555; }
 .pr-legend strong { font-family: var(--font-mono); font-size: 7pt; white-space: nowrap; }
@@ -103,3 +103,10 @@
 .pr-legend .vx strong { color: var(--c-varx); }
 .pr-legend .tl-swatch { width: 7pt; height: 7pt; margin-top: 1pt; }
 .pr-legend .tl-swatch.vx { border-width: 0; border-top: 1.5pt dashed var(--c-varx); border-radius: 0; }
+.pr-gap { margin-top: 14pt; }
+.pr-gap-sm { margin-top: 6pt; }
+.pr-range { display: flex; gap: 10pt; align-items: stretch; }
+.pr-lec { flex: 1; padding: 8pt; }
+.pr-range-stats { width: 140pt; list-style: none; display: flex; flex-direction: column; justify-content: center; gap: 4pt; }
+.pr-range-stats li { display: flex; justify-content: space-between; gap: 6pt; }
+#printReport { --c-legal: #7c3aed; --green: #059669; --border: #eee; --muted2: #888; }

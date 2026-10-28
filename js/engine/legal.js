@@ -1,55 +1,70 @@
-// Legal, regulatory and settlement exposure.
+// @ts-check
+// Legal, regulatory and class-action exposure.
 
-export function resolveRegime(province, industry, model) {
+/**
+ * @param {string} province
+ * @param {string} industry
+ * @param {import('../types.js').Sector} sector
+ * @param {any} model
+ */
+export function resolveRegime(province, industry, sector, model) {
+  if (sector === 'public') return `${province}_PUB`;
   if (province === 'FED' && model.regimes.federalFinancialIndustries.includes(industry)) return 'FIN';
   return province;
 }
 
-export function expectedFine({ regime, phi, revenueValue }, model) {
+/** Fine amount if a penalty is imposed (before probability). */
+export function fineAmount(regime, phi, revenue, model) {
   const f = model.regimes.v[regime].fine;
-  let amount;
+  if (f.type === 'none') return { amount: 0, probability: 0 };
   if (f.type === 'revenuePct') {
-    const cap = Math.max(f.capFixed, revenueValue * f.capRevenuePct);
-    amount = Math.min(cap, revenueValue * (phi ? f.pctPhi : f.pct));
-  } else {
-    amount = phi ? f.amountPhi : f.amount;
+    const cap = Math.max(f.capFixed, revenue * f.capRevenuePct);
+    return { amount: Math.min(cap, revenue * (phi ? f.pctPhi : f.pct)), probability: f.probability };
   }
-  return amount * f.probability;
+  return { amount: phi ? f.amountPhi : f.amount, probability: f.probability };
 }
 
-export function settlementReserve({ bucket, phi, industry }, model) {
-  const s = model.settlement.v;
-  const sensitive = phi || industry === 'finance';
-  const prob = sensitive ? bucket.classActionProbSensitive : bucket.classActionProb;
-  if (!prob) return 0;
-  let perIndividual = s.basePerIndividual;
-  if (phi) perIndividual += s.phiPremium;
-  if (industry === 'finance') perIndividual += s.financePremium;
-  return bucket.individuals * perIndividual * prob;
-}
+/**
+ * Point estimate: probabilistic items are expected values (amount x probability).
+ * Monte Carlo (draw.sampled): each event happens or not, with a random severity.
+ * @param {object} p
+ * @param {import('../types.js').Inputs} p.inputs
+ * @param {any} p.incident
+ * @param {{counselEffort:number}} p.size
+ * @param {{rates:number, counsel:number, individuals:number}} p.factors
+ * @param {boolean} p.dataExposed
+ * @param {boolean} p.doubleExtortion
+ * @param {import('../types.js').Draw} p.draw
+ * @param {any} model
+ */
+export function legalCosts({ inputs, incident, size, factors, dataExposed, doubleExtortion, draw }, model) {
+  const regime = resolveRegime(inputs.province, inputs.industry, inputs.sector, model);
+  const counsel = incident.counselHours * size.counselEffort * model.rates.breachCounsel.v
+    * factors.rates * factors.counsel * draw.counsel;
+  const zero = { fines: 0, settlement: 0, defence: 0, notification: 0, doubleExtortionSurcharge: 0, credit: 0, individuals: 0 };
+  if (!dataExposed) return { counsel, ...zero, total: counsel, regime };
 
-export function legalCosts({ inputs, incident, revenueBracket, dataExposed, doubleExtortion }, model) {
-  const rev = model.revenue.v[revenueBracket];
+  const bucket = model.records.v[/** @type {string} */ (inputs.records)];
   const n = model.notification;
-  const regime = resolveRegime(inputs.province, inputs.industry, model);
+  const individuals = bucket.individuals * factors.individuals;
+  const sampled = !!draw.sampled;
+  const event = (prob, roll, value, severity) => (sampled ? (roll < prob ? value * severity : 0) : value * prob);
 
-  const counsel = incident.counselHours * rev.effortMult * model.rates.breachCounsel.v;
-  if (!dataExposed) {
-    // No personal information exposed: no notification, monitoring, privacy fine or class action.
-    return { counsel, fines: 0, settlement: 0, notification: 0, doubleExtortionSurcharge: 0, credit: 0, total: counsel, regime };
-  }
+  const fine = fineAmount(regime, inputs.phi, inputs.revenue, model);
+  const fines = event(fine.probability, draw.fineRoll, fine.amount, draw.fineSeverity);
 
-  const bucket = model.records.v[inputs.records];
-  const fines = expectedFine({ regime, phi: inputs.phi, revenueValue: rev.representative }, model);
-  const settlement = settlementReserve({ bucket, phi: inputs.phi, industry: inputs.industry }, model);
+  const s = model.settlement.v;
+  const sensitive = inputs.phi || inputs.industry === 'finance';
+  const classProb = sensitive ? bucket.classActionProbSensitive : bucket.classActionProb;
+  const perIndividual = s.basePerIndividual + (inputs.phi ? s.phiPremium : 0) + (inputs.industry === 'finance' ? s.financePremium : 0);
+  const classRoll = draw.classActionRoll;
+  const settlement = event(classProb, classRoll, individuals * perIndividual, draw.settlementSeverity);
+  const defence = event(classProb, classRoll, bucket.defenceCost, draw.defenceSeverity);
 
-  const notifyRate = doubleExtortion ? bucket.doubleExtortionNotifyRate : n.baseRatePerIndividual.v;
-  const notification = bucket.individuals * notifyRate;
-  const doubleExtortionSurcharge = doubleExtortion
-    ? bucket.individuals * bucket.doubleExtortionNotifyRate * n.doubleExtortionSurcharge.v
-    : 0;
-  const credit = bucket.individuals * (inputs.phi ? n.creditMonitoring.v.phi : n.creditMonitoring.v.standard);
+  const notification = individuals * n.baseRatePerIndividual.v * draw.unitCosts;
+  const doubleExtortionSurcharge = doubleExtortion ? notification * n.doubleExtortionSurcharge.v : 0;
+  const credit = individuals * (inputs.phi ? n.creditMonitoring.v.phi : n.creditMonitoring.v.standard) * draw.unitCosts;
 
-  const total = counsel + fines + settlement + notification + doubleExtortionSurcharge + credit;
-  return { counsel, fines, settlement, notification, doubleExtortionSurcharge, credit, total, regime };
+  const total = counsel + fines + settlement + defence + notification + doubleExtortionSurcharge + credit;
+  return { counsel, fines, settlement, defence, notification, doubleExtortionSurcharge, credit, individuals, total, regime };
 }

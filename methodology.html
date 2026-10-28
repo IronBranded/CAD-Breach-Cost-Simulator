@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<title>Methodology & Sources — Canadian Cyber Incident Cost Simulator</title>
+<meta name="description" content="How the Canadian Cyber Incident Cost Simulator calculates exposure: formulas, every model parameter and its source.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Methodology & Sources — Canadian Cyber Incident Cost Simulator">
+<meta property="og:description" content="Formulas, every model parameter and where each one comes from.">
+<meta property="og:url" content="https://ironbranded.github.io/CAD-Breach-Cost-Simulator/methodology.html">
+<meta property="og:image" content="https://ironbranded.github.io/CAD-Breach-Cost-Simulator/assets/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="assets/favicon.svg?v=2026.11.0" type="image/svg+xml">
+<link rel="stylesheet" href="assets/fonts/fonts.css?v=2026.11.0">
+<link rel="stylesheet" href="css/tokens.css?v=2026.11.0">
+<link rel="stylesheet" href="css/base.css?v=2026.11.0">
+<link rel="stylesheet" href="css/dashboard.css?v=2026.11.0">
+<link rel="stylesheet" href="css/assumptions.css?v=2026.11.0">
+<script type="module" src="js/methodology.js?v=2026.11.0"></script>
+</head>
+<body>
+<a class="skip-link" href="#main" data-i18n="actions.skip">Skip to content</a>
+<div class="grid-bg" aria-hidden="true"></div>
+<div id="app">
+  <header class="top-bar">
+    <div class="lang-switcher" role="group" aria-label="Language" data-i18n-attr="aria-label:actions.language">
+      <button type="button" class="lang-btn" data-lang="en" lang="en" aria-pressed="true">EN</button>
+      <button type="button" class="lang-btn" data-lang="fr" lang="fr" aria-pressed="false">FR</button>
+    </div>
+  </header>
+  <main id="main" class="page method-page" tabindex="-1">
+    <div id="loadError" class="load-error" role="alert" hidden>
+      <p>Could not load the model data. Serve the folder (for example <code>python -m http.server</code>) instead of opening the file from disk.</p>
+    </div>
+    <header class="site-header">
+      <p><a class="text-link methodology-link" id="backLink" href="index.html" data-i18n="methodology.back">← Back to the simulator</a></p>
+      <div class="header-eyebrow"><span class="dot" aria-hidden="true"></span><span data-i18n="header.eyebrow">CANADIAN CYBER RISK · CA-2026</span></div>
+      <div class="title-block">
+        <div class="title-accent-bar" aria-hidden="true"></div>
+        <div>
+          <h1 data-i18n="methodology.title">Methodology &amp; Sources</h1>
+          <p class="subtitle" data-i18n="methodology.intro"></p>
+          <p class="subtitle method-version" id="methodVersion"></p>
+        </div>
+      </div>
+    </header>
+    <div class="method-body">
+      <section class="method-card" aria-labelledby="formulasTitle">
+        <h2 class="method-h2" id="formulasTitle" data-i18n="methodology.formulasTitle">Formulas</h2>
+        <dl class="method-formulas" id="formulas"></dl>
+      </section>
+      <section class="method-card" aria-labelledby="calibrationTitle">
+        <h2 class="method-h2" id="calibrationTitle" data-i18n="methodology.calibrationTitle">Calibration notes</h2>
+        <ul class="assumptions-rules" id="calibration"></ul>
+      </section>
+      <section class="method-card" aria-labelledby="assumptionsTitle">
+        <h2 class="method-h2" id="assumptionsTitle" data-i18n="assumptions.title">Model assumptions &amp; sources</h2>
+        <div class="assumptions-body" id="assumptionsBody"></div>
+      </section>
+      <section class="method-card" aria-labelledby="sourcesTitle">
+        <h2 class="method-h2" id="sourcesTitle" data-i18n="methodology.sourcesTitle">Sources</h2>
+        <ul class="method-sources" id="sourcesList"></ul>
+      </section>
+    </div>
+  </main>
+</div>
+</body>
+</html>

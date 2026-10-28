@@ -3,7 +3,9 @@
 //   node scripts/validate.mjs            check everything
 //   node scripts/validate.mjs --fix      also regenerate the README cost table from data/model.json
 //
-import { readFileSync, writeFileSync } from 'node:fs';
+// Checks: EN/FR translation parity, model <-> translation ids, model sources,
+// model structure, README cost table, and asset version stamps (?v=).
+import { readFileSync, writeFileSync, readdirSync, statSync } from 'node:fs';
 
 const root = new URL('../', import.meta.url);
 const read = p => readFileSync(new URL(p, root), 'utf8');
@@ -59,28 +61,55 @@ const keys = o => Object.keys(o || {}).sort().join();
 const incidents = Object.keys(model.incidents.v);
 const sameIds = (label, a, b) => { if (keys(a) !== keys(b)) fail(`ids: ${label} (${keys(a)} vs ${keys(b)})`); };
 const asSet = list => Object.fromEntries(list.map(k => [k, 1]));
-const provinces = Object.keys(model.regimes.v).filter(k => k !== 'FIN');
+const regimes = model.regimes.v;
+const provinces = Object.keys(regimes).filter(k => regimes[k].sector === 'private' && k !== 'FIN');
+const related = JSON.parse(read('data/related.json'));
 for (const lang of ['en', 'fr']) {
   const d = i18n[lang];
   sameIds(`${lang} options.incident vs model.incidents`, d.options.incident, model.incidents.v);
   sameIds(`${lang} options.industry vs model.industries`, d.options.industry, model.industries.v);
   sameIds(`${lang} options.records vs model.records`, d.options.records, model.records.v);
-  sameIds(`${lang} options.revenue vs model.revenue`, d.options.revenue, model.revenue.v);
   sameIds(`${lang} options.cause vs model.causes`, d.options.cause, model.causes.v);
-  sameIds(`${lang} options.province vs model.regimes (minus FIN)`, d.options.province, asSet(provinces));
+  sameIds(`${lang} options.sector`, d.options.sector, asSet(['private', 'public']));
+  sameIds(`${lang} options.province vs private regimes (minus FIN)`, d.options.province, asSet(provinces));
   sameIds(`${lang} options.provinceShort vs options.province`, d.options.provinceShort, d.options.province);
-  sameIds(`${lang} regimes.labels vs model.regimes`, d.regimes.labels, model.regimes.v);
-  sameIds(`${lang} regimes.notices vs model.regimes`, d.regimes.notices, model.regimes.v);
+  sameIds(`${lang} regimes.labels vs model.regimes`, d.regimes.labels, regimes);
+  sameIds(`${lang} regimes.notices vs model.regimes`, d.regimes.notices, regimes);
   sameIds(`${lang} results.durations vs model.incidents`, d.results.durations, model.incidents.v);
   sameIds(`${lang} cards.rows.extortion vs incidents with extortion`, d.cards.rows.extortion, asSet(incidents.filter(i => model.incidents.v[i].extortion)));
   sameIds(`${lang} form.exposure vs incidents with optional exposure`, d.form.exposure, asSet(incidents.filter(i => model.incidents.v[i].dataExposure === 'optional')));
+  sameIds(`${lang} form.controls vs model.controls`, d.form.controls, model.controls.v);
+  sameIds(`${lang} assumptions.drivers vs model.uncertainty`, d.assumptions.drivers, model.uncertainty.v);
+}
+for (const p of provinces) if (!regimes[`${p}_PUB`]) fail(`model: no public-sector regime ${p}_PUB`);
+for (const [id, r] of Object.entries(regimes)) {
+  if (!['private', 'public'].includes(r.sector)) fail(`model: regimes.${id}.sector is "${r.sector}"`);
+  if (!['none', 'fixed', 'revenuePct'].includes(r.fine.type)) fail(`model: regimes.${id}.fine.type is "${r.fine.type}"`);
 }
 sameIds('model.variableX.weights vs model.incidents', model.variableX.weights.v, model.incidents.v);
+const sc = model.scale.v;
+for (const k of ['employees', 'irEffort', 'counselEffort', 'remediation']) {
+  if (sc[k].length !== sc.revenue.length) fail(`model: scale.${k} must have ${sc.revenue.length} anchors`);
+}
+for (const k of ['revenue', 'employees']) if (sc[k].some((x, i) => i && x <= sc[k][i - 1])) fail(`model: scale.${k} must be ascending`);
 for (const [id, inc] of Object.entries(model.incidents.v)) {
   if (!['always', 'optional', 'never'].includes(inc.dataExposure)) fail(`model: incidents.${id}.dataExposure is "${inc.dataExposure}"`);
-  if (inc.extortion) sameIds(`model.incidents.${id}.extortion vs revenue brackets`, inc.extortion, model.revenue.v);
+  if (inc.extortion && inc.extortion.length !== sc.revenue.length) fail(`model: incidents.${id}.extortion must have one value per revenue anchor`);
+  if (!(inc.operationsImpact >= 0 && inc.operationsImpact <= 1)) fail(`model: incidents.${id}.operationsImpact must be 0-1`);
 }
+for (const [id, ind] of Object.entries(model.industries.v)) {
+  if (!(ind.revenueAtRisk >= 0 && ind.revenueAtRisk <= 1)) fail(`model: industries.${id}.revenueAtRisk must be 0-1`);
+  if (ind.defaultSector && !['private', 'public'].includes(ind.defaultSector)) fail(`model: industries.${id}.defaultSector`);
+}
+for (const [id, c] of Object.entries(model.controls.v)) {
+  for (const i of c.appliesTo || []) if (!(i in model.incidents.v)) fail(`model: controls.${id}.appliesTo has unknown incident ${i}`);
+}
+for (const [id, u] of Object.entries(model.uncertainty.v)) if (!(u.low <= 1 && u.high >= 1)) fail(`model: uncertainty.${id} must satisfy low <= 1 <= high`);
 for (const id of model.regimes.federalFinancialIndustries) if (!(id in model.industries.v)) fail(`model: unknown industry ${id} in federalFinancialIndustries`);
+for (const [inc, items] of Object.entries(related.v)) {
+  if (!(inc in model.incidents.v)) fail(`related.json: unknown incident ${inc}`);
+  for (const x of items) if (!/^[a-z0-9-]+$/.test(x.id) || !x.title) fail(`related.json: bad entry ${JSON.stringify(x)}`);
+}
 
 // 4. README cost table is generated from the model.
 const START = '<!-- model-table:start -->';
@@ -99,10 +128,13 @@ function readmeTable() {
     `| **Digital Forensics** | ${$(m.rates.forensics.v)}/hr (${m.effort.forensicHoursPerIrHour.v} forensic hours per IR hour) |`,
     `| **IT Recovery & Hardening** | ${$(m.rates.itRecovery.v)}/hr (${m.effort.itHoursPerIrHour.v} IT hours per IR hour) |`,
     `| **Breach Counsel** | ${$(m.rates.breachCounsel.v)}/hr |`,
-    `| **Notification** | ${$(m.notification.baseRatePerIndividual.v)} per individual; with double extortion ${Object.values(m.records.v).map(b => $(b.doubleExtortionNotifyRate)).join(' / ')} by bucket, plus a ${m.notification.doubleExtortionSurcharge.v * 100}% surcharge |`,
+    `| **Notification** | ${$(m.notification.baseRatePerIndividual.v)} per individual; +${Math.round(m.notification.doubleExtortionSurcharge.v * 100)}% surcharge for double extortion |`,
     `| **Credit & ID Monitoring** | ${$(m.notification.creditMonitoring.v.standard)} per individual (${$(m.notification.creditMonitoring.v.phi)} with PHI) |`,
-    `| **Class-Action Reserve** | ${$(m.settlement.v.basePerIndividual)} per individual (+${$(m.settlement.v.phiPremium)} PHI, +${$(m.settlement.v.financePremium)} finance) × probability |`,
+    `| **Class-Action Reserve** | ${$(m.settlement.v.basePerIndividual)} per individual (+${$(m.settlement.v.phiPremium)} PHI, +${$(m.settlement.v.financePremium)} finance) × probability, plus defence costs (${Object.values(m.records.v).filter(b => b.defenceCost).map(b => $(b.defenceCost)).join(' / ')} by bucket) × probability |`,
     `| **Individuals per bucket** | ${recs} |`,
+    `| **Operations Disruption** | Revenue ÷ 365 × days × share of operations affected × industry revenue at risk × ${1 + m.businessInterruption.v.extraCostRate} |`,
+    `| **Ransomware** | ${m.incidents.v.Ransomware.downtimeDays} days at ${Math.round(m.incidents.v.Ransomware.operationsImpact * 100)}% of operations; ransom ${m.incidents.v.Ransomware.extortion.map($).join(' / ')} at the size anchors |`,
+    `| **Simulation** | ${m.uncertainty.runs.toLocaleString('en-CA')} runs per scenario; fines and class actions drawn as events |`,
     END,
   ].join('\n');
 }
@@ -120,8 +152,26 @@ else {
   }
 }
 
+// 5. Cache-busting: every local asset and module import carries ?v=<package.json version>.
+//    node scripts/release.mjs <version> updates them all.
+const version = JSON.parse(read('package.json')).version;
+const walk = dir => readdirSync(new URL(dir, root)).flatMap(f => {
+  const p = `${dir}/${f}`;
+  return statSync(new URL(p, root)).isDirectory() ? walk(p) : [p];
+});
+for (const file of ['index.html', 'methodology.html']) {
+  for (const [, ref] of read(file).matchAll(/(?:href|src)="((?!https?:|#|data:|mailto:|index\.html|methodology\.html)[^"]+)"/g)) {
+    if (!ref.endsWith(`?v=${version}`)) fail(`${file}: ${ref} should end with ?v=${version} (run: node scripts/release.mjs ${version})`);
+  }
+}
+for (const file of walk('js').filter(f => f.endsWith('.js'))) {
+  for (const [, spec] of read(file).matchAll(/from '(\.{1,2}\/[^']+)'/g)) {
+    if (!spec.endsWith(`?v=${version}`)) fail(`${file}: import ${spec} should end with ?v=${version} (run: node scripts/release.mjs ${version})`);
+  }
+}
+
 if (errors.length) {
   console.error(`✗ ${errors.length} problem(s):\n  - ${errors.join('\n  - ')}`);
   process.exit(1);
 }
-console.log(`✓ model v${model.version}, ${sourceIds.length} sources, EN/FR translations consistent, README in sync.`);
+console.log(`✓ model v${model.version}, assets v${version}, ${sourceIds.length - 1} sources, EN/FR translations consistent, README in sync.`);
