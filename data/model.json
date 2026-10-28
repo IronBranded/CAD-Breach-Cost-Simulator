@@ -1,0 +1,141 @@
+{
+  "$comment": "Every number the simulator uses. Each entry has v (value), and src (ids from 'sources'); titles for sources live in i18n/*.json under 'sources'. 'author' means an author estimate with no external citation yet.",
+  "version": "2026.10-legacy",
+  "currency": "CAD",
+
+  "sources": {
+    "author": {},
+    "ibm2025": {},
+    "cccsNcta2025": {},
+    "loi25": {},
+    "phipa": { "url": "https://www.ipc.on.ca/en/node/2476" },
+    "pipeda": {},
+    "osfiB13": {},
+    "opc": {},
+    "desjardins2023": {},
+    "lifelabs2024": {},
+    "cafc2024": {},
+    "edelmanTrust": {}
+  },
+
+  "rates": {
+    "incidentResponse": { "v": 375, "unit": "perHour", "src": ["author"] },
+    "forensics":        { "v": 430, "unit": "perHour", "src": ["author"] },
+    "breachCounsel":    { "v": 700, "unit": "perHour", "src": ["author"] },
+    "itRecovery":       { "v": 175, "unit": "perHour", "src": ["author"] }
+  },
+
+  "effort": {
+    "forensicHoursPerIrHour": { "v": 0.45, "unit": "ratio", "src": ["author"] },
+    "itHoursPerIrHour":       { "v": 2.0,  "unit": "ratio", "src": ["author"] }
+  },
+
+  "causes": {
+    "src": ["author"],
+    "v": {
+      "phishing":   { "irMult": 1.0,  "forensicsMult": 1.0 },
+      "vuln":       { "irMult": 1.25, "forensicsMult": 1.0 },
+      "thirdParty": { "irMult": 1.0,  "forensicsMult": 1.45 }
+    }
+  },
+
+  "incidents": {
+    "src": ["author"],
+    "v": {
+      "Ransomware": { "downtimeDays": 21,  "irHours": 140, "counselHours": 50,  "extortion": { "Micro": 45000, "Small": 300000, "Mid": 1200000, "Large": 3500000 } },
+      "BEC":        { "downtimeDays": 4,   "irHours": 40,  "counselHours": 25,  "extortion": { "Micro": 55000, "Small": 165000, "Mid": 420000,  "Large": 1100000 } },
+      "DataBreach": { "downtimeDays": 2,   "irHours": 100, "counselHours": 180, "extortion": null },
+      "Insider":    { "downtimeDays": 5,   "irHours": 60,  "counselHours": 30,  "extortion": null },
+      "DoS":        { "downtimeDays": 0.5, "irHours": 30,  "counselHours": 15,  "extortion": null }
+    }
+  },
+
+  "revenue": {
+    "src": ["author"],
+    "v": {
+      "Micro": { "representative": 1000000,   "effortMult": 0.5,  "irScaleCap": 1.0, "opsLossPerDay": 4000,   "remediation": 8000,   "varXRate": 0.03 },
+      "Small": { "representative": 5000000,   "effortMult": 1.8,  "irScaleCap": 1.0, "opsLossPerDay": 15000,  "remediation": 35000,  "varXRate": 0.07 },
+      "Mid":   { "representative": 50000000,  "effortMult": 6.0,  "irScaleCap": 1.0, "opsLossPerDay": 90000,  "remediation": 180000, "varXRate": 0.15 },
+      "Large": { "representative": 500000000, "effortMult": 15.0, "irScaleCap": 0.7, "opsLossPerDay": 350000, "remediation": 650000, "varXRate": 0.20 }
+    }
+  },
+
+  "records": {
+    "src": ["author"],
+    "v": {
+      "Low":      { "individuals": 800,    "classActionIndividuals": 0,      "classActionProb": 0,    "classActionProbSensitive": 0,    "doubleExtortionNotifyRate": 12 },
+      "Medium":   { "individuals": 8000,   "classActionIndividuals": 5000,   "classActionProb": 0,    "classActionProbSensitive": 0.15, "doubleExtortionNotifyRate": 12 },
+      "High":     { "individuals": 45000,  "classActionIndividuals": 30000,  "classActionProb": 0.35, "classActionProbSensitive": 0.35, "doubleExtortionNotifyRate": 18 },
+      "Critical": { "individuals": 150000, "classActionIndividuals": 100000, "classActionProb": 0.70, "classActionProbSensitive": 0.70, "doubleExtortionNotifyRate": 22 }
+    }
+  },
+
+  "notification": {
+    "baseRatePerIndividual":    { "v": 12,  "unit": "perIndividual", "src": ["author"] },
+    "doubleExtortionSurcharge": { "v": 0.5, "unit": "ratio",         "src": ["author"] },
+    "creditMonitoring":         { "v": { "standard": 35, "phi": 65 }, "unit": "perIndividual", "src": ["author"] }
+  },
+
+  "settlement": {
+    "v": { "basePerIndividual": 15, "phiPremium": 30, "financePremium": 10 },
+    "unit": "perIndividual",
+    "src": ["author", "desjardins2023", "lifelabs2024"]
+  },
+
+  "industries": {
+    "$comment": "Multiplier applied to operations downtime loss.",
+    "src": ["author"],
+    "v": { "edu": 1.4, "energy": 1.8, "finance": 3.2, "gov": 1.5, "health": 3.0, "legal": 1.6, "mfg": 1.7, "retail": 1.2, "telco": 1.5, "tech": 1.4 }
+  },
+
+  "regimes": {
+    "$comment": "Expected fine = fine amount x probability. FED + finance/telco resolves to FIN.",
+    "src": ["author", "loi25", "pipeda", "phipa", "osfiB13", "opc"],
+    "federalFinancialIndustries": ["finance", "telco"],
+    "v": {
+      "QC":    { "fine": { "type": "revenuePct", "pct": 0.005, "pctPhi": 0.015, "capFixed": 25000000, "capRevenuePct": 0.04, "probability": 0.25 } },
+      "ON":    { "fine": { "type": "fixed", "amount": 50000,  "amountPhi": 150000, "probability": 0.05 } },
+      "AB":    { "fine": { "type": "fixed", "amount": 50000,  "amountPhi": 150000, "probability": 0.05 } },
+      "BC":    { "fine": { "type": "fixed", "amount": 50000,  "amountPhi": 150000, "probability": 0.05 } },
+      "OTHER": { "fine": { "type": "fixed", "amount": 50000,  "amountPhi": 150000, "probability": 0.05 } },
+      "FED":   { "fine": { "type": "fixed", "amount": 50000,  "amountPhi": 150000, "probability": 0.05 } },
+      "FIN":   { "fine": { "type": "fixed", "amount": 500000, "amountPhi": 500000, "probability": 0.20 } }
+    }
+  },
+
+  "insurance": {
+    "v": { "premiumRateOfLimit": 0.03, "postClaimIncrease": 0.40, "increaseYears": 3 },
+    "src": ["author"]
+  },
+
+  "benchmark": {
+    "averageBreachCost": { "v": 6980000, "unit": "amount", "src": ["ibm2025"] },
+    "severityTiers": {
+      "$comment": "Tier thresholds as a ratio of gross exposure to the benchmark average.",
+      "v": { "medium": 0.5, "high": 1.2, "critical": 2.5 },
+      "src": ["author"]
+    }
+  },
+
+  "variableX": {
+    "weights": {
+      "src": ["author", "ibm2025", "edelmanTrust"],
+      "v": {
+        "Ransomware": { "churn": 0.40, "revenue": 0.30, "recruitment": 0.15, "partner": 0.15 },
+        "DataBreach": { "churn": 0.45, "revenue": 0.28, "recruitment": 0.12, "partner": 0.15 },
+        "BEC":        { "churn": 0.25, "revenue": 0.35, "recruitment": 0.10, "partner": 0.30 },
+        "Insider":    { "churn": 0.30, "revenue": 0.25, "recruitment": 0.30, "partner": 0.15 },
+        "DoS":        { "churn": 0.35, "revenue": 0.40, "recruitment": 0.10, "partner": 0.15 }
+      }
+    },
+    "industryShift": {
+      "src": ["author"],
+      "v": {
+        "finance": { "partner": 0.08, "churn": -0.05 },
+        "health":  { "churn": 0.08, "partner": -0.05 },
+        "retail":  { "churn": 0.10, "revenue": -0.05, "partner": -0.05 },
+        "gov":     { "recruitment": 0.10, "churn": -0.05, "partner": -0.05 }
+      }
+    }
+  }
+}
