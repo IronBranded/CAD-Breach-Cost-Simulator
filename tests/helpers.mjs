@@ -18,3 +18,9 @@ export function assertClose(actual, expected, path = '') {
   }
   assert.equal(actual, expected, path);
 }
+
+// The parts of a result recorded in golden.json (inputs and labels excluded).
+export function goldenView(r) {
+  const { inputs, ...rest } = r;
+  return JSON.parse(JSON.stringify(rest));
+}

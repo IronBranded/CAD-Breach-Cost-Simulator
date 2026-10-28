@@ -7,7 +7,7 @@ const golden = JSON.parse(readFileSync(new URL('./golden-legacy.json', import.me
 
 test('legacy calculator reproduces recorded golden outputs', () => {
   const calc = loadLegacy();
-  for (const [name, s] of Object.entries(SCENARIOS)) {
-    assert.deepEqual(legacyNumbers(calc(toLegacyInput(s))), golden[name], name);
+  for (const name of Object.keys(golden)) {
+    assert.deepEqual(legacyNumbers(calc(toLegacyInput(SCENARIOS[name]))), golden[name], name);
   }
 });
