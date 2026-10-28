@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<!-- Source for assets/og-image.png (1200x630). Re-render with any headless browser
+     screenshot at 1200x630, e.g. Playwright: page.setViewportSize({width:1200,height:630}). -->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../assets/fonts/fonts.css">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { width: 1200px; height: 630px; overflow: hidden; background: #060910; color: #e8edf5; font-family: 'IBM Plex Sans', sans-serif; position: relative; }
+  .grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(59,158,255,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(59,158,255,.05) 1px, transparent 1px); background-size: 40px 40px; }
+  .glow { position: absolute; inset: 0; background: radial-gradient(ellipse 60% 60% at 25% 0%, rgba(59,158,255,.14), transparent 70%), radial-gradient(ellipse 50% 50% at 90% 100%, rgba(255,90,107,.12), transparent 70%); }
+  .bar { position: absolute; top: 0; left: 0; right: 0; height: 6px; background: linear-gradient(90deg, #ff5a6b, #b06bff 50%, #3b9eff); }
+  .wrap { position: absolute; inset: 0; padding: 70px 72px; display: grid; grid-template-columns: 1.25fr 1fr; gap: 40px; align-items: center; }
+  .eyebrow { font-family: 'IBM Plex Mono', monospace; font-size: 18px; letter-spacing: .2em; color: #8a9ab5; display: flex; align-items: center; gap: 12px; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; background: #3b9eff; box-shadow: 0 0 12px #3b9eff; }
+  h1 { margin-top: 26px; font-size: 66px; line-height: 1.05; font-weight: 600; color: #fff; letter-spacing: -.01em; }
+  h1 span { display: block; color: #8a9ab5; font-weight: 300; }
+  p { margin-top: 26px; font-size: 24px; line-height: 1.45; color: #a9b6cc; max-width: 600px; }
+  .tags { margin-top: 30px; display: flex; gap: 12px; flex-wrap: wrap; }
+  .tag { font-family: 'IBM Plex Mono', monospace; font-size: 16px; letter-spacing: .08em; padding: 7px 14px; border-radius: 20px; border: 1px solid rgba(59,158,255,.35); color: #3b9eff; background: rgba(59,158,255,.1); }
+  .tag.red { border-color: rgba(255,90,107,.35); color: #ff5a6b; background: rgba(255,90,107,.1); }
+  .tag.green { border-color: rgba(25,224,122,.35); color: #19e07a; background: rgba(25,224,122,.08); }
+  .card { background: #0a1628; border: 1px solid rgba(255,255,255,.08); border-radius: 22px; padding: 30px; box-shadow: 0 0 40px rgba(59,158,255,.15); }
+  .label { font-family: 'IBM Plex Mono', monospace; font-size: 14px; letter-spacing: .18em; color: #7585a0; }
+  .total { margin-top: 10px; font-family: 'IBM Plex Mono', monospace; font-size: 46px; font-weight: 700; color: #fff; }
+  .range { margin-top: 6px; font-family: 'IBM Plex Mono', monospace; font-size: 16px; color: #8a9ab5; }
+  svg { display: block; margin-top: 18px; }
+</style>
+</head>
+<body>
+  <div class="grid"></div><div class="glow"></div><div class="bar"></div>
+  <div class="wrap">
+    <div>
+      <div class="eyebrow"><span class="dot"></span>CANADIAN CYBER RISK · CA-2026</div>
+      <h1>Cyber Incident <span>Cost Simulator</span></h1>
+      <p>Province-aware legal exposure, insurance, security controls and a simulated range of outcomes.</p>
+      <div class="tags"><span class="tag red">RANSOMWARE</span><span class="tag">BEC</span><span class="tag">DATA BREACH</span><span class="tag green">EN / FR</span></div>
+    </div>
+    <div class="card">
+      <div class="label">NET FINANCIAL EXPOSURE</div>
+      <div class="total">$2.81M</div>
+      <div class="range">P10 $2.55M — P90 $4.46M</div>
+      <svg width="400" height="210" viewBox="0 0 400 210">
+        <g stroke="rgba(255,255,255,.07)"><line x1="0" y1="20" x2="400" y2="20"/><line x1="0" y1="80" x2="400" y2="80"/><line x1="0" y1="140" x2="400" y2="140"/><line x1="0" y1="200" x2="400" y2="200"/></g>
+        <path d="M0,20 L90,20 C150,20 170,40 200,90 C230,140 260,180 320,194 L400,199 L400,200 L0,200 Z" fill="rgba(176,107,255,.18)"/>
+        <path d="M0,20 L90,20 C150,20 170,40 200,90 C230,140 260,180 320,194 L400,199" fill="none" stroke="#b06bff" stroke-width="4"/>
+        <line x1="175" y1="10" x2="175" y2="200" stroke="#3b9eff" stroke-width="2" stroke-dasharray="6 5"/>
+        <circle cx="200" cy="90" r="6" fill="#0a1628" stroke="#b06bff" stroke-width="3"/>
+      </svg>
+    </div>
+  </div>
+</body>
+</html>
